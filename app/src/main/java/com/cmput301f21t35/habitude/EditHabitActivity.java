@@ -18,6 +18,7 @@ public class EditHabitActivity extends AppCompatActivity {
     CalendarView habitCalendar;
     Habit changingHabit; //Talk about this
     final CollectionReference collectionReference = db.collection("Cities"); //And this
+    View sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,15 @@ public class EditHabitActivity extends AppCompatActivity {
         habitDescription = findViewById(R.id.habit_description);
         habitPlan = findViewById(R.id.habit_plan);
         habitCalendar = findViewById(R.id.habit_calendar);
+
+        //This is a bad way of doing it
+        sunBool = findViewById(R.id.sunday_button);
+        monBool = findViewById(R.id.monday_button);
+        tueBool = findViewById(R.id.tuesday_button);
+        wedBool = findViewById(R.id.wednesday_button);
+        thuBool = findViewById(R.id.thursday_button);
+        friBool = findViewById(R.id.friday_button);
+        satBool = findViewById(R.id.saturday_button);
     }
 
     public void doneButton(View view) {
@@ -35,6 +45,7 @@ public class EditHabitActivity extends AppCompatActivity {
         data.put("Title",changingHabit.getTitle());
         data.put("Description",changingHabit.getDescription());
         data.put("Plan",changingHabit.getPlan());
+        data.put("Week",changingHabit.getWeekString()); //???
         data.put("Calendar",changingHabit.getCalendar());
 
         try {
@@ -51,6 +62,9 @@ public class EditHabitActivity extends AppCompatActivity {
             changingHabit.setPlan(habitPlan.getText().toString());
             data.put("Plan",habitPlan.getText().toString());
         } catch (Exception ignored) {}
+
+        changingHabit.setWeekFromList(sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool);
+        data.put("Week",changingHabit.getWeekString()); //???
 
         try {
             changingHabit.setDate(habitCalendar.getDate()); //?
