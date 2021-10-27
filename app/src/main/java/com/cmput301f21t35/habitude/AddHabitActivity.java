@@ -1,4 +1,4 @@
-package com.example.habbittracker;
+package com.cmput301f21t35.habitude;
 
 import androidx.appcompat.app.AppCompatActivity;
 
