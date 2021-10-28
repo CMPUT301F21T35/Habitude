@@ -53,7 +53,7 @@ public class AddHabitEvent extends DialogFragment {
                         /////////////////////////////////////////////////////////////////////////////////
                         // ON THIS LINE HABIT ID IS JUST 0, WILL HAVE TO IMPLEMENT SOME ID SYSTEM LATER//
                         /////////////////////////////////////////////////////////////////////////////////
-                        listener.onOkPressed(new Event(0, name, comment));
+                        listener.onOkPressed(new Event(name, comment));
                     }
                 }).create();
     }
