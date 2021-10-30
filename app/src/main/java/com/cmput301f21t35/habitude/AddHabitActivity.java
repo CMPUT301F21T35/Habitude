@@ -1,11 +1,14 @@
 package com.cmput301f21t35.habitude;
 
+import static android.content.ContentValues.TAG;
 import static com.cmput301f21t35.habitude.R.id.visual_calendar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,12 +16,13 @@ import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import java.io.Serializable;
-import java.text.DateFormat;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -26,9 +30,6 @@ public class AddHabitActivity extends AppCompatActivity {
     private EditText habitName;
     private EditText habitReason;
     private DatePicker dateStart;
-    private int day;
-    private int month;
-    private int year;
     private CheckBox monday;
     private CheckBox tuesday;
     private CheckBox wednesday;
@@ -36,11 +37,15 @@ public class AddHabitActivity extends AppCompatActivity {
     private CheckBox friday;
     private CheckBox saturday;
     private CheckBox sunday;
+    ArrayList<String> habitPlan = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_add_habit);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("All Habits");
 
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
@@ -63,13 +68,36 @@ public class AddHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String habitTitleName = habitName.getText().toString();
-                String Reason = habitReason.getText().toString();
-                Date habitStartDate = new Date(dateStart.getYear() - 1900, dateStart.getMonth(), dateStart.getDayOfMonth());
-                setHabitHash();
-                Habit newHabit = new Habit(habitTitleName, Reason, habitStartDate, habitHash);
-                intent.putExtra("newHabit",newHabit);
-                //startActivity(intent);
+                final String habitTitleName = habitName.getText().toString();
+                final String Reason = habitReason.getText().toString();
+                final String day = Integer.toString(dateStart.getDayOfMonth());
+                final String month = Integer.toString(dateStart.getMonth());
+                final String year = Integer.toString(dateStart.getYear());
+                final String habitStartDate = (year + "-" + month + "-" +day);
+
+                setHabitPlan();
+                final String habitPlan_toString = String.valueOf(habitPlan);
+                final String habitPlan_final = habitPlan_toString.substring(1,habitPlan_toString.length() - 1).replace(" ","");
+
+                HashMap<String, String> data = new HashMap<>();
+                data.put("Habit Reason", Reason);
+                data.put("Date", habitStartDate);
+                data.put("Plan", habitPlan_final);
+
+                collectionReference.document(habitTitleName)
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.d(TAG, "Data has been added successfully");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Data has not been added successfully");
+                            }
+                        });
                 finish();
             }
         });
@@ -80,19 +108,35 @@ public class AddHabitActivity extends AppCompatActivity {
 //
 //        year = dateStart.get(Calendar.YEAR)
 //        Date newDate = new Date(dateStart.getYear() - 1900, dateStart.getMonth(), dateStart.getDayOfMonth());
-
-
     }
 
-    HashMap<Integer, Boolean> habitHash = new HashMap<Integer, Boolean>();
+    public void setHabitPlan() {
+        if (sunday.isChecked()) {
+            habitPlan.add("Sunday");
+        }
 
-    public void setHabitHash() {
-        this.habitHash.put(1, sunday.isChecked());
-        this.habitHash.put(2, monday.isChecked());
-        this.habitHash.put(3, tuesday.isChecked());
-        this.habitHash.put(4, wednesday.isChecked());
-        this.habitHash.put(5, thursday.isChecked());
-        this.habitHash.put(6, friday.isChecked());
-        this.habitHash.put(7, saturday.isChecked());
+        if (monday.isChecked()){
+            habitPlan.add("Monday");
+        }
+
+        if (tuesday.isChecked()){
+            habitPlan.add("Tuesday");
+        }
+        if (wednesday.isChecked()) {
+            habitPlan.add("Wednesday");
+        }
+
+        if (thursday.isChecked()){
+            habitPlan.add("Thursday");
+        }
+
+        if (friday.isChecked()){
+            habitPlan.add("Friday");
+        }
+
+        if (saturday.isChecked()){
+            habitPlan.add("Saturday");
+        }
     }
+
 }

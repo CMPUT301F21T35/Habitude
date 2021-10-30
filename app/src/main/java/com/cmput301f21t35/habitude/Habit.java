@@ -1,20 +1,21 @@
 package com.cmput301f21t35.habitude;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 public class Habit implements Serializable {
     private String habitTitleName;
     private String habitReason;
-    private Date habitStartDate;
-    private HashMap<Integer, Boolean> habitHash;
+    private String habitStartDate;
+    private ArrayList<String> plan;
 
-    public Habit(String habitTitleName,String habitReason ,Date habitStartDate, HashMap<Integer, Boolean> habitHash) {
+    public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan) {
         this.habitTitleName = habitTitleName;
         this.habitReason = habitReason;
         this.habitStartDate = habitStartDate;
-        this.habitHash = habitHash;
+        this.plan = plan;
     }
 
     public String getHabitTitleName() {
@@ -33,19 +34,19 @@ public class Habit implements Serializable {
         this.habitReason = habitReason;
     }
 
-    public Date getHabitStartDate() {
+    public String getHabitStartDate() {
         return habitStartDate;
     }
 
-    public void setHabitStartDate(Date habitStartDate) {
+    public void setHabitStartDate(String habitStartDate) {
         this.habitStartDate = habitStartDate;
     }
 
-    public HashMap<Integer, Boolean> getHabitHash() {
-        return habitHash;
+    public ArrayList<String> getPlan() {
+        return plan;
     }
 
-    public void setHabitHash(HashMap<Integer, Boolean> habitHash) {
-        this.habitHash = habitHash;
+    public void setHabitHash(ArrayList<String> plan) {
+        this.plan = plan;
     }
 }

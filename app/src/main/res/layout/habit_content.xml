@@ -20,8 +20,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="179dp"
         android:layout_marginRight="179dp"
-        android:textColor="#0E63EA"
-        android:textSize="15sp" />
+        android:textColor="#000000"
+        android:textSize="30sp" />
 
 
 </RelativeLayout>

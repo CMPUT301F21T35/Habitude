@@ -19,7 +19,6 @@ public class HabitList extends ArrayAdapter<Habit> {
     private ArrayList<Habit> habits;
     private Context context;
 
-
     public HabitList(Context context, ArrayList<Habit> habits){
         super(context,0,habits);
         this.habits = habits;
@@ -41,5 +40,4 @@ public class HabitList extends ArrayAdapter<Habit> {
         }
         return view;
     }
-
 }
