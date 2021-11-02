@@ -1,36 +1,16 @@
 package com.cmput301f21t35.habitude;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.Collections;
+import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView habitList;
-    ArrayAdapter<Habit> habitAdapter;
-    ArrayList<Habit> habitDataList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 
         Button addHabit = findViewById(R.id.addHabit);
         habitList = findViewById(R.id.habit_list);
@@ -68,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+=======
+
+        new AddHabitEvent().show(getSupportFragmentManager(), "ADD EVENT");
+    }
+
+    @Override
+    public void onOkPressed(Event newEvent) {
+
+>>>>>>> parent of 462a25e (Merge branch 'jingsheng' into echiu)
     }
 
 }
