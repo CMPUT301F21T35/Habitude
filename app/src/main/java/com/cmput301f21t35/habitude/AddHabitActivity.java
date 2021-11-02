@@ -50,7 +50,7 @@ public class AddHabitActivity extends AppCompatActivity {
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
         dateStart = (DatePicker) findViewById(R.id.datePicker);
-
+///////
         monday = (CheckBox) findViewById(R.id.monday);
         tuesday = (CheckBox) findViewById(R.id.tuesday);
         wednesday = (CheckBox) findViewById(R.id.wednesday);
