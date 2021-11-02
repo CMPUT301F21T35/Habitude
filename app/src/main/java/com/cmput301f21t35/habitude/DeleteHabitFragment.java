@@ -25,9 +25,9 @@ public class DeleteHabitFragment extends Fragment {
     private OnFragmentInteractionListener listener;
     private Habit receivedHabit;
 
-    //public interface OnFragmentInteractionListener {
-    //    void onOkPressed(Habit newHabit);
-    //}
+    private interface OnFragmentInteractionListener {
+       void onOkPressed(Habit newHabit);
+    }
 
     public DeleteHabitFragment(){}
 

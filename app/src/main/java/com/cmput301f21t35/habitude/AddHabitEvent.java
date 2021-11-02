@@ -19,7 +19,7 @@ class AddHabitEvent extends DialogFragment {
     private EditText eventComment;
     private OnFragmentInteractionListener listener;
 
-    public interface OnFragmentInteractionListener {
+    private interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent);
     }
 
