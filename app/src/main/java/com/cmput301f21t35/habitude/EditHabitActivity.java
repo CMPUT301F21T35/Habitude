@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 public class EditHabitActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class EditHabitActivity extends AppCompatActivity {
     Habit changingHabit; //Talk about this
     final CollectionReference collectionReference = db.collection("Cities"); //And this
     View sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +48,24 @@ public class EditHabitActivity extends AppCompatActivity {
 
     public void doneButton(View view) {
         HashMap<String, String> data = new HashMap<>(); //I don't think that's quite right
-        data.put("Title",changingHabit.getTitle());
-        data.put("Description",changingHabit.getDescription());
-        data.put("Plan",changingHabit.getPlan());
+        data.put("Title",changingHabit.getHabitTitleName());
+        data.put("Description",changingHabit.getHabitReason());
+        data.put("Plan", String.valueOf(changingHabit.getPlan())); //???
         data.put("Week",changingHabit.getWeekString()); //???
-        data.put("Calendar",changingHabit.getCalendar());
+        data.put("Calendar",changingHabit.getHabitStartDate());
 
         try {
-            changingHabit.setTitle(habitTitle.getText().toString());
+            changingHabit.setHabitTitleName(habitTitle.getText().toString());
             data.put("Title",habitTitle.getText().toString());
         } catch (Exception ignored) {}
 
         try {
-            changingHabit.setDescription(habitDescription.getText().toString());
+            changingHabit.setHabitReason(habitDescription.getText().toString());
             data.put("Description",habitDescription.getText().toString());
         } catch (Exception ignored) {}
 
         try {
-            changingHabit.setPlan(habitPlan.getText().toString());
+            changingHabit.setPlan(habitPlan.getText()); //???
             data.put("Plan",habitPlan.getText().toString());
         } catch (Exception ignored) {}
 
@@ -71,7 +73,7 @@ public class EditHabitActivity extends AppCompatActivity {
         data.put("Week",changingHabit.getWeekString()); //???
 
         try {
-            changingHabit.setDate(habitCalendar.getDate()); //?
+            changingHabit.setHabitStartDate(habitCalendar.getDate()); //?
             data.put("Calendar", String.valueOf(habitCalendar.getDate())); //?  
         } catch (Exception ignored) {}
 

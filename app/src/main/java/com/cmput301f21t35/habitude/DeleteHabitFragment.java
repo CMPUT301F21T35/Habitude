@@ -21,11 +21,6 @@ import android.widget.EditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DeleteHabitFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DeleteHabitFragment extends Fragment {
     private OnFragmentInteractionListener listener;
     private Habit receivedHabit;

@@ -46,6 +46,10 @@ public class Habit implements Serializable {
         return plan;
     }
 
+    public void setPlan(ArrayList<String> plan) {
+        this.plan = plan;
+    }
+
     public void setHabitHash(ArrayList<String> plan) {
         this.plan = plan;
     }
