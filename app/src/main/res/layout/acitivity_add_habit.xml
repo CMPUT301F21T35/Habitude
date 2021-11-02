@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <CheckBox
+        android:id="@+id/monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:hint="Monday"
+        app:layout_constraintBottom_toTopOf="@+id/friday"
+        app:layout_constraintEnd_toStartOf="@+id/tuesday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/habitReason"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="12dp"
+        android:hint="Tuesday"
+        app:layout_constraintBaseline_toBaselineOf="@+id/monday"
+        app:layout_constraintEnd_toStartOf="@+id/wednesday"
+        app:layout_constraintStart_toEndOf="@+id/monday"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:hint="Wednesday"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tuesday"
+        app:layout_constraintEnd_toStartOf="@+id/thursday"
+        app:layout_constraintStart_toEndOf="@+id/tuesday"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Thursday"
+        app:layout_constraintBaseline_toBaselineOf="@+id/wednesday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/wednesday"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="39dp"
+        android:hint="Friday"
+        app:layout_constraintBottom_toTopOf="@+id/visual_calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monday"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/saturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="1dp"
+        android:hint="Saturday"
+        app:layout_constraintBaseline_toBaselineOf="@+id/friday"
+        app:layout_constraintEnd_toStartOf="@+id/sunday"
+        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintStart_toEndOf="@+id/friday"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/habitName"
+        android:layout_width="331dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="Title of the habit:"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/habitReason"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/habitReason"
+        android:layout_width="320dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="Reason of the habit:"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/monday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/habitName"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/sunday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="173dp"
+        android:hint="Sunday"
+        app:layout_constraintBaseline_toBaselineOf="@+id/saturday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/saturday"
+        tools:ignore="MissingConstraints" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="214dp"
+        android:layout_height="229dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="100dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:hint="Select Start Date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.964"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sunday"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/createButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="CREATE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datePicker"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints" />
+
+    <CalendarView
+        android:id="@+id/visual_calendar"
+        android:layout_width="211dp"
+        android:layout_height="336dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/datePicker"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
