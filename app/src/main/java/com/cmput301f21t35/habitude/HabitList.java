@@ -40,4 +40,12 @@ public class HabitList extends ArrayAdapter<Habit> {
         }
         return view;
     }
+<<<<<<< HEAD
+
+    public static void add(Habit newHabit) {
+        HabitList.add(newHabit);
+    }
 }
+=======
+}
+>>>>>>> parent of 0bdfd08 (merging)
