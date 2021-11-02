@@ -3,13 +3,20 @@ package com.cmput301f21t35.habitude;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+<<<<<<< HEAD
 
 public class MainActivity extends AppCompatActivity {
 
+=======
+
+public class MainActivity extends AppCompatActivity implements AddHabitEvent.OnFragmentInteractionListener {
+
+>>>>>>> parent of 462a25e (Merge branch 'jingsheng' into echiu)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 <<<<<<< HEAD
 
         Button addHabit = findViewById(R.id.addHabit);
@@ -51,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
 =======
 
         new AddHabitEvent().show(getSupportFragmentManager(), "ADD EVENT");
+=======
+
+        new AddHabitEvent().show(getSupportFragmentManager(), "ADD EVENT");
+    }
+
+    @Override
+    public void onOkPressed(Event newEvent) {
+
+>>>>>>> parent of 462a25e (Merge branch 'jingsheng' into echiu)
     }
 
     @Override

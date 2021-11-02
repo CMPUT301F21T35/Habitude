@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <entry key="../../../../../../layout/custom_preview.xml" value="0.10416666666666667" />
         <entry key="..\:/Users/ethan/Documents/GitHub/Habitude/app/src/main/res/layout/activity_main.xml" value="0.30945558739255014" />
         <entry key="app/src/main/res/layout/acitivity_add_habit.xml" value="0.2993099300269618" />
@@ -13,6 +14,9 @@
         <entry key="app/src/main/res/layout/activity_main_page.xml" value="0.18595236648305744" />
         <entry key="app/src/main/res/layout/activity_today_plan.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/habit_content.xml" value="0.2953717540904834" />
+=======
+        <entry key="..\:/Github/Habitude/app/src/main/res/layout/fragment_add_habit_event.xml" value="0.33090151120375194" />
+>>>>>>> parent of 462a25e (Merge branch 'jingsheng' into echiu)
 =======
         <entry key="..\:/Github/Habitude/app/src/main/res/layout/fragment_add_habit_event.xml" value="0.33090151120375194" />
 >>>>>>> parent of 462a25e (Merge branch 'jingsheng' into echiu)
