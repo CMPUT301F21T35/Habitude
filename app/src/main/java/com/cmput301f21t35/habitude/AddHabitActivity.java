@@ -23,19 +23,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -43,11 +30,6 @@ public class AddHabitActivity extends AppCompatActivity {
     private EditText habitName;
     private EditText habitReason;
     private DatePicker dateStart;
-
-    private int day;
-    private int month;
-    private int year;
-
     private CheckBox monday;
     private CheckBox tuesday;
     private CheckBox wednesday;
@@ -56,8 +38,6 @@ public class AddHabitActivity extends AppCompatActivity {
     private CheckBox saturday;
     private CheckBox sunday;
     ArrayList<String> habitPlan = new ArrayList<>();
-
-    private Button createButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +107,7 @@ public class AddHabitActivity extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
         createButton = (Button) findViewById(R.id.createButton);
 
         createButton.setOnClickListener(new OnClickListener() {
@@ -142,6 +123,8 @@ public class AddHabitActivity extends AppCompatActivity {
                 HabitList.add(newHabit);
             }
         });
+=======
+>>>>>>> parent of 0bdfd08 (merging)
 //        String[] splitedDate = existingDate.split("-");
 //        dateStart.init(Integer.parseInt(splitedDate[0]), Integer.parseInt(splitedDate[1])-1,
 //                Integer.parseInt(splitedDate[2]), null);
@@ -179,15 +162,4 @@ public class AddHabitActivity extends AppCompatActivity {
         }
     }
 
-    HashMap<Integer, Boolean> habitHash = new HashMap<Integer, Boolean>();
-
-    public void setHabitHash(){
-        this.habitHash.put(1, sunday.isChecked());
-        this.habitHash.put(2, monday.isChecked());
-        this.habitHash.put(3, tuesday.isChecked());
-        this.habitHash.put(4, wednesday.isChecked());
-        this.habitHash.put(5, thursday.isChecked());
-        this.habitHash.put(6, friday.isChecked());
-        this.habitHash.put(7, saturday.isChecked());
-    }
 }

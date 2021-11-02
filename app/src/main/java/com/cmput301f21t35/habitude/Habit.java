@@ -11,7 +11,7 @@ public class Habit implements Serializable {
     private String habitStartDate;
     private ArrayList<String> plan;
 
-    public Habit(String habitTitleName, String habitReason, String habitStartDate, ArrayList<String> plan) {
+    public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan) {
         this.habitTitleName = habitTitleName;
         this.habitReason = habitReason;
         this.habitStartDate = habitStartDate;
