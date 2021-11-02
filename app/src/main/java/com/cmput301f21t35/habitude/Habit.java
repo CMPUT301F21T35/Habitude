@@ -50,3 +50,7 @@ public class Habit implements Serializable {
         this.plan = plan;
     }
 }
+    public void setPlan(ArrayList<String> plan) {
+        this.plan = plan;
+    }
+}
