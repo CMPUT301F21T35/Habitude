@@ -20,7 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity implements AddHabitEvent.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     ListView habitList;
     ArrayAdapter<Habit> habitAdapter;
@@ -31,10 +31,6 @@ public class MainActivity extends AppCompatActivity implements AddHabitEvent.OnF
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    public void onOkPressed(Event newEvent) {
 
         Button addHabit = findViewById(R.id.addHabit);
         habitList = findViewById(R.id.habit_list);
@@ -42,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements AddHabitEvent.OnF
         habitAdapter = new HabitList(this,habitDataList);
         habitList.setAdapter(habitAdapter);
 
+        /*
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
 
@@ -63,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements AddHabitEvent.OnF
                 habitAdapter.notifyDataSetChanged();
             }
         });
-
+         */
         Intent intent = new Intent(this,AddHabitActivity.class);
         addHabit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,4 +69,5 @@ public class MainActivity extends AppCompatActivity implements AddHabitEvent.OnF
             }
         });
     }
+
 }

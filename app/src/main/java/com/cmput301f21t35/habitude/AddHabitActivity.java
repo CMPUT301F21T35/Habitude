@@ -64,8 +64,10 @@ public class AddHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_add_habit);
 
+        /*
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
+        */
 
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
@@ -104,6 +106,7 @@ public class AddHabitActivity extends AppCompatActivity {
                 data.put("Date", habitStartDate);
                 data.put("Plan", habitPlan_final);
 
+                /*
                 collectionReference.document(habitTitleName)
                         .set(data)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -118,6 +121,8 @@ public class AddHabitActivity extends AppCompatActivity {
                                 Log.d(TAG, "Data has not been added successfully");
                             }
                         });
+
+                 */
                 finish();
             }
         });
@@ -128,11 +133,13 @@ public class AddHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String habitTitleName = habitName.getText().toString();
+                String habitReasonName = habitReason.getText().toString();
                 Date habitStartDate = new Date(dateStart.getYear() - 1900, dateStart.getMonth(), dateStart.getDayOfMonth());
                 setHabitHash();
                 // DOUBLE CHECK IF THERE IS IMPLEMENTATION TO GET HABITREASON
-                //Habit newHabit = new Habit(habitTitleName, "", habitStartDate, habitHash);
-                //HabitList.add(newHabit);
+                //Habit newHabit = new Habit(habitTitleName, habitReasonName, habitStartDate, habitHash);
+                //Habit newHabit = new Habit(habitTitleName, habitReasonName, "", habitHash);
+                HabitList.add(newHabit);
             }
         });
 //        String[] splitedDate = existingDate.split("-");

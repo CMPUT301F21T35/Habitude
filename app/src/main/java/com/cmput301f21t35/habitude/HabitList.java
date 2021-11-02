@@ -40,4 +40,8 @@ public class HabitList extends ArrayAdapter<Habit> {
         }
         return view;
     }
+
+    public static void add(Habit newHabit) {
+        HabitList.add(newHabit);
+    }
 }
