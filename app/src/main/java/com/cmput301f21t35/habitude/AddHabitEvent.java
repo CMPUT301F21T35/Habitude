@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class AddHabitEvent extends DialogFragment {
+class AddHabitEvent extends DialogFragment {
     private EditText eventName;
     private EditText eventComment;
     private OnFragmentInteractionListener listener;
@@ -53,7 +53,7 @@ public class AddHabitEvent extends DialogFragment {
                         /////////////////////////////////////////////////////////////////////////////////
                         // ON THIS LINE HABIT ID IS JUST 0, WILL HAVE TO IMPLEMENT SOME ID SYSTEM LATER//
                         /////////////////////////////////////////////////////////////////////////////////
-                        listener.onOkPressed(new Event(name, comment));
+                        listener.onOkPressed(new Event(0, name, comment));
                     }
                 }).create();
     }

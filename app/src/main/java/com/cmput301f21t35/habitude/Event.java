@@ -8,18 +8,28 @@ may need unique id for event, id is included as a variable just in case
 have to find a way for habit to store events
  */
 public class Event {
+    private int habitID;
     private String habitName;
     private String habitComment;
     // private String image; for image implementation later
 
     Event() {}
 
-    Event(String habitName, String habitComment) {
+    Event(int habitID, String habitName, String habitComment) {
+        this.habitID = habitID;
         this.habitName = habitName;
         this.habitComment = habitComment;
     }
 
     // getters and setters
+    public int getHabitID() {
+        return habitID;
+    }
+
+    public void setHabitID(int habitID) {
+        this.habitID = habitID;
+    }
+
     public String getHabitName() {
         return habitName;
     }

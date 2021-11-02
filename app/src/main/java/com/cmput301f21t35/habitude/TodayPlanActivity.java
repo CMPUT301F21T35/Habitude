@@ -1,16 +1,10 @@
 package com.cmput301f21t35.habitude;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,33 +15,31 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class TodayPlanActivity extends AppCompatActivity {
 
-    ListView habitList;
-    ArrayAdapter<Habit> habitAdapter;
-    ArrayList<Habit> habitDataList;
+    ListView today_habitList;
+    ArrayAdapter<Habit> today_habitAdapter;
+    ArrayList<Habit> today_habitDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_today_plan);
 
-        Button addHabit = findViewById(R.id.addHabit);
-        habitList = findViewById(R.id.habit_list);
-        habitDataList = new ArrayList<>();
-        habitAdapter = new HabitList(this,habitDataList);
-        habitList.setAdapter(habitAdapter);
+        today_habitList = findViewById(R.id.today_plan_list);
+        today_habitDataList = new ArrayList<>();
+        today_habitAdapter = new HabitList(this,today_habitDataList);
+        today_habitList.setAdapter(today_habitAdapter);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
@@ -55,28 +47,48 @@ public class MainActivity extends AppCompatActivity {
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                habitDataList.clear();
+                today_habitDataList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots){
                     String habitName = doc.getId();
                     String habitDate = (String) doc.getData().get("Date");
                     String habitReason = (String) doc.getData().get("Habit Reason");
+                    stringToDate(habitDate);
+                    Date current_date = Calendar.getInstance().getTime();
+
                     if (doc.getData().get("Plan") != null) {
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday));
+                        String weekday_name = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(System.currentTimeMillis());
+                        Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday);
+
+                        if (stringToDate(habitDate).before(current_date)) {
+                            for (int i = 0; i < todayHabit.getPlan().size(); i++) {
+                                if (weekday_name.equals(todayHabit.getPlan().get(i))) {
+                                    today_habitDataList.add(todayHabit);
+                                    today_habitAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
                     }
+
                 }
-                habitAdapter.notifyDataSetChanged();
             }
+
         });
 
-        Intent intent = new Intent(this,AddHabitActivity.class);
-        addHabit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intent);
-            }
-        });
     }
+
+    public static Date stringToDate(String habitDate){
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format.parse(habitDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
 }
