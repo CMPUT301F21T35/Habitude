@@ -29,6 +29,8 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
 
         eventArrayAdapter = new EventList(this, eventDataList);
 
+        eventList.setAdapter(eventArrayAdapter);
+
         final FloatingActionButton addEventButton = findViewById(R.id.add_event_button);
 
         addEventButton.setOnClickListener(new View.OnClickListener() {
