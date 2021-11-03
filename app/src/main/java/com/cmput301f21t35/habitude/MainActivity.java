@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -101,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 intentEdit.putExtras(bundle); //is this redundant?
                 startActivity(intentEdit);
             }
+        });
+
+        FloatingActionButton deleteHabitButton = findViewById(R.id.delete_habit_button);
+        deleteHabitButton.setOnClickListener((view) -> {
+            new DeleteHabitFragment(habitDataList.get(0)).show(getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
         });
     }
 }
