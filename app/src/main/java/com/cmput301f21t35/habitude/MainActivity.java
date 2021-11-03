@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         habitAdapter = new HabitList(this,habitDataList);
         habitList.setAdapter(habitAdapter);
 
+        FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
 

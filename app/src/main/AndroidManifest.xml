@@ -13,7 +13,16 @@
             android:name=".EditHabitActivity"
             android:exported="true" />
         <activity
+        android:name=".AddHabitActivity"
+        android:exported="false" />
+        <activity
+            android:name=".TodayPlanActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".MainPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
