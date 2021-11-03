@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,43 +9,50 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-    <ListView
-        android:id="@+id/habit_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
-
-    </ListView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="56dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/addHabit"
-            android:layout_width="399dp"
+            android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="0dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginRight="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:outlineAmbientShadowColor="@color/white"
             android:text="ADD Habit"
             app:backgroundTint="@android:color/darker_gray" />
 
-    </RelativeLayout>
+        <ListView
+            android:id="@+id/habit_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/delete_habit_button"
+        </ListView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete_habit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="bottom|end"
+            app:srcCompat="@android:drawable/ic_input_delete"
+            android:contentDescription="TODO" />
+    </LinearLayout>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_habits"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_gravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_input_delete"/>
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/nav_items" />
 
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

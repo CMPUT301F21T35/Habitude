@@ -14,7 +14,7 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainPageActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
