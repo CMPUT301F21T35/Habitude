@@ -1,13 +1,17 @@
 package com.cmput301f21t35.habitude;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class MainPageActivity extends AppCompatActivity {
+import com.google.android.material.navigation.NavigationBarView;
+
+public class MainPageActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +37,31 @@ public class MainPageActivity extends AppCompatActivity {
                 startActivity(intent_today_plan);
             }
         });
+
+        NavigationBarView navigationBarView = findViewById(R.id.navigation);
+        navigationBarView.setOnItemSelectedListener(this);
+        navigationBarView.setSelectedItemId(R.id.action_profile);
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case (R.id.action_today):
+                Intent intent_today_plan = new Intent(this,TodayPlanActivity.class);
+                startActivity(intent_today_plan);
+                return true;
+            case (R.id.action_habits):
+                Intent intent_all_habits = new Intent(this,MainActivity.class);
+                startActivity(intent_all_habits);
+                return true;
+            case (R.id.action_profile):
+                return true;
+            case (R.id.action_following):
+                return true;
+        }
+        return false;
     }
 }

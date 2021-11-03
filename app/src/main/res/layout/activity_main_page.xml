@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainPageActivity">
 
+    <!--    TODO: Move to bottom navigation bar?   -->
     <Button
         android:id="@+id/all_habits"
         android:layout_width="125dp"
@@ -21,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    TODO: Move to bottom navigation bar?   -->
     <Button
         android:id="@+id/today_plan"
         android:layout_width="wrap_content"
@@ -33,4 +35,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/nav_items" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
