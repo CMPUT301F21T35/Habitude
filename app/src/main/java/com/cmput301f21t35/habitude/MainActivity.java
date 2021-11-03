@@ -111,9 +111,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
-        FloatingActionButton deleteHabitButton = findViewById(R.id.delete_habit_button);
-        deleteHabitButton.setOnClickListener((view) -> {
-            new DeleteHabitFragment(habitDataList.get(0)).show(getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
+        habitList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                new DeleteHabitFragment(habitDataList.get(i)).show(MainActivity.this.getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
+                return true; //Overrides normal click
+            }
         });
     }
 
