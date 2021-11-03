@@ -3,6 +3,7 @@ package com.cmput301f21t35.habitude;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -107,6 +108,11 @@ public class EditHabitActivity extends AppCompatActivity {
                         }
                     });
         } catch (Exception ignored) {}
+    }
+
+    public void eventsButton(View view) { // clicking button pulls up events page
+        Intent intent = new Intent(this, EventListActivity.class);
+        startActivity(intent);
     }
 
 }

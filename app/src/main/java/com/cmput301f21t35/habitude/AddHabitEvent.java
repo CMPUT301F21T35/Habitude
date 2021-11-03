@@ -14,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-class AddHabitEvent extends DialogFragment {
+public class AddHabitEvent extends DialogFragment {
     private EditText eventName;
     private EditText eventComment;
     private OnFragmentInteractionListener listener;
 
-    private interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent);
     }
 
@@ -50,10 +50,7 @@ class AddHabitEvent extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = eventName.getText().toString();
                         String comment = eventComment.getText().toString();
-                        /////////////////////////////////////////////////////////////////////////////////
-                        // ON THIS LINE HABIT ID IS JUST 0, WILL HAVE TO IMPLEMENT SOME ID SYSTEM LATER//
-                        /////////////////////////////////////////////////////////////////////////////////
-                        listener.onOkPressed(new Event(0, name, comment));
+                        listener.onOkPressed(new Event(name, comment));
                     }
                 }).create();
     }

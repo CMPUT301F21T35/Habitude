@@ -144,6 +144,13 @@
             android:onClick="doneButton"
             android:text="done" />
 
+        <Button
+            android:id="@+id/show_events_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="eventsButton"
+            android:text="Events" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
