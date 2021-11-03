@@ -83,53 +83,67 @@
             android:orientation="horizontal">
 
             <ToggleButton
-                android:id="@+id/sunday_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ToggleButton" />
-
-            <ToggleButton
                 android:id="@+id/monday_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ToggleButton" />
+                android:text="ToggleButton"
+                android:textOff="MON"
+                android:textOn="MON"  />
 
             <ToggleButton
                 android:id="@+id/tuesday_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ToggleButton" />
+                android:text="ToggleButton"
+                android:textOff="TUE"
+                android:textOn="TUE"  />
 
             <ToggleButton
                 android:id="@+id/wednesday_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ToggleButton" />
+                android:text="ToggleButton"
+                android:textOff="WED"
+                android:textOn="WED"  />
 
             <ToggleButton
                 android:id="@+id/thursday_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ToggleButton" />
+                android:text="ToggleButton"
+                android:textOff="THU"
+                android:textOn="THU"  />
 
             <ToggleButton
                 android:id="@+id/friday_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ToggleButton" />
+                android:text="ToggleButton"
+                android:textOff="FRI"
+                android:textOn="FRI"  />
 
             <ToggleButton
                 android:id="@+id/saturday_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ToggleButton" />
+                android:text="ToggleButton"
+                android:textOff="SAT"
+                android:textOn="SAT"  />
+
+            <ToggleButton
+                android:id="@+id/sunday_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="SUN"
+                android:textOn="SUN" />
         </LinearLayout>
 
         <CalendarView

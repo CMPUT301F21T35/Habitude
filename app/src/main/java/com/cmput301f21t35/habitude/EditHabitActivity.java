@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,9 +30,11 @@ public class EditHabitActivity extends AppCompatActivity {
     Habit changingHabit; //Talk about this
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference collectionReference = db.collection("All Habits");
-    View sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
+    ToggleButton sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    final String TAG = "Sample";
+    final String TAG = "EditHabitActivity";
+    ArrayList<ToggleButton> weekArray = new ArrayList<ToggleButton>();
+    ArrayList<String> weekdays = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,9 @@ public class EditHabitActivity extends AppCompatActivity {
         friBool = findViewById(R.id.friday_button);
         satBool = findViewById(R.id.saturday_button);
 
+        weekArray.add(monBool); weekArray.add(tueBool); weekArray.add(wedBool); weekArray.add(thuBool); weekArray.add(friBool); weekArray.add(satBool); weekArray.add(sunBool);
+        weekdays.add("Monday"); weekdays.add("Tuesday"); weekdays.add("Wednesday"); weekdays.add("Thursday"); weekdays.add("Friday"); weekdays.add("Saturday"); weekdays.add("Sunday");
+
         initializeFields();
     }
 
@@ -72,14 +78,16 @@ public class EditHabitActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //Views
+
+        ArrayList<String> habitPlanArray = changingHabit.getPlan();
+        for (int index = 0; index < 7; index++) {
+            boolean contains = habitPlanArray.contains(weekdays.get(index));
+            weekArray.get(index).setChecked(contains);
+        }
     }
 
     public void doneButton(View view) {
         //TODO: changing title
-        //TODO: changing description
-        //TODO: changing plan
-        //TODO: changing calendar
         //DATA: Habit Reason, Plan, Date
         HashMap<String, String> data = new HashMap<>();
 
@@ -88,12 +96,12 @@ public class EditHabitActivity extends AppCompatActivity {
             //data.put("Title",habitTitle.getText().toString()); //This won't work - tweak
         } catch (Exception ignored) {}
 
-        try {
-            ArrayList<String> localHabitText = null;
-            localHabitText.add(String.valueOf(habitPlan.getText()));
-            changingHabit.setPlan(localHabitText);
-            data.put("Plan",habitPlan.getText().toString());
-        } catch (Exception ignored) {}
+//        try {
+//            ArrayList<String> localHabitText = null;
+//            localHabitText.add(String.valueOf(habitPlan.getText()));
+//            changingHabit.setPlan(localHabitText);
+//            data.put("Plan",habitPlan.getText().toString());
+//        } catch (Exception ignored) {}
 
         //changingHabit.setWeekFromList(sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool);
         //data.put("Week",changingHabit.getWeekString()); //???
@@ -115,16 +123,15 @@ public class EditHabitActivity extends AppCompatActivity {
         try {
             ArrayList<String> newPlan = new ArrayList<String>();
             getPlanValues(newPlan);
-            data.put("Plan", String.valueOf(newPlan)); //Currently not right
+            String newPlanString = String.valueOf(newPlan).substring(1,String.valueOf(newPlan).length() - 1).replace(" ","");;
+            data.put("Plan", newPlanString);
         } catch (Exception ignored) {}
     }
 
     private void getPlanValues (ArrayList<String> newPlan){
-        ArrayList<View> weekArray = new ArrayList<View>();
-        weekArray.add(sunBool); weekArray.add(monBool); weekArray.add(tueBool); weekArray.add(wedBool); weekArray.add(thuBool); weekArray.add(friBool); weekArray.add(satBool);
-        ArrayList<String> weekdays = new ArrayList<String>();
-        weekdays.add("Sunday"); weekdays.add("Monday"); weekdays.add("Tuesday"); weekdays.add("Wednesday"); weekdays.add("Thursday"); weekdays.add("Friday"); weekdays.add("Saturday");
         for (int i = 0; i < 7; i++) {
+            Log.v("PUSHING'", String.valueOf(i));
+            Log.v("PUSHING'", String.valueOf(weekArray.get(i).isActivated()));
             if (weekArray.get(i).isActivated()) {
                 newPlan.add(weekdays.get(i));
             }

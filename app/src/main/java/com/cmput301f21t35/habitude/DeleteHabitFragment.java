@@ -26,7 +26,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DeleteHabitFragment extends DialogFragment {
-    // TODO: Get the OnFragmentInteractionListener working
  //   private AddHabitEvent.OnFragmentInteractionListener listener;
     private Habit receivedHabit;
 
