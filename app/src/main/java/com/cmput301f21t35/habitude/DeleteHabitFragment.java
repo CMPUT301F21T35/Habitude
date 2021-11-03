@@ -10,7 +10,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DeleteHabitFragment extends Fragment {
+public class DeleteHabitFragment extends DialogFragment {
     // TODO: Get the OnFragmentInteractionListener working
  //   private AddHabitEvent.OnFragmentInteractionListener listener;
     private Habit receivedHabit;
@@ -61,26 +63,26 @@ public class DeleteHabitFragment extends Fragment {
                 .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int i) {
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        final CollectionReference collectionReference = db.collection("Cities");
+                        if (receivedHabit != null) {
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            final CollectionReference collectionReference = db.collection("All Habits");
 
-                        collectionReference
-                                .document(receivedHabit.getHabitTitleName())
-                                .delete()
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-// These are a method which gets executed when the task is succeeded
-                                        Log.d(TAG, "Data has been removed successfully!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
-                                        Log.d(TAG, "Data could not be removed!" + e.toString());
-                                    }
-                                });
+                            collectionReference
+                                    .document(receivedHabit.getHabitTitleName())
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "Data has been removed successfully!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG, "Data could not be removed!" + e.toString());
+                                        }
+                                    });
+                        }
                     }
                 }).create();
     }

@@ -28,7 +28,7 @@ public class EditHabitActivity extends AppCompatActivity {
     CalendarView habitCalendar;
     Habit changingHabit; //Talk about this
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference collectionReference = db.collection("Cities"); //And this
+    final CollectionReference collectionReference = db.collection("All Habits");
     View sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     final String TAG = "Sample";
