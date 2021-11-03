@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_today"
+        android:title="@string/menu_today"
+        android:icon="@drawable/ic_baseline_today_24" />
+    <item android:id="@+id/action_habits"
+        android:title="@string/menu_habits"
+        android:icon="@drawable/ic_baseline_habits_24" />
+    <item android:id="@+id/action_profile"
+        android:title="@string/menu_profile"
+        android:icon="@drawable/ic_baseline_profile_24" />
+    <item android:id="@+id/action_following"
+        android:title="@string/menu_following"
+        android:icon="@drawable/ic_baseline_following_24" />
+</menu>

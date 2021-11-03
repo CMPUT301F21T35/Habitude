@@ -8,42 +8,47 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class EditHabitActivity extends AppCompatActivity {
     EditText habitTitle;
     EditText habitDescription;
-    EditText habitPlan;
-    CalendarView habitCalendar;
+    DatePicker habitCalendar;
     Habit changingHabit; //Talk about this
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference collectionReference = db.collection("Cities"); //And this
-    View sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
+    final CollectionReference collectionReference = db.collection("All Habits");
+    ToggleButton sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    final String TAG = "Sample";
+    final String TAG = "EditHabitActivity";
+    ArrayList<ToggleButton> weekArray = new ArrayList<ToggleButton>();
+    ArrayList<String> weekdays = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
-        //Bundle extras = getIntent().getExtras();
-        //int changingHabitIndex = extras.getInt("habit_index");
-        //Log.v("err", String.valueOf(changingHabitIndex));
-        //Log.v("error","A");
+        Bundle extras = getIntent().getExtras(); //is null???
+        int changingHabitIndex = extras.getInt("habit_index");
+        MainActivity mainActivity = MainActivity.getInstance();
+        changingHabit = mainActivity.habitDataList.get(changingHabitIndex);
 
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
-        habitPlan = findViewById(R.id.habit_plan);
         habitCalendar = findViewById(R.id.habit_calendar);
 
         //TODO: Get the weekday info hooked up
@@ -55,45 +60,98 @@ public class EditHabitActivity extends AppCompatActivity {
         thuBool = findViewById(R.id.thursday_button);
         friBool = findViewById(R.id.friday_button);
         satBool = findViewById(R.id.saturday_button);
+
+        weekArray.add(monBool); weekArray.add(tueBool); weekArray.add(wedBool); weekArray.add(thuBool); weekArray.add(friBool); weekArray.add(satBool); weekArray.add(sunBool);
+        weekdays.add("Monday"); weekdays.add("Tuesday"); weekdays.add("Wednesday"); weekdays.add("Thursday"); weekdays.add("Friday"); weekdays.add("Saturday"); weekdays.add("Sunday");
+
+        initializeFields();
+    }
+
+    public void initializeFields() {
+        habitTitle.setText(changingHabit.getHabitTitleName());
+        habitDescription.setText(changingHabit.getHabitReason());
+
+        try {
+            Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
+            //long dateLong = dateLiteral.getTime(); //???
+            //https://www.baeldung.com/java-year-month-day
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateLiteral);
+            habitCalendar.updateDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> habitPlanArray = changingHabit.getPlan();
+        for (int index = 0; index < 7; index++) {
+            boolean contains = habitPlanArray.contains(weekdays.get(index));
+            weekArray.get(index).setChecked(contains);
+        }
     }
 
     public void doneButton(View view) {
-        HashMap<String, String> data = new HashMap<>(); //I don't think that's quite right
-        data.put("Title",changingHabit.getHabitTitleName());
-        data.put("Description",changingHabit.getHabitReason());
-        data.put("Plan", String.valueOf(changingHabit.getPlan())); //???
-        //data.put("Week",changingHabit.getWeekString()); //???
-        data.put("Calendar",changingHabit.getHabitStartDate());
+        //TODO: changing title
+        HashMap<String, String> data = new HashMap<>();
 
         try {
             changingHabit.setHabitTitleName(habitTitle.getText().toString());
-            data.put("Title",habitTitle.getText().toString());
         } catch (Exception ignored) {}
+
+        manageReason(data);
+        manageDate(data);
+        managePlan(data);
+
+        //If title not changed:
+        pushData(data);
+        //Else: renameAndPushData(data);
+
+        onBackPressed();
+    }
+
+    private void managePlan(HashMap<String, String> data) {
+        ArrayList<String> plan_data = changingHabit.getPlan(); //Currently not right
+        data.put("Plan", String.valueOf(plan_data)); //Currently not right
+        try {
+            ArrayList<String> newPlan = new ArrayList<String>();
+            getPlanValues(newPlan);
+            String newPlanString = String.valueOf(newPlan).substring(1,String.valueOf(newPlan).length() - 1).replace(" ","");;
+            data.put("Plan", newPlanString);
+        } catch (Exception ignored) {}
+    }
+
+    private void getPlanValues (ArrayList<String> newPlan){
+        for (int i = 0; i < 7; i++) {
+            if (weekArray.get(i).isChecked()) {
+                newPlan.add(weekdays.get(i));
+            }
+        }
+    };
+
+    private void manageReason(HashMap<String, String> data){
+        data.put("Habit Reason",changingHabit.getHabitReason());
 
         try {
             changingHabit.setHabitReason(habitDescription.getText().toString());
-            data.put("Description",habitDescription.getText().toString());
+            data.put("Habit Reason",habitDescription.getText().toString());
         } catch (Exception ignored) {}
+    }
+
+    private void manageDate(HashMap<String, String> data){
+        data.put("Date",changingHabit.getHabitStartDate());
 
         try {
-            ArrayList<String> localHabitText = null;
-            localHabitText.add(String.valueOf(habitPlan.getText())); //???
-            changingHabit.setPlan(localHabitText); //???
-            data.put("Plan",habitPlan.getText().toString());
+            final String day = Integer.toString(habitCalendar.getDayOfMonth());
+            final String month = Integer.toString(habitCalendar.getMonth()+1); //What's up with the month?
+            final String year = Integer.toString(habitCalendar.getYear());
+            final String habitStartDate = (year + "-" + month + "-" +day);
+            data.put("Date", habitStartDate);
         } catch (Exception ignored) {}
+    }
 
-        //changingHabit.setWeekFromList(sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool);
-        //data.put("Week",changingHabit.getWeekString()); //???
-
-        try {
-            long localDate = habitCalendar.getDate();
-            changingHabit.setHabitStartDate(formatter.format(localDate)); //?
-            data.put("Calendar", String.valueOf(habitCalendar.getDate())); //?
-        } catch (Exception ignored) {}
-
+    private void pushData(HashMap<String, String> data) {
         try {
             collectionReference
-                    .document(habitTitle.getText().toString()) //???
+                    .document(habitTitle.getText().toString())
                     .set(data)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
