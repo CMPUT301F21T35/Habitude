@@ -39,11 +39,19 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitDataList;
 
+
+    private static MainActivity importantInstance;
+    public static MainActivity getInstance(){
+        return importantInstance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        importantInstance = this;
 
         Button addHabit = findViewById(R.id.addHabit);
         habitList = findViewById(R.id.habit_list);
@@ -83,13 +91,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Intent intent_edit = new Intent(this,EditHabitActivity.class);
+        Intent intentEdit = new Intent(this,EditHabitActivity.class);
         habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                intent.putExtra("habit",habitDataList.get(i));
-                intent.putExtra("habit_index",i);
-                startActivity(intent_edit);
+                //intent.putExtra("habit",habitDataList.get(i));
+                Bundle bundle = new Bundle();
+                bundle.putInt("habit_index",i);
+                intentEdit.putExtras(bundle); //is this redundant?
+                startActivity(intentEdit);
             }
         });
     }

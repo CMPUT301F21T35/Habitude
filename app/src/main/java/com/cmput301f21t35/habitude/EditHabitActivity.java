@@ -15,8 +15,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class EditHabitActivity extends AppCompatActivity {
@@ -36,10 +38,10 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
-        //Bundle extras = getIntent().getExtras();
-        //int changingHabitIndex = extras.getInt("habit_index");
-        //Log.v("err", String.valueOf(changingHabitIndex));
-        //Log.v("error","A");
+        Bundle extras = getIntent().getExtras(); //is null???
+        int changingHabitIndex = extras.getInt("habit_index");
+        MainActivity mainActivity = MainActivity.getInstance();
+        changingHabit = mainActivity.habitDataList.get(changingHabitIndex);
 
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
@@ -55,6 +57,23 @@ public class EditHabitActivity extends AppCompatActivity {
         thuBool = findViewById(R.id.thursday_button);
         friBool = findViewById(R.id.friday_button);
         satBool = findViewById(R.id.saturday_button);
+
+        initializeFields();
+    }
+
+    public void initializeFields() {
+        habitTitle.setText(changingHabit.getHabitTitleName());
+        habitDescription.setText(changingHabit.getHabitReason());
+        try {
+            Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
+            //String dateString = formatter.format(dateLiteral);
+            long dateLong = dateLiteral.getTime();
+            habitCalendar.setDate(dateLong);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //habitCalendar.setDate(Long.parseLong(formatter.format(changingHabit.getHabitStartDate())));
+        habitPlan.setText(changingHabit.getPlan().get(0)); //???
     }
 
     public void doneButton(View view) {
@@ -108,6 +127,8 @@ public class EditHabitActivity extends AppCompatActivity {
                         }
                     });
         } catch (Exception ignored) {}
+
+        onBackPressed();
     }
 
     public void eventsButton(View view) { // clicking button pulls up events page
