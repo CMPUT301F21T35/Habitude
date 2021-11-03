@@ -1,5 +1,7 @@
 package com.cmput301f21t35.habitude;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 
@@ -19,13 +22,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 public class EditHabitActivity extends AppCompatActivity {
     EditText habitTitle;
     EditText habitDescription;
-    CalendarView habitCalendar;
+    DatePicker habitCalendar;
     Habit changingHabit; //Talk about this
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference collectionReference = db.collection("All Habits");
@@ -71,8 +75,11 @@ public class EditHabitActivity extends AppCompatActivity {
 
         try {
             Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
-            long dateLong = dateLiteral.getTime();
-            habitCalendar.setDate(dateLong);
+            //long dateLong = dateLiteral.getTime(); //???
+            //https://www.baeldung.com/java-year-month-day
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateLiteral);
+            habitCalendar.updateDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -85,24 +92,61 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     public void doneButton(View view) {
-        //TODO: changing title
-        //DATA: Habit Reason, Plan, Date
         HashMap<String, String> data = new HashMap<>();
-
-        try {
-            changingHabit.setHabitTitleName(habitTitle.getText().toString());
-            //data.put("Title",habitTitle.getText().toString()); //This won't work - tweak
-        } catch (Exception ignored) {}
-
         manageReason(data);
         manageDate(data);
         managePlan(data);
 
-        //If title not changed:
-        pushData(data);
-        //Else: renameAndPushData(data);
+        String oldTitle = changingHabit.getHabitTitleName();
+        String newTitle = habitTitle.getText().toString();
+
+        if (oldTitle.equals(newTitle)) {
+            pushData(data);
+        } else {
+            renameAndPushData(data, oldTitle, newTitle);
+        }
 
         onBackPressed();
+    }
+
+    private void renameAndPushData(HashMap<String, String> data, String oldTitle, String newTitle) {
+        try {
+            changingHabit.setHabitTitleName(habitTitle.getText().toString());
+        } catch (Exception ignored) {}
+
+        try {
+            collectionReference
+                    .document(newTitle)
+                    .set(data)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Data has been added successfully!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Data could not be added!" + e.toString());
+                        }
+                    });
+
+            collectionReference
+                    .document(oldTitle)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Data has been removed successfully!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Data could not be removed!" + e.toString());
+                        }
+                    });
+        } catch (Exception ignored) {}
     }
 
     private void managePlan(HashMap<String, String> data) {
@@ -118,8 +162,6 @@ public class EditHabitActivity extends AppCompatActivity {
 
     private void getPlanValues (ArrayList<String> newPlan){
         for (int i = 0; i < 7; i++) {
-            Log.v("PUSHING'", String.valueOf(i));
-            Log.v("PUSHING'", String.valueOf(weekArray.get(i).isActivated()));
             if (weekArray.get(i).isChecked()) {
                 newPlan.add(weekdays.get(i));
             }
@@ -139,10 +181,11 @@ public class EditHabitActivity extends AppCompatActivity {
         data.put("Date",changingHabit.getHabitStartDate());
 
         try {
-            long localDate = habitCalendar.getDate();
-            String dateString = formatter.format(localDate);
-            changingHabit.setHabitStartDate(dateString);
-            data.put("Date", String.valueOf(dateString));
+            final String day = Integer.toString(habitCalendar.getDayOfMonth());
+            final String month = Integer.toString(habitCalendar.getMonth()+1); //What's up with the month?
+            final String year = Integer.toString(habitCalendar.getYear());
+            final String habitStartDate = (year + "-" + month + "-" +day);
+            data.put("Date", habitStartDate);
         } catch (Exception ignored) {}
     }
 

@@ -34,8 +34,8 @@ public class EventList extends ArrayAdapter<Event> {
         Event event = events.get(position);
         TextView cityName = view.findViewById(R.id.name_text);
         TextView provinceName = view.findViewById(R.id.reason_text);
-        cityName.setText(event.getHabitName());
-        provinceName.setText(event.getHabitComment());
+        cityName.setText(event.getEventName());
+        provinceName.setText(event.getEventComment());
         return view;
     }
 }
