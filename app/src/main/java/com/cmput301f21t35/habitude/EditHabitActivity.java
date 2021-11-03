@@ -71,7 +71,6 @@ public class EditHabitActivity extends AppCompatActivity {
 
         try {
             Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
-            //String dateString = formatter.format(dateLiteral);
             long dateLong = dateLiteral.getTime();
             habitCalendar.setDate(dateLong);
         } catch (ParseException e) {
@@ -141,8 +140,9 @@ public class EditHabitActivity extends AppCompatActivity {
 
         try {
             long localDate = habitCalendar.getDate();
-            changingHabit.setHabitStartDate(formatter.format(localDate));
-            data.put("Date", String.valueOf(habitCalendar.getDate())); 
+            String dateString = formatter.format(localDate);
+            changingHabit.setHabitStartDate(dateString);
+            data.put("Date", String.valueOf(dateString));
         } catch (Exception ignored) {}
     }
 
