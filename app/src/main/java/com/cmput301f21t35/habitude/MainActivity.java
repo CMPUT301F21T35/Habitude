@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -78,6 +79,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(intent);
+            }
+        });
+
+
+        Intent intent_edit = new Intent(this,EditHabitActivity.class);
+        habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                intent.putExtra("habit",habitDataList.get(i));
+                intent.putExtra("habit_index",i);
+                startActivity(intent_edit);
             }
         });
     }

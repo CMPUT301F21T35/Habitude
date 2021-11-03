@@ -3,6 +3,7 @@ package com.cmput301f21t35.habitude;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class HabitList extends ArrayAdapter<Habit> {
         }
         Habit habit = habits.get(position);
         TextView habitName = view.findViewById(R.id.habit_text);
+        //this.habits.setOnItemClickListener((parent, view, position, id) -> activeMedicineIndex = position);
         if (habit != null){
             habitName.setText(habit.getHabitTitleName());
         }

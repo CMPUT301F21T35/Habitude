@@ -35,6 +35,11 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
+        //Bundle extras = getIntent().getExtras();
+        //int changingHabitIndex = extras.getInt("habit_index");
+        //Log.v("err", String.valueOf(changingHabitIndex));
+        //Log.v("error","A");
+
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
         habitPlan = findViewById(R.id.habit_plan);
