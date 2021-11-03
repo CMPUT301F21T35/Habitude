@@ -25,7 +25,6 @@ import java.util.HashMap;
 public class EditHabitActivity extends AppCompatActivity {
     EditText habitTitle;
     EditText habitDescription;
-    EditText habitPlan;
     CalendarView habitCalendar;
     Habit changingHabit; //Talk about this
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,7 +47,6 @@ public class EditHabitActivity extends AppCompatActivity {
 
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
-        //habitPlan = findViewById(R.id.habit_plan);
         habitCalendar = findViewById(R.id.habit_calendar);
 
         //TODO: Get the weekday info hooked up
@@ -70,6 +68,7 @@ public class EditHabitActivity extends AppCompatActivity {
     public void initializeFields() {
         habitTitle.setText(changingHabit.getHabitTitleName());
         habitDescription.setText(changingHabit.getHabitReason());
+
         try {
             Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
             //String dateString = formatter.format(dateLiteral);
@@ -95,16 +94,6 @@ public class EditHabitActivity extends AppCompatActivity {
             changingHabit.setHabitTitleName(habitTitle.getText().toString());
             //data.put("Title",habitTitle.getText().toString()); //This won't work - tweak
         } catch (Exception ignored) {}
-
-//        try {
-//            ArrayList<String> localHabitText = null;
-//            localHabitText.add(String.valueOf(habitPlan.getText()));
-//            changingHabit.setPlan(localHabitText);
-//            data.put("Plan",habitPlan.getText().toString());
-//        } catch (Exception ignored) {}
-
-        //changingHabit.setWeekFromList(sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool);
-        //data.put("Week",changingHabit.getWeekString()); //???
 
         manageReason(data);
         manageDate(data);
@@ -132,7 +121,7 @@ public class EditHabitActivity extends AppCompatActivity {
         for (int i = 0; i < 7; i++) {
             Log.v("PUSHING'", String.valueOf(i));
             Log.v("PUSHING'", String.valueOf(weekArray.get(i).isActivated()));
-            if (weekArray.get(i).isActivated()) {
+            if (weekArray.get(i).isChecked()) {
                 newPlan.add(weekdays.get(i));
             }
         }
