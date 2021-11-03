@@ -38,14 +38,14 @@
 
     </RelativeLayout>
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/delete_habit_button"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        app:srcCompat="@android:drawable/ic_input_delete"/>-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/delete_habit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_input_delete"/>
 
 
 </FrameLayout>

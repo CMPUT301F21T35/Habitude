@@ -104,11 +104,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
         FloatingActionButton deleteHabitButton = findViewById(R.id.delete_habit_button);
         deleteHabitButton.setOnClickListener((view) -> {
             new DeleteHabitFragment(habitDataList.get(0)).show(getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
         });
-        */
     }
 }
