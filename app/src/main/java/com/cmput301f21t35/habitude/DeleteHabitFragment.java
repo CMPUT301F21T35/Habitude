@@ -20,14 +20,17 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DeleteHabitFragment extends Fragment {
-    private OnFragmentInteractionListener listener;
+    // TODO: Get the OnFragmentInteractionListener working
+ //   private AddHabitEvent.OnFragmentInteractionListener listener;
     private Habit receivedHabit;
 
-    private interface OnFragmentInteractionListener {
-       void onOkPressed(Habit newHabit);
-    }
+    //public interface OnFragmentInteractionListener {
+    //    void onOkPressed(Habit newHabit);
+    //}
 
     public DeleteHabitFragment(){}
 
@@ -38,15 +41,14 @@ public class DeleteHabitFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString());
-        }
+   //     if (context instanceof AddHabitEvent.OnFragmentInteractionListener) {
+   //         listener = (AddHabitEvent.OnFragmentInteractionListener) context;
+   //     } else {
+   //         throw new RuntimeException(context.toString());
+   //     }
     }
 
-    @NonNull
-    @Override
+    @NonNull//@Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_delete_habit,null);
 
@@ -59,8 +61,11 @@ public class DeleteHabitFragment extends Fragment {
                 .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int i) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        final CollectionReference collectionReference = db.collection("Cities");
+
                         collectionReference
-                                .document(receivedHabit.getTitle())
+                                .document(receivedHabit.getHabitTitleName())
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

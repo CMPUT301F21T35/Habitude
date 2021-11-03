@@ -12,8 +12,10 @@ import android.widget.EditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditHabitActivity extends AppCompatActivity {
@@ -22,9 +24,11 @@ public class EditHabitActivity extends AppCompatActivity {
     EditText habitPlan;
     CalendarView habitCalendar;
     Habit changingHabit; //Talk about this
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference collectionReference = db.collection("Cities"); //And this
     View sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    final String TAG = "Sample";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitPlan = findViewById(R.id.habit_plan);
         habitCalendar = findViewById(R.id.habit_calendar);
 
+        //TODO: Get the weekday info hooked up
         //This is a bad way of doing it
         sunBool = findViewById(R.id.sunday_button);
         monBool = findViewById(R.id.monday_button);
@@ -51,7 +56,7 @@ public class EditHabitActivity extends AppCompatActivity {
         data.put("Title",changingHabit.getHabitTitleName());
         data.put("Description",changingHabit.getHabitReason());
         data.put("Plan", String.valueOf(changingHabit.getPlan())); //???
-        data.put("Week",changingHabit.getWeekString()); //???
+        //data.put("Week",changingHabit.getWeekString()); //???
         data.put("Calendar",changingHabit.getHabitStartDate());
 
         try {
@@ -65,16 +70,19 @@ public class EditHabitActivity extends AppCompatActivity {
         } catch (Exception ignored) {}
 
         try {
-            changingHabit.setPlan(habitPlan.getText()); //???
+            ArrayList<String> localHabitText = null;
+            localHabitText.add(String.valueOf(habitPlan.getText())); //???
+            changingHabit.setPlan(localHabitText); //???
             data.put("Plan",habitPlan.getText().toString());
         } catch (Exception ignored) {}
 
-        changingHabit.setWeekFromList(sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool);
-        data.put("Week",changingHabit.getWeekString()); //???
+        //changingHabit.setWeekFromList(sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool);
+        //data.put("Week",changingHabit.getWeekString()); //???
 
         try {
-            changingHabit.setHabitStartDate(habitCalendar.getDate()); //?
-            data.put("Calendar", String.valueOf(habitCalendar.getDate())); //?  
+            long localDate = habitCalendar.getDate();
+            changingHabit.setHabitStartDate(formatter.format(localDate)); //?
+            data.put("Calendar", String.valueOf(habitCalendar.getDate())); //?
         } catch (Exception ignored) {}
 
         try {
