@@ -1,5 +1,7 @@
 package com.cmput301f21t35.habitude;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -90,22 +92,61 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     public void doneButton(View view) {
-        //TODO: changing title
         HashMap<String, String> data = new HashMap<>();
-
-        try {
-            changingHabit.setHabitTitleName(habitTitle.getText().toString());
-        } catch (Exception ignored) {}
-
         manageReason(data);
         manageDate(data);
         managePlan(data);
 
-        //If title not changed:
-        pushData(data);
-        //Else: renameAndPushData(data);
+        String oldTitle = changingHabit.getHabitTitleName();
+        String newTitle = habitTitle.getText().toString();
+
+        if (oldTitle.equals(newTitle)) {
+            pushData(data);
+        } else {
+            renameAndPushData(data, oldTitle, newTitle);
+        }
 
         onBackPressed();
+    }
+
+    private void renameAndPushData(HashMap<String, String> data, String oldTitle, String newTitle) {
+        try {
+            changingHabit.setHabitTitleName(habitTitle.getText().toString());
+        } catch (Exception ignored) {}
+
+        try {
+            collectionReference
+                    .document(newTitle)
+                    .set(data)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Data has been added successfully!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Data could not be added!" + e.toString());
+                        }
+                    });
+
+            collectionReference
+                    .document(oldTitle)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Data has been removed successfully!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Data could not be removed!" + e.toString());
+                        }
+                    });
+        } catch (Exception ignored) {}
     }
 
     private void managePlan(HashMap<String, String> data) {
@@ -170,6 +211,11 @@ public class EditHabitActivity extends AppCompatActivity {
 
     public void eventsButton(View view) { // clicking button pulls up events page
         Intent intent = new Intent(this, EventListActivity.class);
+        startActivity(intent);
+    }
+
+    public void indicatorButton(View view){
+        Intent intent = new Intent(this,IndicatorActivity.class);
         startActivity(intent);
     }
 

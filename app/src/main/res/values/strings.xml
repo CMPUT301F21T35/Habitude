@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-<!--    Bottom bar navigation items -->
+    <!--    Bottom bar navigation items -->
     <string name="menu_home">Home</string>
     <string name="menu_today">Today</string>
     <string name="menu_habits">Habits</string>

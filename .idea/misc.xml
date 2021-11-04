@@ -8,12 +8,10 @@
         <entry key="..\:/Github/Habitude/app/src/main/res/layout/activity_event_list.xml" value="0.33090151120375194" />
         <entry key="..\:/Github/Habitude/app/src/main/res/layout/activity_habit_list.xml" value="0.32708333333333334" />
         <entry key="..\:/Github/Habitude/app/src/main/res/layout/activity_main.xml" value="0.3307291666666667" />
-<<<<<<< Updated upstream
-        <entry key="..\:/Users/Joseph/Desktop/habitude/Habitude/app/src/main/res/layout/acitivity_add_habit.xml" value="0.6" />
+        <entry key="..\:/Users/Joseph/Desktop/habitude/Habitude/app/src/main/res/layout/acitivity_add_habit.xml" value="0.264" />
         <entry key="..\:/Users/Joseph/Desktop/habitude/Habitude/app/src/main/res/layout/activity_edit_habit.xml" value="0.25416666666666665" />
-=======
-        <entry key="..\:/Users/ethan/Documents/GitHub/Habitude/app/src/main/res/layout/event_context.xml" value="0.3828571428571429" />
->>>>>>> Stashed changes
+        <entry key="..\:/Users/Joseph/Desktop/habitude/Habitude/app/src/main/res/layout/activity_main.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Joseph/Desktop/habitude/Habitude/app/src/main/res/layout/fragment_delete_habit.xml" value="0.13027618551328818" />
         <entry key="app/src/main/res/layout/acitivity_add_habit.xml" value="0.2993099300269618" />
         <entry key="app/src/main/res/layout/activity_add_habit.xml" value="0.2627168987958094" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2713337612950116" />

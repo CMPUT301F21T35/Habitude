@@ -1,5 +1,6 @@
 package com.cmput301f21t35.habitude;
 
+import java.sql.Time;
 import java.util.Date;
 
 /*
@@ -12,18 +13,20 @@ have to find a way for habit to store events
 public class Event {
     private String eventName;
     private String eventComment;
-    private Date date;
+    private String eventDate;
+    private String eventTime;
     // private String image; for image implementation later
 
     Event() {}
 
-    Event(String eventName, String eventComment, Date date) {
+    Event(String eventName, String eventComment, String eventDate, String eventTime) {
         this.eventName = eventName;
         this.eventComment = eventComment;
-        this.date = date;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
     }
 
-    // getters and setters
+// getters and setters
 
     public String getEventName() {
         return eventName;
@@ -41,11 +44,20 @@ public class Event {
         this.eventComment = eventComment;
     }
 
-    public Date getDate() {
-        return date;
+    public String getEventDate() {
+        return eventDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
     }
+
+    public String getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(String eventTime) {
+        this.eventTime = eventTime;
+    }
+
 }

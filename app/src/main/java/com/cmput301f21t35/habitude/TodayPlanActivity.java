@@ -1,13 +1,17 @@
 package com.cmput301f21t35.habitude;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,7 +29,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
-public class TodayPlanActivity extends AppCompatActivity {
+public class TodayPlanActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     ListView today_habitList;
     ArrayAdapter<Habit> today_habitAdapter;
@@ -35,6 +39,10 @@ public class TodayPlanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today_plan);
+
+        NavigationBarView navigationBarView = findViewById(R.id.navigation_today);
+        navigationBarView.setOnItemSelectedListener(this);
+        navigationBarView.setSelectedItemId(R.id.action_today);
 
         today_habitList = findViewById(R.id.today_plan_list);
         today_habitDataList = new ArrayList<>();
@@ -81,7 +89,7 @@ public class TodayPlanActivity extends AppCompatActivity {
     }
 
     public static Date stringToDate(String habitDate){
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
         Date date = null;
         try {
             date = format.parse(habitDate);
@@ -91,4 +99,20 @@ public class TodayPlanActivity extends AppCompatActivity {
         return date;
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.action_today):
+                return true;
+            case (R.id.action_habits):
+                Intent intent_all_habits = new Intent(this,MainActivity.class);
+                startActivity(intent_all_habits);
+                return true;
+            case (R.id.action_profile):
+                return true;
+            case (R.id.action_following):
+                return true;
+        }
+        return false;
+    }
 }

@@ -19,11 +19,41 @@
         android:id="@+id/event_comment_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:ems="10"
         android:hint="Comment (optional)"
-        android:maxLines="1"
+        android:inputType="textPersonName"
         android:maxLength="20"
-        android:ellipsize="end"
-        android:inputType="textPersonName"/>
+        android:maxLines="1"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:visibility="visible"
+        android:text="Choose The Time:"/>
+
+    <TimePicker
+        android:id="@+id/event_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:visibility="visible"
+        android:text="Choose The Date:"/>
+
+    <DatePicker
+        android:id="@+id/event_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
 
 </LinearLayout>

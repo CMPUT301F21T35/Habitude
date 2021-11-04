@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Habitude">
         <activity
+            android:name=".IndicatorActivity"
+            android:exported="false" />
+        <activity
             android:name=".EventListActivity"
             android:exported="true" />
         <activity
@@ -23,12 +26,6 @@
             android:exported="false" />
         <activity
             android:name=".TodayPlanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
