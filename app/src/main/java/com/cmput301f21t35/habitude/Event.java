@@ -6,9 +6,7 @@ import java.util.Date;
 /*
 Class for the habit event
 
-TO DO:
-may need unique id for event, id is included as a variable just in case
-have to find a way for habit to store events
+TODO: implement image and geolocation functionality
  */
 public class Event {
     private String eventName;

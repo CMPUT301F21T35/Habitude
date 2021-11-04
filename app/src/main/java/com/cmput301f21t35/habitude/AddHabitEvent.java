@@ -28,7 +28,7 @@ public class AddHabitEvent extends DialogFragment {
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Event newEvent);
+        void onOkPressed(Event newEvent); // notify EventListActivity that a new event has been made
     }
 
     @Override
@@ -50,6 +50,7 @@ public class AddHabitEvent extends DialogFragment {
         datePicker = view.findViewById(R.id.event_date);
         timePicker = view.findViewById(R.id.event_time);
 
+        // set up the fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
