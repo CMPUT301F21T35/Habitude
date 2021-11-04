@@ -2,12 +2,14 @@ package com.cmput301f21t35.habitude;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -34,7 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     ListView habitList;
     ArrayAdapter<Habit> habitAdapter;
@@ -51,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        NavigationBarView navigationBarView = findViewById(R.id.navigation_habits);
+        navigationBarView.setOnItemSelectedListener(this);
+        navigationBarView.setSelectedItemId(R.id.action_habits);
 
         importantInstance = this;
 
@@ -104,9 +111,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton deleteHabitButton = findViewById(R.id.delete_habit_button);
-        deleteHabitButton.setOnClickListener((view) -> {
-            new DeleteHabitFragment(habitDataList.get(0)).show(getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
+        habitList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                new DeleteHabitFragment(habitDataList.get(i)).show(MainActivity.this.getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
+                return true; //Overrides normal click
+            }
         });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case (R.id.action_today):
+                Intent intent_today_plan = new Intent(this,TodayPlanActivity.class);
+                startActivity(intent_today_plan);
+                return true;
+            case (R.id.action_habits):
+                return true;
+            case (R.id.action_profile):
+                return true;
+            case (R.id.action_following):
+                return true;
+        }
+        return false;
     }
 }

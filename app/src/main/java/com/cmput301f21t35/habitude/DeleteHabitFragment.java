@@ -55,11 +55,14 @@ public class DeleteHabitFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        String errorMessage = String.format("Are you sure you want to delete the habit \"%s\"? This action cannot be undone.", receivedHabit.getHabitTitleName());
+
         return builder
                 .setView(view)
                 .setTitle("Delete habit")
-                .setNegativeButton("Cancel",null)
-                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                .setMessage(errorMessage)
+                .setNegativeButton("NO", null)
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int i) {
                         if (receivedHabit != null) {
