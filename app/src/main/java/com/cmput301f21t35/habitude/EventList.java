@@ -12,6 +12,10 @@ import androidx.annotation.Nullable;
 
 import com.cmput301f21t35.habitude.Event;
 
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class EventList extends ArrayAdapter<Event> {
@@ -32,10 +36,14 @@ public class EventList extends ArrayAdapter<Event> {
             view = LayoutInflater.from(context).inflate(R.layout.event_context, parent, false);
         }
         Event event = events.get(position);
-        TextView cityName = view.findViewById(R.id.name_text);
-        TextView provinceName = view.findViewById(R.id.reason_text);
-        cityName.setText(event.getEventName());
-        provinceName.setText(event.getEventComment());
+        TextView eventName = view.findViewById(R.id.name_text);
+        TextView eventComment = view.findViewById(R.id.reason_text);
+        TextView eventDate = view.findViewById(R.id.date_text);
+        eventName.setText(event.getEventName());
+        eventComment.setText(event.getEventComment());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        String date = dateFormat.format(event.getDate());
+        eventDate.setText(date);
         return view;
     }
 }

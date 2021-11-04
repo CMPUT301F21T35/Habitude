@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class AddHabitEvent extends DialogFragment {
     private EditText eventName;
     private EditText eventComment;
@@ -50,7 +53,8 @@ public class AddHabitEvent extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = eventName.getText().toString();
                         String comment = eventComment.getText().toString();
-                        listener.onOkPressed(new Event(name, comment));
+                        Date date = Calendar.getInstance().getTime();
+                        listener.onOkPressed(new Event(name, comment, date));
                     }
                 }).create();
     }
