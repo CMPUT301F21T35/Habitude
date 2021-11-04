@@ -1,7 +1,6 @@
 package com.cmput301f21t35.habitude;
 
 import static android.content.ContentValues.TAG;
-import static com.cmput301f21t35.habitude.R.id.visual_calendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

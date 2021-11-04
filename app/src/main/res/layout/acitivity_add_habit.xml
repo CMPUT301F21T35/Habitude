@@ -60,9 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="39dp"
         android:hint="Friday"
-        app:layout_constraintBottom_toTopOf="@+id/visual_calendar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/monday"
         tools:ignore="MissingConstraints" />
@@ -140,10 +138,10 @@
         android:hint="Select Start Date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.964"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sunday"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.554" />
 
     <Button
         android:id="@+id/createButton"
@@ -157,19 +155,6 @@
         app:layout_constraintTop_toBottomOf="@+id/datePicker"
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
-
-    <CalendarView
-        android:id="@+id/visual_calendar"
-        android:layout_width="211dp"
-        android:layout_height="336dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/datePicker"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

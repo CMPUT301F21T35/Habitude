@@ -13,22 +13,12 @@
         android:textSize="20sp">
     </TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/date_text"
-        android:textSize="20sp"
-        android:layout_marginLeft="20dp"
-        android:text="Date">
-    </TextView>
 
-    <TextView
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/reason_text"
-        android:textSize="20sp"
-        android:layout_marginLeft="20dp"
-        android:text="Reason">
-    </TextView>
+        android:hint="FINISHED?"
+        android:layout_marginLeft="20dp"/>
+
 
 </LinearLayout>

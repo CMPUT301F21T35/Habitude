@@ -209,8 +209,20 @@ public class EditHabitActivity extends AppCompatActivity {
         } catch (Exception ignored) {}
     }
 
-    public void eventsButton(View view) { // clicking button pulls up events page
+
+    /*
+     * THIS BUTTON IS ONLY TEMPORARY EVENTUALLY EVENTS SHOULD BE CALLED FROM A BUTTON IN THE HABITLIST
+     */
+    public void eventsButton(View view) {
+        Bundle bundle = new Bundle();
         Intent intent = new Intent(this, EventListActivity.class);
+        // temp solution to get habit name, need less abusable way later
+        intent.putExtra("HABITSRC", habitTitle.getText().toString());
+        startActivity(intent);
+    }
+
+    public void indicatorButton(View view){
+        Intent intent = new Intent(this,IndicatorActivity.class);
         startActivity(intent);
     }
 
