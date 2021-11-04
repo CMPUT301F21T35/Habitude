@@ -1,6 +1,5 @@
 package com.cmput301f21t35.habitude;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcelable;
 import android.util.Log;
@@ -25,7 +24,6 @@ public class HabitList extends ArrayAdapter<Habit> {
         this.habits = habits;
         this.context = context;
     }
-    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
