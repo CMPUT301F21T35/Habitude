@@ -25,7 +25,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
+/**
+ * this activity is used to add new habit into the firestore database
+ */
 public class AddHabitActivity extends AppCompatActivity {
     private EditText habitName;
     private EditText habitReason;
@@ -38,7 +40,7 @@ public class AddHabitActivity extends AppCompatActivity {
     private CheckBox saturday;
     private CheckBox sunday;
     ArrayList<String> habitPlan = new ArrayList<>();
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,14 +104,9 @@ public class AddHabitActivity extends AppCompatActivity {
             }
         });
 
-//        String[] splitedDate = existingDate.split("-");
-//        dateStart.init(Integer.parseInt(splitedDate[0]), Integer.parseInt(splitedDate[1])-1,
-//                Integer.parseInt(splitedDate[2]), null);
-//
-//        year = dateStart.get(Calendar.YEAR)
-//        Date newDate = new Date(dateStart.getYear() - 1900, dateStart.getMonth(), dateStart.getDayOfMonth());
-    }
-
+     /**
+     * add the plan date into the habitplan if the checkbox is checked
+     */
     public void setHabitPlan() {
         if (sunday.isChecked()) {
             habitPlan.add("Sunday");
