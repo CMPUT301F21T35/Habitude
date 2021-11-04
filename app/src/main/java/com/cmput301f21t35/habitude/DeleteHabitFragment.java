@@ -20,10 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class DeleteHabitFragment extends DialogFragment {
  //   private AddHabitEvent.OnFragmentInteractionListener listener;
@@ -76,6 +80,7 @@ public class DeleteHabitFragment extends DialogFragment {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "Data has been removed successfully!");
+                                            //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -87,5 +92,25 @@ public class DeleteHabitFragment extends DialogFragment {
                         }
                     }
                 }).create();
+    }
+
+    private void clearHabitEvents(String habitTitleName) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("Users");
+        //https://firebase.google.com/docs/firestore/query-data/get-data#get_all_documents_in_a_collection
+        collectionReference
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData()); //Prints all documents
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 }

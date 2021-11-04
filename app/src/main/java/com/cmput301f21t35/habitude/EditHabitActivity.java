@@ -53,8 +53,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitDescription = findViewById(R.id.habit_description);
         habitCalendar = findViewById(R.id.habit_calendar);
 
-        //TODO: Get the weekday info hooked up
-        //This is a bad way of doing it
+        //Set an array for the days of the week
         sunBool = findViewById(R.id.sunday_button);
         monBool = findViewById(R.id.monday_button);
         tueBool = findViewById(R.id.tuesday_button);
