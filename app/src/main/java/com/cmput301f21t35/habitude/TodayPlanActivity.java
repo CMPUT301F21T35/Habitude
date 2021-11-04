@@ -112,6 +112,8 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                 return true;
             case (R.id.action_habits):
                 Intent intent_all_habits = new Intent(this,MainActivity.class);
+                intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_all_habits);
                 return true;
             case (R.id.action_profile):
