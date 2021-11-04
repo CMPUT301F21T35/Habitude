@@ -1,7 +1,6 @@
 package com.cmput301f21t35.habitude;
 
 import static android.content.ContentValues.TAG;
-import static com.cmput301f21t35.habitude.R.id.visual_calendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,8 +57,6 @@ public class AddHabitActivity extends AppCompatActivity {
         friday = (CheckBox) findViewById(R.id.friday);
         saturday = (CheckBox) findViewById(R.id.saturday);
         sunday = (CheckBox) findViewById(R.id.sunday);
-
-        CalendarView visual_ind = (CalendarView)findViewById(visual_calendar); // highlight the date on the calendar
 
         Button createButton = (Button) findViewById(R.id.createButton);
 
