@@ -42,13 +42,15 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            habitSrc = extras.getString("HABITSRC"); // get name of the habit
+            // get the name of the habit to use when querying the events
+            habitSrc = extras.getString("HABITSRC");
         }
 
         // open database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
 
+        // loop through database and add all existing events to the eventList to show
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -73,6 +75,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
 
         final FloatingActionButton addEventButton = findViewById(R.id.add_event_button);
 
+        // set event listener to open the fragment
         addEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,11 +90,14 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
 
+        // create hashmap with all the attributes of event
         HashMap<String, String> data = new HashMap<>();
         data.put("Event Name", newEvent.getEventName());
         data.put("Date", newEvent.getEventDate());
+        data.put("Time", newEvent.getEventTime());
         data.put("Comment", newEvent.getEventComment());
 
+        // push to db
         collectionReference.document(newEvent.getEventName()).set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
