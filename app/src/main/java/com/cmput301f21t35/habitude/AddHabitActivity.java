@@ -53,6 +53,7 @@ public class AddHabitActivity extends AppCompatActivity {
         habitReason = (EditText) findViewById(R.id.habitReason);
         dateStart = (DatePicker) findViewById(R.id.datePicker);
 
+
         monday = (CheckBox) findViewById(R.id.monday);
         tuesday = (CheckBox) findViewById(R.id.tuesday);
         wednesday = (CheckBox) findViewById(R.id.wednesday);
@@ -61,11 +62,11 @@ public class AddHabitActivity extends AppCompatActivity {
         saturday = (CheckBox) findViewById(R.id.saturday);
         sunday = (CheckBox) findViewById(R.id.sunday);
 
-        CalendarView visual_ind = (CalendarView)findViewById(visual_calendar); // highlight the date on the calendar
+        CalendarView visual_ind = (CalendarView) findViewById(visual_calendar); // highlight the date on the calendar
 
         Button createButton = (Button) findViewById(R.id.createButton);
 
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         createButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,11 +76,11 @@ public class AddHabitActivity extends AppCompatActivity {
                 final String day = Integer.toString(dateStart.getDayOfMonth());
                 final String month = Integer.toString(dateStart.getMonth());
                 final String year = Integer.toString(dateStart.getYear());
-                final String habitStartDate = (year + "-" + month + "-" +day);
+                final String habitStartDate = (year + "-" + month + "-" + day);
 
                 setHabitPlan();
                 final String habitPlan_toString = String.valueOf(habitPlan);
-                final String habitPlan_final = habitPlan_toString.substring(1,habitPlan_toString.length() - 1).replace(" ","");
+                final String habitPlan_final = habitPlan_toString.substring(1, habitPlan_toString.length() - 1).replace(" ", "");
 
                 HashMap<String, String> data = new HashMap<>();
                 data.put("Habit Reason", Reason);
@@ -104,7 +105,9 @@ public class AddHabitActivity extends AppCompatActivity {
             }
         });
 
-     /**
+
+    }
+    /**
      * add the plan date into the habitplan if the checkbox is checked
      */
     public void setHabitPlan() {
