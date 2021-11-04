@@ -37,13 +37,15 @@ public class EventList extends ArrayAdapter<Event> {
         }
         Event event = events.get(position);
         TextView eventName = view.findViewById(R.id.name_text);
-        TextView eventComment = view.findViewById(R.id.reason_text);
-        TextView eventDate = view.findViewById(R.id.date_text);
+        //TextView eventTime = view.findViewById(R.id.time);
+        //TextView eventComment = view.findViewById(R.id.reason_text);
+        //TextView eventDate = view.findViewById(R.id.date_text);
         eventName.setText(event.getEventName());
-        eventComment.setText(event.getEventComment());
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        String date = dateFormat.format(event.getDate());
-        eventDate.setText(date);
+        //eventComment.setText(event.getEventComment());
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        //String date = dateFormat.format(event.getDate());
+        //eventDate.setText(date);
+        //eventTime.setText(event.getEventTime());
         return view;
     }
 }

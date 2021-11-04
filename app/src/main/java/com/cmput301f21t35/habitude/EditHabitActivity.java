@@ -214,4 +214,9 @@ public class EditHabitActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void indicatorButton(View view){
+        Intent intent = new Intent(this,IndicatorActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -126,21 +126,39 @@
         <DatePicker
             android:id="@+id/habit_calendar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="419dp" />
 
-        <Button
-            android:id="@+id/done_button"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="doneButton"
-            android:text="done" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/show_events_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="eventsButton"
-            android:text="Events" />
+            <Button
+                android:id="@+id/done_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:onClick="doneButton"
+                android:text="done" />
+
+            <Button
+                android:id="@+id/show_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="indicatorButton"
+                android:layout_marginLeft="40dp"
+                android:text="Indicator" />
+
+            <Button
+                android:id="@+id/show_events_button"
+                android:layout_width="103dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:onClick="eventsButton"
+                android:text="Events" />
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
