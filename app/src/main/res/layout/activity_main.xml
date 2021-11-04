@@ -26,6 +26,16 @@
             android:text="ADD Habit"
             app:backgroundTint="@android:color/darker_gray" />
 
+        <TextView
+            android:id="@+id/no_habits"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:layout_marginTop="100dp"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="30dp"/>
+
         <ListView
             android:id="@+id/habit_list"
             android:layout_width="match_parent"

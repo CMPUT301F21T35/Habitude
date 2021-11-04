@@ -87,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     }
                 }
                 habitAdapter.notifyDataSetChanged();
+                
+                if (habitDataList.size() == 0) {
+                    TextView no_habits = findViewById(R.id.no_habits);
+                    no_habits.setVisibility(View.VISIBLE);
+                    no_habits.setText("No habits!  Click the button at the top to add more.");
+                }
             }
         });
 
