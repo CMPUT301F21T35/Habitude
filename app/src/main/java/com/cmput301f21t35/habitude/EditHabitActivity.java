@@ -221,8 +221,14 @@ public class EditHabitActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Click indicator button, it will show the visual indicator of that habit
+     * @param view
+     */
     public void indicatorButton(View view){
+        Bundle bundle = new Bundle();
         Intent intent = new Intent(this,IndicatorActivity.class);
+        intent.putExtra("HABITSRC", habitTitle.getText().toString());
         startActivity(intent);
     }
 
