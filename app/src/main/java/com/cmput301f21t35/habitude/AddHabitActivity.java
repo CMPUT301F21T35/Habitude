@@ -24,7 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
+/**
+ * this activity is used to add new habit into the firestore database
+ */
 public class AddHabitActivity extends AppCompatActivity {
     private EditText habitName;
     private EditText habitReason;
@@ -37,19 +39,18 @@ public class AddHabitActivity extends AppCompatActivity {
     private CheckBox saturday;
     private CheckBox sunday;
     ArrayList<String> habitPlan = new ArrayList<>();
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_add_habit);
-
+        //initilize the firestore database used for save datas
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
 
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
         dateStart = (DatePicker) findViewById(R.id.datePicker);
-
         monday = (CheckBox) findViewById(R.id.monday);
         tuesday = (CheckBox) findViewById(R.id.tuesday);
         wednesday = (CheckBox) findViewById(R.id.wednesday);
@@ -62,7 +63,8 @@ public class AddHabitActivity extends AppCompatActivity {
 
         Button createButton = (Button) findViewById(R.id.createButton);
 
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        //set on click event for the CREATE button
         createButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,12 +74,13 @@ public class AddHabitActivity extends AppCompatActivity {
                 final String day = Integer.toString(dateStart.getDayOfMonth());
                 final String month = Integer.toString(dateStart.getMonth());
                 final String year = Integer.toString(dateStart.getYear());
-                final String habitStartDate = (year + "-" + month + "-" +day);
+                final String habitStartDate = (year + "-" + month + "-" + day);
 
                 setHabitPlan();
                 final String habitPlan_toString = String.valueOf(habitPlan);
-                final String habitPlan_final = habitPlan_toString.substring(1,habitPlan_toString.length() - 1).replace(" ","");
-
+                final String habitPlan_final = habitPlan_toString.substring(1, habitPlan_toString.length() - 1).replace(" ", "");
+                    
+                // save data into a hashmap
                 HashMap<String, String> data = new HashMap<>();
                 data.put("Habit Reason", Reason);
                 data.put("Date", habitStartDate);
@@ -101,14 +104,11 @@ public class AddHabitActivity extends AppCompatActivity {
             }
         });
 
-//        String[] splitedDate = existingDate.split("-");
-//        dateStart.init(Integer.parseInt(splitedDate[0]), Integer.parseInt(splitedDate[1])-1,
-//                Integer.parseInt(splitedDate[2]), null);
-//
-//        year = dateStart.get(Calendar.YEAR)
-//        Date newDate = new Date(dateStart.getYear() - 1900, dateStart.getMonth(), dateStart.getDayOfMonth());
-    }
 
+    }
+    /**
+     * add the plan date into the habitplan if the checkbox is checked
+     */
     public void setHabitPlan() {
         if (sunday.isChecked()) {
             habitPlan.add("Sunday");

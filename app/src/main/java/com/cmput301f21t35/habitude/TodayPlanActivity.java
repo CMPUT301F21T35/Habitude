@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -78,9 +80,13 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                                 }
                             }
                         }
-
                     }
+                }
 
+                if (today_habitDataList.size() == 0) {
+                    TextView today_no_habit = findViewById(R.id.today_no_habits);
+                    today_no_habit.setVisibility(View.VISIBLE);
+                    today_no_habit.setText("No habits planned for today!");
                 }
             }
 
@@ -106,6 +112,8 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                 return true;
             case (R.id.action_habits):
                 Intent intent_all_habits = new Intent(this,MainActivity.class);
+                intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_all_habits);
                 return true;
             case (R.id.action_profile):

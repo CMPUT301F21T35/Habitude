@@ -1,6 +1,5 @@
 package com.cmput301f21t35.habitude;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcelable;
 import android.util.Log;
@@ -25,18 +24,15 @@ public class HabitList extends ArrayAdapter<Habit> {
         this.habits = habits;
         this.context = context;
     }
-    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        //return super.getView(position, convertView, parent);
         View view = convertView;
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.habit_content, parent,false);
         }
         Habit habit = habits.get(position);
         TextView habitName = view.findViewById(R.id.habit_text);
-        //this.habits.setOnItemClickListener((parent, view, position, id) -> activeMedicineIndex = position);
         if (habit != null){
             habitName.setText(habit.getHabitTitleName());
         }

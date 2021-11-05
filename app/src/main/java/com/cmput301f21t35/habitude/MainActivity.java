@@ -87,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     }
                 }
                 habitAdapter.notifyDataSetChanged();
+
+                if (habitDataList.size() == 0) {
+                    TextView no_habits = findViewById(R.id.no_habits);
+                    no_habits.setVisibility(View.VISIBLE);
+                    no_habits.setText("No habits!  Click the button at the top to add more.");
+                }
             }
         });
 
@@ -127,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         switch (item.getItemId()) {
             case (R.id.action_today):
                 Intent intent_today_plan = new Intent(this,TodayPlanActivity.class);
+                intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_today_plan);
                 return true;
             case (R.id.action_habits):

@@ -10,6 +10,8 @@ public class Habit implements Serializable {
     private String habitReason;
     private String habitStartDate;
     private ArrayList<String> plan;
+    //updated
+
 
     public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan) {
         this.habitTitleName = habitTitleName;
@@ -49,6 +51,6 @@ public class Habit implements Serializable {
     public void setHabitHash(ArrayList<String> plan) {
         this.plan = plan;
     }
-    
+
     public void setPlan(ArrayList<String> plan) { this.plan = plan; }
 }
