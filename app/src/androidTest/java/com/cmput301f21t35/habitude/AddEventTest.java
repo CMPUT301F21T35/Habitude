@@ -56,7 +56,7 @@ public class AddEventTest {
      * Then try and add normally
      * also checks that comment is not more than 20 characters
      *
-     * BEFORE RUNNING TESTS ENSURE THAT THERE IS A HABIT CALLED "Hiking"
+     * BEFORE RUNNING TESTS ENSURE THAT THERE IS A HABIT CALLED "Hiking" AND THAT IT HAS NO EVENTS
      */
     @Test
     public void addEventTest() {
@@ -69,13 +69,14 @@ public class AddEventTest {
         solo.clickOnButton("Events");
         // make sure you are on the right activity
         solo.assertCurrentActivity("Wrong Activity", EventListActivity.class);
-        View floatingActionButton = (View) rule.getActivity().findViewById(R.id.add_event_button);
+        View floatingActionButton = solo.getCurrentActivity().findViewById(R.id.add_event_button);
         solo.clickOnView(floatingActionButton);
         // click on the add event button
         solo.getCurrentActivity().getFragmentManager().findFragmentByTag("ADD EVENT");
         // first verify app doesn't crash when nothing is inputted
         solo.clickOnText("OK");
         // then try and actually add values
+        solo.clickOnView(floatingActionButton);
         solo.getCurrentActivity().getFragmentManager().findFragmentByTag("ADD EVENT");
         EditText nameText = (EditText) solo.getView(R.id.event_name_editText);
         EditText commentText = (EditText) solo.getView(R.id.event_comment_editText);
@@ -88,8 +89,8 @@ public class AddEventTest {
         solo.clickOnText("OK");
         solo.waitForText("test name", 1, 2000);
         // get list of events
-        EventListActivity activity = (EventListActivity) solo.getCurrentActivity();
-        final ListView eventsList = activity.eventList;
+        EventListActivity listActivity = (EventListActivity) solo.getCurrentActivity();
+        final ListView eventsList = listActivity.eventList;
         Event event = (Event) eventsList.getItemAtPosition(0); // get name from list
         assertEquals("test name", event.getEventName());
     }
