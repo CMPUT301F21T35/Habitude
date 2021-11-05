@@ -3,6 +3,7 @@ package com.cmput301f21t35.habitude;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +37,17 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     String eventTitle;
     String eventComment;
     Date eventDateStart;
+    String eventTime;
     boolean finished;
     // Habit photo
     LocalDate habitDateComplete;
     Button edit_button;
 
+    /**
+     * Create the activity
+     * @param savedInstanceState Bundle
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,11 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
 
     }
 
+    /**
+     * Update event when fragment OK pressed
+     * @param newEvent new event information
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onOkPressed(Event newEvent) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -65,12 +79,11 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         String eventComment = newEvent.getEventComment();
         Boolean eventFinished = newEvent.getEventFinished();
 
-        // ensure inputs are all correct
+        // Make sure all fields are filled
         if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
-        } else { // otherwise add to db
-
-            // create hashmap with all the attributes of event
+        } else {
+            // Create hashmap with all the attributes of event
             HashMap<String, Object> data = new HashMap<String, Object>();
             data.put("Event Name", eventName);
             data.put("Date", eventDate);
@@ -78,10 +91,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
 
-            // push to db
-
+            // Delete old event and update database with new information
             collectionReference.document(eventTitle).delete();
-
             collectionReference.document(newEvent.getEventName())
                     .set(data)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -103,9 +114,9 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
 
 
     /**
-     * Get updated values from Firebase
-     * TODO: Add time to values
+     * Get updated values from Firebase and insert into layout view
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void getData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference documentReference = db.collection("All Habits").document(habitSrc).collection("Events").document(eventTitle);
@@ -114,10 +125,9 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    event = document.getData();
-                    System.out.println("Event found");
 
+                    // Get document data
+                    event = document.getData();
                     eventTitle = event.get("Event Name").toString();
                     eventComment = event.get("Comment").toString();
                     try {
@@ -126,20 +136,23 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                         e.printStackTrace();
                     }
                     finished = event.get("Finished").equals(true);
+                    eventTime = event.get("Time").toString();
 
+                    // Get layout views
                     TextView habit_event_title_view = findViewById(R.id.habit_event_title);
                     TextView habit_event_reason_view = findViewById(R.id.habit_event_reason);
-                    TextView habit_event_date_start_view = findViewById(R.id.habit_event_date_start);
+                    TextView habit_event_date_view = findViewById(R.id.habit_event_date);
                     TextView habit_event_finished = findViewById(R.id.habit_event_finished);
-//        TextView habit_date_complete_view = findViewById(R.id.habit_date_complete);
+                    // TextView habit_event_time = findViewById(R.id.habit_event_time);
 
+                    // Set values in layout
                     habit_event_title_view.setText(eventTitle);
                     habit_event_reason_view.setText(eventComment);
-                    habit_event_date_start_view.setText(eventDateStart.toString());
+                    habit_event_date_view.setText(new SimpleDateFormat("yyyy-MM-dd").format(eventDateStart) + " at " + eventTime);
                     habit_event_finished.setText(finished ? "Finished" : "Not finished");
-//        habit_date_complete_view.setText((habitDateComplete.toString()));
+                    // habit_event_time.setText(eventTime);
 
-
+                    // Create edit event fragment when edit button is clicked
                     edit_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -147,15 +160,11 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                             new EditHabitEvent(habitSrc, event_class).show(getSupportFragmentManager(), "EDIT EVENT");
                         }
                     });
-
-
                 } else {
                     Log.d(TAG, "No such document");
-                    System.out.println("Event not found");
                 }
             } else {
                 Log.d(TAG, "get failed with ", task.getException());
-                System.out.println("Failed to retrieve data");
             }
         });
     }

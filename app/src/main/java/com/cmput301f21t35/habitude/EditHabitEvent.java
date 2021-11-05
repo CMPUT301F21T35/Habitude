@@ -35,6 +35,11 @@ public class EditHabitEvent extends DialogFragment {
     private CheckBox eventFinished;
     private OnFragmentInteractionListener listener;
 
+    /**
+     * Public interface to create edit fragment
+     * @param habitSrc habit name
+     * @param event habit event class
+     */
     public EditHabitEvent(String habitSrc, Event event) {
         this.habitSrc = habitSrc;
         this.event = event;
@@ -54,10 +59,16 @@ public class EditHabitEvent extends DialogFragment {
         }
     }
 
+    /**
+     * Create the event dialog
+     * @param savedInstanceState Bundle
+     * @return Dialog
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        // Get layout views
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_edit_habit_event, null);
         eventName = view.findViewById(R.id.edit_event_name_editText);
         eventComment = view.findViewById(R.id.edit_event_comment_editText);
@@ -65,18 +76,24 @@ public class EditHabitEvent extends DialogFragment {
         timePicker = view.findViewById(R.id.edit_event_time);
         eventFinished = view.findViewById(R.id.edit_event_finished);
 
+        // Set layout views
         eventName.setText(event.getEventName());
         eventComment.setText(event.getEventComment());
         Date date = new Date();
+        Date time = new Date();
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(event.getEventDate());
+            time = new SimpleDateFormat("hh : mm").parse(event.getEventTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         datePicker.updateDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+        timePicker.setHour(time.getHours());
+        timePicker.setMinute(time.getMinutes());
         eventFinished.setChecked(event.getEventFinished());
 
+        // Create the edit fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
