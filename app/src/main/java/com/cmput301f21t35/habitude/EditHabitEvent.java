@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +16,29 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
-import java.sql.Time;
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class EditHabitEvent extends DialogFragment {
+    private String habitSrc;
+    private Event event;
     private EditText eventName;
     private EditText eventComment;
     private DatePicker datePicker;
     private TimePicker timePicker;
-    private OnFragmentInteractionListener listener;
     private CheckBox eventFinished;
+    private OnFragmentInteractionListener listener;
+
+    public EditHabitEvent(String habitSrc, Event event) {
+        this.habitSrc = habitSrc;
+        this.event = event;
+    }
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent);
@@ -43,15 +54,28 @@ public class EditHabitEvent extends DialogFragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_habit_event, null);
-        eventName = view.findViewById(R.id.event_name_editText);
-        eventComment = view.findViewById(R.id.event_comment_editText);
-        datePicker = view.findViewById(R.id.event_date);
-        timePicker = view.findViewById(R.id.event_time);
-        eventFinished = view.findViewById(R.id.event_finished);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_edit_habit_event, null);
+        eventName = view.findViewById(R.id.edit_event_name_editText);
+        eventComment = view.findViewById(R.id.edit_event_comment_editText);
+        datePicker = view.findViewById(R.id.edit_event_date);
+        timePicker = view.findViewById(R.id.edit_event_time);
+        eventFinished = view.findViewById(R.id.edit_event_finished);
+
+        eventName.setText(event.getEventName());
+        eventComment.setText(event.getEventComment());
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(event.getEventDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        datePicker.updateDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+        eventFinished.setChecked(event.getEventFinished());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
