@@ -32,7 +32,8 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Name"
-                android:layout_weight="0.7"/>
+                android:layout_weight="0.7"
+                android:maxLength="20"/>
 
         </LinearLayout>
 
@@ -57,7 +58,8 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Name"
-                android:layout_weight="0.7"/>
+                android:layout_weight="0.7"
+                android:maxLength="30"/>
         </LinearLayout>
 
         <LinearLayout
