@@ -95,6 +95,8 @@ public class DeleteHabitFragment extends DialogFragment {
     }
 
     private void clearHabitEvents(String habitTitleName) {
+        //I built this assuming the habit events wouldn't be stored in the habits themselves,
+        //but I was told they would be? I hope this turns out to be unnecessary.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users");
         //https://firebase.google.com/docs/firestore/query-data/get-data#get_all_documents_in_a_collection
