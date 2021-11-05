@@ -66,6 +66,7 @@ public class EditAndDeleteActivityTest {
         Activity activity = rule.getActivity();
     }
 
+    //We use this to enter a habit from the listView based on its name if it exists.
     public void enterSampleHabit(String habitTitle) {
         ListView habitList = (ListView) solo.getView(R.id.habit_list);
         ListAdapter habitDataList = habitList.getAdapter();
@@ -78,6 +79,7 @@ public class EditAndDeleteActivityTest {
         }
     }
 
+    //We use this to delete a habit from the listView based on its name if it exists.
     public void deleteSampleHabit(String habitTitle) {
         ListView habitList = (ListView) solo.getView(R.id.habit_list);
         ListAdapter habitDataList = habitList.getAdapter();
@@ -90,6 +92,7 @@ public class EditAndDeleteActivityTest {
         }
     }
 
+    //We use this to check if a habit exists in the listView.
     public boolean findSampleHabit(String habitTitle) {
         ListView habitList = (ListView) solo.getView(R.id.habit_list);
         ListAdapter habitDataList = habitList.getAdapter();
@@ -102,6 +105,7 @@ public class EditAndDeleteActivityTest {
         return false;
     }
 
+    //We do this to do the "add a habit for testing" routine if it already exists.
     public void filterAddEventTest() {
         if (!findSampleHabit("A sample habit")) {
             addEventTest();
