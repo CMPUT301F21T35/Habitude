@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -26,6 +27,7 @@ public class EditHabitEvent extends DialogFragment {
     private DatePicker datePicker;
     private TimePicker timePicker;
     private OnFragmentInteractionListener listener;
+    private CheckBox eventFinished;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent);
@@ -49,6 +51,7 @@ public class EditHabitEvent extends DialogFragment {
         eventComment = view.findViewById(R.id.event_comment_editText);
         datePicker = view.findViewById(R.id.event_date);
         timePicker = view.findViewById(R.id.event_time);
+        eventFinished = view.findViewById(R.id.event_finished);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -65,7 +68,8 @@ public class EditHabitEvent extends DialogFragment {
                         String day = Integer.toString(datePicker.getDayOfMonth());
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime));
+                        Boolean finished = eventFinished.isChecked();
+                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
                     }
                 }).create();
     }
