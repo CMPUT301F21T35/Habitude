@@ -113,7 +113,7 @@ public class EditAndDeleteActivityTest {
     }
 
     /**
-     * Create an activity to edit
+     * Create an activity to edit and return to the main activity
      */
     @Test
     public void addEventTest() {
