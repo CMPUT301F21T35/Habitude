@@ -8,30 +8,19 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.Checkable;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.sql.Time;
-import java.util.Calendar;
-import java.util.Date;
-
-public class AddHabitEvent extends DialogFragment {
+public class EditHabitEvent extends DialogFragment {
     private EditText eventName;
     private EditText eventComment;
-    private DatePicker datePicker;
-    private TimePicker timePicker;
-    private CheckBox eventFinished;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Event newEvent); // notify EventListActivity that a new event has been made
+        void onOkPressed(Event newEvent);
     }
 
     @Override
@@ -50,28 +39,20 @@ public class AddHabitEvent extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_habit_event, null);
         eventName = view.findViewById(R.id.event_name_editText);
         eventComment = view.findViewById(R.id.event_comment_editText);
-        datePicker = view.findViewById(R.id.event_date);
-        timePicker = view.findViewById(R.id.event_time);
-        eventFinished = view.findViewById(R.id.event_finished);
 
-        // set up the fragment
+        // TODO: Get habit event from firebase and set values in form
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Event")
+                .setTitle("Edit Event")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = eventName.getText().toString();
                         String comment = eventComment.getText().toString();
-                        String year = Integer.toString(datePicker.getYear());
-                        String month = Integer.toString(datePicker.getMonth());
-                        String day = Integer.toString(datePicker.getDayOfMonth());
-                        String eventDate = year + "-" + month + "-" + day;
-                        String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                        Boolean finished = eventFinished.isChecked();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
+                        //listener.onOkPressed(new Event(0, name, comment));
                     }
                 }).create();
     }

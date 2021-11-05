@@ -58,6 +58,8 @@ public class AddHabitActivity extends AppCompatActivity {
         saturday = (CheckBox) findViewById(R.id.saturday);
         sunday = (CheckBox) findViewById(R.id.sunday);
 
+        // CalendarView visual_ind = (CalendarView) findViewById(visual_calendar); // highlight the date on the calendar
+
         Button createButton = (Button) findViewById(R.id.createButton);
 
         Intent intent = new Intent(this,MainActivity.class);
