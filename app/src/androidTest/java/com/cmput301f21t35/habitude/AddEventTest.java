@@ -29,8 +29,8 @@ import org.junit.Rule;
 public class AddEventTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<EventListActivity> rule =
-            new ActivityTestRule<>(EventListActivity.class, true, true);
+    public ActivityTestRule<MainActivity> rule =
+            new ActivityTestRule<>(MainActivity.class, true, true);
 
     /**
      * Runs before all tests and creates solo instance.
@@ -52,20 +52,38 @@ public class AddEventTest {
     }
 
     /**
-     * Try and add activity
+     * Try and add activity without entering anything
+     * Then try and add normally
      * also checks that comment is not more than 20 characters
+     *
+     * BEFORE RUNNING TESTS ENSURE THAT THERE IS A HABIT CALLED "Hiking"
      */
     @Test
     public void addEventTest() {
+        // make sure you are on right activity
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnText("Hiking"); // enter hiking event
+        // make sure you are on the right activity
+        solo.assertCurrentActivity("Wrong Activity", EditHabitActivity.class);
+        // open events page
+        solo.clickOnButton("Events");
+        // make sure you are on the right activity
         solo.assertCurrentActivity("Wrong Activity", EventListActivity.class);
-        View floatingActionButton = rule.getActivity().findViewById(R.id.add_event_button);
+        View floatingActionButton = (View) rule.getActivity().findViewById(R.id.add_event_button);
         solo.clickOnView(floatingActionButton);
+        // click on the add event button
+        solo.getCurrentActivity().getFragmentManager().findFragmentByTag("ADD EVENT");
+        // first verify app doesn't crash when nothing is inputted
+        solo.clickOnText("OK");
+        // then try and actually add values
         solo.getCurrentActivity().getFragmentManager().findFragmentByTag("ADD EVENT");
         EditText nameText = (EditText) solo.getView(R.id.event_name_editText);
         EditText commentText = (EditText) solo.getView(R.id.event_comment_editText);
+        // input into fields
         solo.enterText(nameText, "test name");
         solo.enterText(commentText, "this string should be cut off somewhere");
         String comment = commentText.getText().toString();
+        // check that length gets cut off
         assertEquals(20, comment.length());
         solo.clickOnText("OK");
         solo.waitForText("test name", 1, 2000);

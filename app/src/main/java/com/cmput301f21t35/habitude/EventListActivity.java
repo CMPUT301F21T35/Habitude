@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class EventListActivity extends AppCompatActivity implements AddHabitEvent.OnFragmentInteractionListener {
 
@@ -60,7 +62,8 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
                     String eventDate = (String) doc.getData().get("Date");
                     String eventTime = (String) doc.getData().get("Time");
                     String eventComment = (String) doc.getData().get("Comment");
-                    eventDataList.add(new Event(eventName,eventComment,eventDate,eventTime));
+                    Boolean eventFinished = (Boolean) doc.getData().get("Finished");
+                    eventDataList.add(new Event(eventName,eventComment,eventDate,eventTime,eventFinished));
                 }
                 eventArrayAdapter.notifyDataSetChanged();
             }
@@ -90,27 +93,40 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
 
-        // create hashmap with all the attributes of event
-        HashMap<String, String> data = new HashMap<>();
-        data.put("Event Name", newEvent.getEventName());
-        data.put("Date", newEvent.getEventDate());
-        data.put("Time", newEvent.getEventTime());
-        data.put("Comment", newEvent.getEventComment());
+        String eventName = newEvent.getEventName();;
+        String eventDate = newEvent.getEventDate();
+        String eventTime = newEvent.getEventTime();
+        String eventComment = newEvent.getEventComment();
+        Boolean eventFinished = newEvent.getEventFinished();
 
-        // push to db
-        collectionReference.document(newEvent.getEventName()).set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "Data has been added successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Data has not been added successfully");
-                    }
-                });
-        eventArrayAdapter.notifyDataSetChanged();
+        // ensure inputs are all correct
+        if(eventName.isEmpty()| eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
+            Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
+        } else { // otherwise add to db
+
+            // create hashmap with all the attributes of event
+            HashMap<String, Object> data = new HashMap<String, Object>();
+            data.put("Event Name", eventName);
+            data.put("Date", eventDate);
+            data.put("Time", eventTime);
+            data.put("Comment", eventComment);
+            data.put("Finished", eventFinished);
+
+            // push to db
+            collectionReference.document(newEvent.getEventName()).set(data)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "Data has been added successfully");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Data has not been added successfully");
+                        }
+                    });
+            eventArrayAdapter.notifyDataSetChanged();
+        }
     }
 }

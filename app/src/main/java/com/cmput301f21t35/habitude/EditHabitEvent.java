@@ -52,7 +52,7 @@ public class EditHabitEvent extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = eventName.getText().toString();
                         String comment = eventComment.getText().toString();
-                        listener.onOkPressed(new Event(0, name, comment));
+                        //listener.onOkPressed(new Event(0, name, comment));
                     }
                 }).create();
     }
