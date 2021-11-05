@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
-public class EditActivityTest {
+public class EditAndDeleteActivityTest {
     private Solo solo;
     @Rule
     public ActivityTestRule<MainActivity> rule =
