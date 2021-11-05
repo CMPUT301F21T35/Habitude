@@ -168,7 +168,7 @@ public class EditActivityTest {
         //Exit
         solo.clickOnButton(7);
         //And reenter
-        solo.clickInList(0,0); //How to choose the right one?
+        enterSampleHabit("A sample habit 2");
         assertEquals("A sample habit 2",nameText.getText().toString());
         assertEquals("A sample reason 2",reasonText.getText().toString());
         ToggleButton mondayButton = (ToggleButton) solo.getView(R.id.monday_button);
