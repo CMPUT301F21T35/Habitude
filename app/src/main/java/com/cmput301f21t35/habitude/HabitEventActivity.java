@@ -1,7 +1,5 @@
 package com.cmput301f21t35.habitude;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,35 +108,14 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference documentReference = db.collection("All Habits").document(habitSrc).collection("Events").document(eventTitle);
 
-        documentReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    event = document.getData();
-                    System.out.println("Event found");
-
-                    eventTitle = event.get("Event Name").toString();
-                    eventComment = event.get("Comment").toString();
-                    try {
-                        eventDateStart = new SimpleDateFormat("yyyy-MM-dd").parse(event.get("Date").toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    finished = event.get("Finished").equals(true);
-
-                    TextView habit_event_title_view = findViewById(R.id.habit_event_title);
-                    TextView habit_event_reason_view = findViewById(R.id.habit_event_reason);
-                    TextView habit_event_date_start_view = findViewById(R.id.habit_event_date_start);
-                    TextView habit_event_finished = findViewById(R.id.habit_event_finished);
+        TextView habit_title_view = findViewById(R.id.habit_title);
+        TextView habit_reason_view = findViewById(R.id.habit_reason);
+        TextView habit_date_start_view = findViewById(R.id.habit_date_start);
 //        TextView habit_date_complete_view = findViewById(R.id.habit_date_complete);
 
-                    habit_event_title_view.setText(eventTitle);
-                    habit_event_reason_view.setText(eventComment);
-                    habit_event_date_start_view.setText(eventDateStart.toString());
-                    habit_event_finished.setText(finished ? "Finished" : "Not finished");
-//        habit_date_complete_view.setText((habitDateComplete.toString()));
-
+        habitTitle = event.getEventName();
+        habitComment = event.getEventComment();
+        //habitDateStart = event.getEventDate();
 
                     edit_button.setOnClickListener(new View.OnClickListener() {
                         @Override
