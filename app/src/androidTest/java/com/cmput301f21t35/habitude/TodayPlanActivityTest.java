@@ -42,14 +42,15 @@ public class TodayPlanActivityTest {
     @Test
     public void consistentTest(){
         solo.assertCurrentActivity("Wrong", MainActivity.class);
+        //add a habit
         solo.clickOnButton("ADD Habit");
-
         solo.enterText((EditText)solo.getView(R.id.habitName), "Swimming");
         solo.enterText((EditText)solo.getView(R.id.habitReason), "Day off");
         solo.clickOnCheckBox(4);
         solo.setDatePicker(0,2021,11,5);
         solo.clickOnView(solo.getView(R.id.createButton));
         solo.waitForText("Swimming",1,2000);
+        //switch to TodayPlanActivity
         solo.clickOnView(solo.getView(R.id.action_today));
         solo.waitForActivity("TodayPlanActivity");
         assertTrue(solo.searchText("Swimming"));
