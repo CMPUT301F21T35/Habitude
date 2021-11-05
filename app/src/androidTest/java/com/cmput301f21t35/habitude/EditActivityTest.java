@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -48,6 +49,13 @@ public class EditActivityTest {
     public void setUp() throws Exception {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
+
+    @After
+    public void cleanUp() {
+        deleteSampleHabit("A sample habit");
+        deleteSampleHabit("A sample habit 2");
+    }
+
     /**
      * Gets the Activity
      *
@@ -58,14 +66,45 @@ public class EditActivityTest {
         Activity activity = rule.getActivity();
     }
 
-    public void findSampleHabit() {
+    public void enterSampleHabit(String habitTitle) {
         ListView habitList = (ListView) solo.getView(R.id.habit_list);
         ListAdapter habitDataList = habitList.getAdapter();
         for (int index = 0; index < habitDataList.getCount(); index++) {
-            //if (habitDataList.getItem(index).getHabitTitleName() == "sample habit") {
-            solo.clickInList(index,0);
-            break;
-            //}
+            Habit testingHabit = (Habit) habitDataList.getItem(index);
+            if (testingHabit.getHabitTitleName().equals(habitTitle)) {
+                solo.clickInList(index, 0);
+                break;
+            }
+        }
+    }
+
+    public void deleteSampleHabit(String habitTitle) {
+        ListView habitList = (ListView) solo.getView(R.id.habit_list);
+        ListAdapter habitDataList = habitList.getAdapter();
+        for (int index = 0; index < habitDataList.getCount(); index++) {
+            Habit testingHabit = (Habit) habitDataList.getItem(index);
+            if (testingHabit.getHabitTitleName().equals(habitTitle)) {
+                solo.clickLongInList(index, 0);
+                break;
+            }
+        }
+    }
+
+    public boolean findSampleHabit(String habitTitle) {
+        ListView habitList = (ListView) solo.getView(R.id.habit_list);
+        ListAdapter habitDataList = habitList.getAdapter();
+        for (int index = 0; index < habitDataList.getCount(); index++) {
+            Habit testingHabit = (Habit) habitDataList.getItem(index);
+            if (testingHabit.getHabitTitleName().equals(habitTitle)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void filterAddEventTest() {
+        if (!findSampleHabit("A sample habit")) {
+            addEventTest();
         }
     }
 
@@ -90,8 +129,10 @@ public class EditActivityTest {
 
     @Test
     public void viewEventTest() {
-        addEventTest(); //check equal
-        solo.clickInList(0,0); //How to choose the right one?
+        filterAddEventTest();
+        //Get into the event test
+        enterSampleHabit("A sample habit");
+        //Validate everything
         EditText nameText = (EditText) solo.getView(R.id.habit_title);
         assertEquals("A sample habit",nameText.getText().toString());
         EditText reasonText = (EditText) solo.getView(R.id.habit_description);
@@ -106,15 +147,16 @@ public class EditActivityTest {
         assertEquals(1999,calendarDisplay.getYear());
         assertEquals(7,calendarDisplay.getMonth());
         assertEquals(8,calendarDisplay.getDayOfMonth());
+        //Leave
         solo.clickOnButton(7);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
     @Test
     public void editEventTest(){
-        viewEventTest();
+        filterAddEventTest();
         //change all the details
-        solo.clickInList(0,0); //How to choose the right one?
+        enterSampleHabit("A sample habit");
         EditText nameText = (EditText) solo.getView(R.id.habit_title);
         solo.enterText(nameText, " 2");
         EditText reasonText = (EditText) solo.getView(R.id.habit_description);
@@ -126,7 +168,7 @@ public class EditActivityTest {
         //Exit
         solo.clickOnButton(7);
         //And reenter
-        solo.clickInList(0,0); //How to choose the right one?
+        enterSampleHabit("A sample habit 2");
         assertEquals("A sample habit 2",nameText.getText().toString());
         assertEquals("A sample reason 2",reasonText.getText().toString());
         ToggleButton mondayButton = (ToggleButton) solo.getView(R.id.monday_button);
@@ -144,10 +186,10 @@ public class EditActivityTest {
 
     @Test
     public void deleteEventTest(){
-        viewEventTest();
+        filterAddEventTest();
         ListView habitTesting = (ListView) solo.getView(R.id.habit_list);
         int lengthBefore = habitTesting.getCount();
-        solo.clickLongInList(0,0); //How to choose the right one?
+        deleteSampleHabit("A sample habit");
         solo.waitForDialogToOpen();
         solo.clickOnText("YES");
         solo.waitForDialogToClose();
