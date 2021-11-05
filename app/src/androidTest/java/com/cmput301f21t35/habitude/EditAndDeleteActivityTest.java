@@ -112,12 +112,9 @@ public class EditAndDeleteActivityTest {
         }
     }
 
-    /**
-     * Create an activity to edit and return to the main activity
-     */
+    //Create an activity to edit and return to the main activity
     @Test
     public void addEventTest() {
-        //Create a temporary event
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnButton(0);
         EditText nameText = (EditText) solo.getView(R.id.habitName);
