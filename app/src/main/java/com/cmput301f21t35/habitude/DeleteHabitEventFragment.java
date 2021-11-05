@@ -42,7 +42,7 @@ public class DeleteHabitEventFragment extends DialogFragment {
     }
 
     /**
-     * Create alert dialog when user activiates delete method.  Delete item from Firebase if confirmed
+     * Create alert dialog when user activates delete method.  Delete item from Firebase if confirmed.
      * @param savedInstanceState Bundle
      * @return Alert Dialog
      */
