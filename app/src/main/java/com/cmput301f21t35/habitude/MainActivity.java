@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
-
+        //We view/edit habits by clicking on them, bundling the index for the next Activity to use.
         Intent intentEdit = new Intent(this,EditHabitActivity.class);
         habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
+        //We use long clicks to delete habits.
         habitList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
