@@ -51,6 +51,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
         today_habitAdapter = new HabitList(this,today_habitDataList);
         today_habitList.setAdapter(today_habitAdapter);
 
+        // connect to firebase and search the desired habits inside the firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
 
@@ -62,20 +63,20 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                     String habitName = doc.getId();
                     String habitDate = (String) doc.getData().get("Date");
                     String habitReason = (String) doc.getData().get("Habit Reason");
-                    stringToDate(habitDate);
+                    stringToDate(habitDate); // change the string to a date format
                     Date current_date = Calendar.getInstance().getTime();
 
                     if (doc.getData().get("Plan") != null) {
-                        String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
+                        String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);// get the plan of the habits
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
                         String weekday_name = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(System.currentTimeMillis());
                         Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday);
 
-                        if (stringToDate(habitDate).before(current_date)) {
+                        if (stringToDate(habitDate).before(current_date)) { // check if the date of habit is before the current date
                             for (int i = 0; i < todayHabit.getPlan().size(); i++) {
-                                if (weekday_name.equals(todayHabit.getPlan().get(i))) {
-                                    today_habitDataList.add(todayHabit);
+                                if (weekday_name.equals(todayHabit.getPlan().get(i))) { // check if the plan of weekday is equal to today's weekday
+                                    today_habitDataList.add(todayHabit); // add the habit object into the list
                                     today_habitAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -83,7 +84,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                     }
                 }
 
-                if (today_habitDataList.size() == 0) {
+                if (today_habitDataList.size() == 0) { // if there is no habit to do today, it will tell the users that they don't have any plan for today
                     TextView today_no_habit = findViewById(R.id.today_no_habits);
                     today_no_habit.setVisibility(View.VISIBLE);
                     today_no_habit.setText("No habits planned for today!");
@@ -94,6 +95,12 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
 
     }
 
+    /**
+     * This will change the format of the string to the Date
+     * @param habitDate
+     * @return
+     *      returnType is Date
+     */
     public static Date stringToDate(String habitDate){
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
         Date date = null;
@@ -105,6 +112,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
         return date;
     }
 
+    // this shows that there are four buttons below the screen, Users can click either one of them to navigate to another activity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
