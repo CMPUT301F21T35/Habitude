@@ -8,15 +8,23 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
+
 public class EditHabitEvent extends DialogFragment {
     private EditText eventName;
     private EditText eventComment;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
@@ -39,8 +47,8 @@ public class EditHabitEvent extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_habit_event, null);
         eventName = view.findViewById(R.id.event_name_editText);
         eventComment = view.findViewById(R.id.event_comment_editText);
-
-        // TODO: Get habit event from firebase and set values in form
+        datePicker = view.findViewById(R.id.event_date);
+        timePicker = view.findViewById(R.id.event_time);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -52,7 +60,12 @@ public class EditHabitEvent extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = eventName.getText().toString();
                         String comment = eventComment.getText().toString();
-                        listener.onOkPressed(new Event(0, name, comment));
+                        String year = Integer.toString(datePicker.getYear());
+                        String month = Integer.toString(datePicker.getMonth());
+                        String day = Integer.toString(datePicker.getDayOfMonth());
+                        String eventDate = year + "-" + month + "-" + day;
+                        String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
+                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime));
                     }
                 }).create();
     }

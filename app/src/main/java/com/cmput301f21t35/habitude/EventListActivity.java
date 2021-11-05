@@ -79,6 +79,14 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
                 new AddHabitEvent().show(getSupportFragmentManager(), "ADD EVENT");
             }
         });
+
+        eventList.setOnItemClickListener(((adapterView, view, i, l) -> {
+            Intent intent = new Intent(this, HabitEventActivity.class);
+            intent.putExtra("habit_id", habitSrc);
+            intent.putExtra("event_id", eventDataList.get(i).getEventName());
+            startActivity(intent);
+        }));
+
     }
 
     @Override
