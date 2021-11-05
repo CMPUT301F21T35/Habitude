@@ -44,17 +44,18 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
-        Bundle extras = getIntent().getExtras(); //is null???
+        //We get the relevant habit in this routine by pulling the index from the Main and indexing the list directly
+        Bundle extras = getIntent().getExtras();
         int changingHabitIndex = extras.getInt("habit_index");
         MainActivity mainActivity = MainActivity.getInstance();
         changingHabit = mainActivity.habitDataList.get(changingHabitIndex);
 
+        //We get the views we're going to be using, with the weekday buttons being retrieved during the next section.
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
         habitCalendar = findViewById(R.id.habit_calendar);
 
-        //TODO: Get the weekday info hooked up
-        //This is a bad way of doing it
+        //Set an array for the days of the week
         sunBool = findViewById(R.id.sunday_button);
         monBool = findViewById(R.id.monday_button);
         tueBool = findViewById(R.id.tuesday_button);
@@ -66,16 +67,18 @@ public class EditHabitActivity extends AppCompatActivity {
         weekArray.add(monBool); weekArray.add(tueBool); weekArray.add(wedBool); weekArray.add(thuBool); weekArray.add(friBool); weekArray.add(satBool); weekArray.add(sunBool);
         weekdays.add("Monday"); weekdays.add("Tuesday"); weekdays.add("Wednesday"); weekdays.add("Thursday"); weekdays.add("Friday"); weekdays.add("Saturday"); weekdays.add("Sunday");
 
+        //We make sure that the fields contain the information we are supposed to on startup.
         initializeFields();
     }
 
     public void initializeFields() {
+        //The title and description we can set directly.
         habitTitle.setText(changingHabit.getHabitTitleName());
         habitDescription.setText(changingHabit.getHabitReason());
 
+        //We initialize the date using a Calendar object.
         try {
             Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
-            //long dateLong = dateLiteral.getTime(); //???
             //https://www.baeldung.com/java-year-month-day
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dateLiteral);
@@ -84,6 +87,7 @@ public class EditHabitActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //We initialize the weekday checkboxes by looping over the arrays we set up.
         ArrayList<String> habitPlanArray = changingHabit.getPlan();
         for (int index = 0; index < 7; index++) {
             boolean contains = habitPlanArray.contains(weekdays.get(index));
@@ -92,14 +96,18 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     public void doneButton(View view) {
+        //We set up a HashMap to push to firebase.
         HashMap<String, String> data = new HashMap<>();
         manageReason(data);
         manageDate(data);
         managePlan(data);
 
+        //Check if the title has changed, so we know how to change the firebase.
         String oldTitle = changingHabit.getHabitTitleName();
         String newTitle = habitTitle.getText().toString();
 
+        //If we've updated the title, we need to delete the old title and create a new file.
+        //This is because the name of the habit is used as the title of the firestore data.
         if (oldTitle.equals(newTitle)) {
             pushData(data);
         } else {
@@ -110,6 +118,7 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void renameAndPushData(HashMap<String, String> data, String oldTitle, String newTitle) {
+        //Much like pushData, but we delete the old file and create the new file.
         try {
             changingHabit.setHabitTitleName(habitTitle.getText().toString());
         } catch (Exception ignored) {}
@@ -150,8 +159,11 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void managePlan(HashMap<String, String> data) {
-        ArrayList<String> plan_data = changingHabit.getPlan(); //Currently not right
-        data.put("Plan", String.valueOf(plan_data)); //Currently not right
+        //We get the reason string from the Habit class and put it as the "default" date to push.
+        ArrayList<String> plan_data = changingHabit.getPlan();
+        data.put("Plan", String.valueOf(plan_data));
+
+        //We then read in the reason string from the getPlanValues function to possibly update the value.
         try {
             ArrayList<String> newPlan = new ArrayList<String>();
             getPlanValues(newPlan);
@@ -161,6 +173,7 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void getPlanValues (ArrayList<String> newPlan){
+        //Feeds the string value of each checked weekday box into the ArrayList.
         for (int i = 0; i < 7; i++) {
             if (weekArray.get(i).isChecked()) {
                 newPlan.add(weekdays.get(i));
@@ -169,8 +182,11 @@ public class EditHabitActivity extends AppCompatActivity {
     };
 
     private void manageReason(HashMap<String, String> data){
+        //We get the reason string from the Habit class and put it as the "default" date to push.
         data.put("Habit Reason",changingHabit.getHabitReason());
 
+        //We then read in the reason string from the appropriate EditText to possibly update the value.
+        //I don't know if this can actually go wrong? If it can't, we don't need the first line or the try/catch.
         try {
             changingHabit.setHabitReason(habitDescription.getText().toString());
             data.put("Habit Reason",habitDescription.getText().toString());
@@ -178,8 +194,10 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void manageDate(HashMap<String, String> data){
+        //We get the date from the Habit class and put it as the "default" date to push.
         data.put("Date",changingHabit.getHabitStartDate());
 
+        //We then read in the date from the calendar to possibly update the value.
         try {
             final String day = Integer.toString(habitCalendar.getDayOfMonth());
             final String month = Integer.toString(habitCalendar.getMonth()+1); //What's up with the month?
@@ -190,6 +208,7 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void pushData(HashMap<String, String> data) {
+        //If we haven't changed the title, we can just push the data directly.
         try {
             collectionReference
                     .document(habitTitle.getText().toString())
@@ -208,7 +227,6 @@ public class EditHabitActivity extends AppCompatActivity {
                     });
         } catch (Exception ignored) {}
     }
-
 
     /*
      * THIS BUTTON IS ONLY TEMPORARY EVENTUALLY EVENTS SHOULD BE CALLED FROM A BUTTON IN THE HABITLIST
