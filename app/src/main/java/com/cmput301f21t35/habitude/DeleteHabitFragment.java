@@ -30,12 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class DeleteHabitFragment extends DialogFragment {
- //   private AddHabitEvent.OnFragmentInteractionListener listener;
     private Habit receivedHabit;
-
-    //public interface OnFragmentInteractionListener {
-    //    void onOkPressed(Habit newHabit);
-    //}
 
     public DeleteHabitFragment(){}
 
@@ -46,15 +41,12 @@ public class DeleteHabitFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-   //     if (context instanceof AddHabitEvent.OnFragmentInteractionListener) {
-   //         listener = (AddHabitEvent.OnFragmentInteractionListener) context;
-   //     } else {
-   //         throw new RuntimeException(context.toString());
-   //     }
     }
 
     @NonNull//@Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        //We just create a dialog like in the labs.
+        //If "YES" is hit, we delete the document from the firebase. Pretty straightforward.
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_delete_habit,null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
