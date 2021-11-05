@@ -93,6 +93,11 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
             startActivity(intent);
         }));
 
+        eventList.setOnItemLongClickListener(((adapterView, view, i, l) -> {
+            new DeleteHabitEventFragment(habitSrc, eventDataList.get(i)).show(EventListActivity.this.getSupportFragmentManager(), "DELETE EVENT");
+            return true;
+        }));
+
     }
 
     @Override
