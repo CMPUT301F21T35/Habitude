@@ -39,7 +39,7 @@ public class HabitEventActivity extends AppCompatActivity {
 
         habitTitle = event.getEventName();
         habitComment = event.getEventComment();
-        habitDateStart = event.getDate();
+        //habitDateStart = event.getEventDate();
 
         habit_title_view.setText(habitTitle);
         habit_reason_view.setText(habitComment);
