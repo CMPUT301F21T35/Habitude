@@ -30,7 +30,7 @@ public class EditHabitActivity extends AppCompatActivity {
     EditText habitTitle;
     EditText habitDescription;
     DatePicker habitCalendar;
-    Habit changingHabit; //Talk about this
+    Habit changingHabit;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference collectionReference = db.collection("All Habits");
     ToggleButton sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
@@ -44,7 +44,8 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
-        Bundle extras = getIntent().getExtras(); //is null???
+        //We get the relevant habit in this routine by pulling the index from the Main and indexing the list directly
+        Bundle extras = getIntent().getExtras();
         int changingHabitIndex = extras.getInt("habit_index");
         MainActivity mainActivity = MainActivity.getInstance();
         changingHabit = mainActivity.habitDataList.get(changingHabitIndex);
@@ -65,16 +66,17 @@ public class EditHabitActivity extends AppCompatActivity {
         weekArray.add(monBool); weekArray.add(tueBool); weekArray.add(wedBool); weekArray.add(thuBool); weekArray.add(friBool); weekArray.add(satBool); weekArray.add(sunBool);
         weekdays.add("Monday"); weekdays.add("Tuesday"); weekdays.add("Wednesday"); weekdays.add("Thursday"); weekdays.add("Friday"); weekdays.add("Saturday"); weekdays.add("Sunday");
 
+        //We make sure that the fields contain the information we are supposed to
         initializeFields();
     }
 
     public void initializeFields() {
+        //The title and description we can set directly
         habitTitle.setText(changingHabit.getHabitTitleName());
         habitDescription.setText(changingHabit.getHabitReason());
 
         try {
             Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
-            //long dateLong = dateLiteral.getTime(); //???
             //https://www.baeldung.com/java-year-month-day
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dateLiteral);
@@ -96,6 +98,7 @@ public class EditHabitActivity extends AppCompatActivity {
         manageDate(data);
         managePlan(data);
 
+        //Check if the title has changed, so we know how to change the firebase.
         String oldTitle = changingHabit.getHabitTitleName();
         String newTitle = habitTitle.getText().toString();
 
@@ -109,6 +112,7 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void renameAndPushData(HashMap<String, String> data, String oldTitle, String newTitle) {
+        //Much like pushData, but we delete the old file and create the new file.
         try {
             changingHabit.setHabitTitleName(habitTitle.getText().toString());
         } catch (Exception ignored) {}
