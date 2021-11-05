@@ -67,10 +67,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         habitAdapter = new HabitList(this,habitDataList);
         habitList.setAdapter(habitAdapter);
 
+        // connect to the firebase and get all the habits from the firebase
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
 
+        //
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -83,11 +85,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday));
+                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday)); // add all the habits into the habitList
                     }
                 }
                 habitAdapter.notifyDataSetChanged();
 
+                // to check if the firebase has no habits
                 if (habitDataList.size() == 0) {
                     TextView no_habits = findViewById(R.id.no_habits);
                     no_habits.setVisibility(View.VISIBLE);
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
+        // to add an habit
         Intent intent = new Intent(this,AddHabitActivity.class);
         addHabit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         });
 
 
+        // to view and edit the habit by pop up an fragment
         Intent intentEdit = new Intent(this,EditHabitActivity.class);
         habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -117,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
+        // to delete the habit by long clicking on the item
         habitList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -126,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         });
     }
 
+    // this shows that there are four buttons below the screen, Users can click either one of them to navigate to another activity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
