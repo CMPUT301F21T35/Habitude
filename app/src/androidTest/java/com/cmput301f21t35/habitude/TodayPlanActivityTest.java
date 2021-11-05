@@ -53,6 +53,7 @@ public class TodayPlanActivityTest {
         //switch to TodayPlanActivity
         solo.clickOnView(solo.getView(R.id.action_today));
         solo.waitForActivity("TodayPlanActivity");
+        //test the habit name is consistent
         assertTrue(solo.searchText("Swimming"));
         //delete the habit
         solo.clickOnView(solo.getView(R.id.action_habits));
