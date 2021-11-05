@@ -6,24 +6,24 @@ import java.util.Date;
 /*
 Class for the habit event
 
-TO DO:
-may need unique id for event, id is included as a variable just in case
-have to find a way for habit to store events
+TODO: implement image and geolocation functionality
  */
 public class Event {
     private String eventName;
     private String eventComment;
     private String eventDate;
     private String eventTime;
+    private Boolean eventFinished;
     // private String image; for image implementation later
 
     Event() {}
 
-    Event(String eventName, String eventComment, String eventDate, String eventTime) {
+    Event(String eventName, String eventComment, String eventDate, String eventTime, Boolean eventFinished) {
         this.eventName = eventName;
         this.eventComment = eventComment;
         this.eventDate = eventDate;
         this.eventTime = eventTime;
+        this.eventFinished = eventFinished;
     }
 
 // getters and setters
@@ -60,4 +60,11 @@ public class Event {
         this.eventTime = eventTime;
     }
 
+    public Boolean getEventFinished() {
+        return eventFinished;
+    }
+
+    public void setEventFinished(Boolean eventFinished) {
+        this.eventFinished = eventFinished;
+    }
 }

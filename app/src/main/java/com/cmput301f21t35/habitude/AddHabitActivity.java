@@ -44,15 +44,13 @@ public class AddHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_add_habit);
-
+        //initilize the firestore database used for save datas
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
 
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
         dateStart = (DatePicker) findViewById(R.id.datePicker);
-
-
         monday = (CheckBox) findViewById(R.id.monday);
         tuesday = (CheckBox) findViewById(R.id.tuesday);
         wednesday = (CheckBox) findViewById(R.id.wednesday);
@@ -66,6 +64,7 @@ public class AddHabitActivity extends AppCompatActivity {
         Button createButton = (Button) findViewById(R.id.createButton);
 
         Intent intent = new Intent(this, MainActivity.class);
+        //set on click event for the CREATE button
         createButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +79,8 @@ public class AddHabitActivity extends AppCompatActivity {
                 setHabitPlan();
                 final String habitPlan_toString = String.valueOf(habitPlan);
                 final String habitPlan_final = habitPlan_toString.substring(1, habitPlan_toString.length() - 1).replace(" ", "");
-
+                    
+                // save data into a hashmap
                 HashMap<String, String> data = new HashMap<>();
                 data.put("Habit Reason", Reason);
                 data.put("Date", habitStartDate);

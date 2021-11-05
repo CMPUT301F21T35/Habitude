@@ -30,7 +30,7 @@ public class EventList extends ArrayAdapter<Event> {
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup
             parent) {
-        // return super.getView(position, convertView, parent);
+        // inflate the list
         View view = convertView;
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.event_context, parent, false);

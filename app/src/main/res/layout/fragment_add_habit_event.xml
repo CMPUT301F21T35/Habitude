@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:visibility="visible"
         android:text="Choose The Time:"/>
 
@@ -39,13 +39,15 @@
         android:id="@+id/event_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scaleY="0.8"
+        android:scaleX="0.8"
         android:timePickerMode="spinner"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:visibility="visible"
         android:text="Choose The Date:"/>
 
@@ -54,6 +56,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
+        android:scaleY="0.8"
+        android:scaleX="0.8"
         android:datePickerMode="spinner" />
+
+    <CheckBox
+        android:id="@+id/event_finished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="FINISHED?"
+        android:layout_marginLeft="20dp"/>
 
 </LinearLayout>
