@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Habitude">
         <activity
+            android:name=".tempActivity"
+            android:exported="true" />
+        <activity
             android:name=".IndicatorActivity"
             android:exported="false" />
         <activity
