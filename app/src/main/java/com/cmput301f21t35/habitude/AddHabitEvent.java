@@ -1,31 +1,47 @@
 package com.cmput301f21t35.habitude;
 
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.Executor;
 
 public class AddHabitEvent extends DialogFragment {
     private EditText eventName;
     private EditText eventComment;
     private DatePicker datePicker;
     private TimePicker timePicker;
+    private ToggleButton geoPicker;
     private OnFragmentInteractionListener listener;
+
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent);
@@ -50,6 +66,8 @@ public class AddHabitEvent extends DialogFragment {
         datePicker = view.findViewById(R.id.event_date);
         timePicker = view.findViewById(R.id.event_time);
 
+        geoPicker = view.findViewById(R.id.geolocation_button);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -65,8 +83,21 @@ public class AddHabitEvent extends DialogFragment {
                         String day = Integer.toString(datePicker.getDayOfMonth());
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime));
+                        boolean geoPrompt = geoPicker.isChecked();
+                        listener.onOkPressed(onOkHandle(name, comment, eventDate, eventTime, geoPrompt));
                     }
                 }).create();
+    }
+
+    public Event onOkHandle(String name, String comment, String eventDate, String eventTime, boolean geoPrompt) {
+        String eventLocation = "void";
+
+        if (geoPrompt) {
+            MainActivity mainActivity = MainActivity.getInstance();
+            eventLocation = mainActivity.getLocation();
+            Log.v("LOCATION",mainActivity.getLocation());
+        }
+
+        return new Event(name, comment, eventDate, eventTime);
     }
 }
