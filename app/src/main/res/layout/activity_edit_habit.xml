@@ -123,6 +123,21 @@
                 android:textOn="SUN" />
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/publicity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ToggleButton"
+            android:textOff="PUBLIC"
+            android:textOn="PRIVATE"  />
+    </LinearLayout>
+
         <DatePicker
             android:id="@+id/habit_calendar"
             android:layout_width="match_parent"

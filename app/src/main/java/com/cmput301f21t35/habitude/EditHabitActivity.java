@@ -34,6 +34,7 @@ public class EditHabitActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference collectionReference = db.collection("All Habits");
     ToggleButton sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
+    ToggleButton publicButton;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     final String TAG = "EditHabitActivity";
     ArrayList<ToggleButton> weekArray = new ArrayList<ToggleButton>();
@@ -54,6 +55,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
         habitCalendar = findViewById(R.id.habit_calendar);
+        publicButton = findViewById(R.id.publicity);
 
         //Set an array for the days of the week
         sunBool = findViewById(R.id.sunday_button);
@@ -75,6 +77,7 @@ public class EditHabitActivity extends AppCompatActivity {
         //The title and description we can set directly.
         habitTitle.setText(changingHabit.getHabitTitleName());
         habitDescription.setText(changingHabit.getHabitReason());
+        //publicButton.setChecked(changingHabit.getPublicity()); //Todo: Rename
 
         //We initialize the date using a Calendar object.
         try {
@@ -101,6 +104,7 @@ public class EditHabitActivity extends AppCompatActivity {
         manageReason(data);
         manageDate(data);
         managePlan(data);
+        //managePublicity(data);
 
         //Check if the title has changed, so we know how to change the firebase.
         String oldTitle = changingHabit.getHabitTitleName();
@@ -170,6 +174,12 @@ public class EditHabitActivity extends AppCompatActivity {
             String newPlanString = String.valueOf(newPlan).substring(1,String.valueOf(newPlan).length() - 1).replace(" ","");;
             data.put("Plan", newPlanString);
         } catch (Exception ignored) {}
+    }
+
+    private void managePublicity(HashMap<String, String> data) {
+        //...
+        boolean publicity_status = publicButton.isChecked();
+        data.put("Publicity", String.valueOf(publicity_status)); //TODO: String
     }
 
     private void getPlanValues (ArrayList<String> newPlan){
