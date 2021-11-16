@@ -55,7 +55,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
         habitCalendar = findViewById(R.id.habit_calendar);
-        publicButton = findViewById(R.id.publicity);
+        //publicButton = findViewById(R.id.publicity); //publicity
 
         //Set an array for the days of the week
         sunBool = findViewById(R.id.sunday_button);
