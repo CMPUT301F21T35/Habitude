@@ -27,14 +27,13 @@
         android:maxLines="1"
         android:minHeight="48dp" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/geolocation_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Click To Add Geolocation:"
-        android:textOff="Click To Add Geolocation:"
-        android:textOn="Click To Not Add Geolocation:"
+        android:onClick="mapPush"
         android:textSize="20sp"
         android:visibility="visible" />
 

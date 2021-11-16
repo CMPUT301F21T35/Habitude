@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -40,9 +41,8 @@ public class AddHabitEvent extends DialogFragment {
     private EditText eventComment;
     private DatePicker datePicker;
     private TimePicker timePicker;
-    private ToggleButton geoPicker;
+    private Button geoPicker;
     private OnFragmentInteractionListener listener;
-
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent);
@@ -66,8 +66,7 @@ public class AddHabitEvent extends DialogFragment {
         eventComment = view.findViewById(R.id.event_comment_editText);
         datePicker = view.findViewById(R.id.event_date);
         timePicker = view.findViewById(R.id.event_time);
-
-        geoPicker = view.findViewById(R.id.geolocation_button);
+        geoPicker = view.findViewById(R.id.geolocation_button); //!!!
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -84,21 +83,13 @@ public class AddHabitEvent extends DialogFragment {
                         String day = Integer.toString(datePicker.getDayOfMonth());
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                        boolean geoPrompt = geoPicker.isChecked();
-                        listener.onOkPressed(onOkHandle(name, comment, eventDate, eventTime, geoPrompt));
+                        new Event(name, comment, eventDate, eventTime);
                     }
                 }).create();
     }
 
-    public Event onOkHandle(String name, String comment, String eventDate, String eventTime, boolean geoPrompt) {
-        String eventLocation = "void";
-
-        if (geoPrompt) {
-            MainActivity mainActivity = MainActivity.getInstance();
-            eventLocation = mainActivity.getLocation();
-            Log.v("LOCATION",mainActivity.getLocation());
-        }
-
-        return new Event(name, comment, eventDate, eventTime);
+    Intent intent = new Intent(MainActivity.getInstance(), MapsActivity.class);
+    public void mapPush() {
+        startActivity(intent);
     }
 }
