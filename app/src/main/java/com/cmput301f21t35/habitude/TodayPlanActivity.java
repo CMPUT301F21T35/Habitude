@@ -68,7 +68,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
                         String weekday_name = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(System.currentTimeMillis());
-                        Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday);
+                        Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday,Boolean.FALSE); //Patchup
 
                         if (stringToDate(habitDate).before(current_date)) {
                             for (int i = 0; i < todayHabit.getPlan().size(); i++) {

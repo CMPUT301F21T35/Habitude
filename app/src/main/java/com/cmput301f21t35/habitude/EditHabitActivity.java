@@ -55,7 +55,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
         habitCalendar = findViewById(R.id.habit_calendar);
-        //publicButton = findViewById(R.id.publicity); //publicity
+        publicButton = findViewById(R.id.public_button);
 
         //Set an array for the days of the week
         sunBool = findViewById(R.id.sunday_button);
@@ -77,7 +77,7 @@ public class EditHabitActivity extends AppCompatActivity {
         //The title and description we can set directly.
         habitTitle.setText(changingHabit.getHabitTitleName());
         habitDescription.setText(changingHabit.getHabitReason());
-        //publicButton.setChecked(changingHabit.getPublicity()); //Todo: Rename
+        publicButton.setChecked(changingHabit.isPublic());
 
         //We initialize the date using a Calendar object.
         try {
@@ -104,7 +104,7 @@ public class EditHabitActivity extends AppCompatActivity {
         manageReason(data);
         manageDate(data);
         managePlan(data);
-        //managePublicity(data);
+        managePublicity(data);
 
         //Check if the title has changed, so we know how to change the firebase.
         String oldTitle = changingHabit.getHabitTitleName();
@@ -177,9 +177,8 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void managePublicity(HashMap<String, String> data) {
-        //...
         boolean publicity_status = publicButton.isChecked();
-        data.put("Publicity", String.valueOf(publicity_status)); //TODO: String
+        data.put("Is Public", String.valueOf(publicity_status));
     }
 
     private void getPlanValues (ArrayList<String> newPlan){
