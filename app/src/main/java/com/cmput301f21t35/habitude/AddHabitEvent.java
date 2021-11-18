@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,8 @@ public class AddHabitEvent extends DialogFragment {
     private TimePicker timePicker;
     private Button geolocationButton;
     private OnFragmentInteractionListener listener;
+
+    String geolocation = "null"; //We create this here so we don't have to worry about if it gets updated or not.
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent);
@@ -59,8 +62,12 @@ public class AddHabitEvent extends DialogFragment {
             public void onClick(View view) {
                 //Intent intent = new Intent(MainActivity.getInstance(), MapsFragment.class);
                 Intent intent = new Intent(MainActivity.getInstance(), MapsActivity.class);
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent,1); //Modernize?
+                //registerForActivityResult();
             }
+
+
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -78,9 +85,17 @@ public class AddHabitEvent extends DialogFragment {
                         String day = Integer.toString(datePicker.getDayOfMonth());
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime));
+                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime)); //Todo: add in geolocation and stuff. It's been retrieved.
                     }
                 }).create();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        geolocation = data.getStringExtra("keyName");
+        Log.v("Tagalog",geolocation);
+
+    }
 }
