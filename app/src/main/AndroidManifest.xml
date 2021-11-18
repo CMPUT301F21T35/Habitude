@@ -19,9 +19,6 @@
             android:name=".HabitEventActivity"
             android:exported="true" />
         <activity
-            android:name=".HabitListActivity"
-            android:exported="true" />
-        <activity
             android:name=".EditHabitActivity"
             android:exported="true" />
         <activity
@@ -29,8 +26,7 @@
             android:exported="false" />
         <activity
             android:name=".TodayPlanActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
@@ -44,6 +40,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".FollowingActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

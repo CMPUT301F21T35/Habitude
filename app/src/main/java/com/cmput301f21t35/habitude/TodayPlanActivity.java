@@ -119,14 +119,22 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
             case (R.id.action_today):
                 return true;
             case (R.id.action_habits):
-                Intent intent_all_habits = new Intent(this,MainActivity.class);
+                Intent intent_all_habits = new Intent(this, MainActivity.class);
                 intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_all_habits);
                 return true;
             case (R.id.action_profile):
+                Intent intent_profile = new Intent(this, ProfileActivity.class);
+                intent_profile.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_profile.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent_profile);
                 return true;
             case (R.id.action_following):
+                Intent intent_following = new Intent(this, FollowingActivity.class);
+                intent_following.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_following.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent_following);
                 return true;
         }
         return false;
