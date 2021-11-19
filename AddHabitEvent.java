@@ -116,7 +116,7 @@ public class AddHabitEvent extends DialogFragment {
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
                         Boolean finished = eventFinished.isChecked();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
+                        //listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
                     }
                 }).create();
     }

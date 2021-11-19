@@ -10,7 +10,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     <!-- TODO: Update blank fragment layout -->
         <EditText
             android:id="@+id/event_name_editText"
@@ -31,14 +30,6 @@
             android:maxLength="20"
             android:maxLines="1"
             android:minHeight="48dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="13dp"
-            android:visibility="visible"
-            android:text="Upload a photograph (optional)"/>
 
         <ImageView
             android:id="@+id/photograph"
@@ -61,7 +52,15 @@
             android:layout_height="35dp"
             android:onClick="Load"
             android:text="take photo" />
-        
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="13dp"
+            android:visibility="visible"
+            android:text="Upload a photograph (optional)"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,5 +101,4 @@
             android:layout_marginLeft="20dp"
             android:hint="FINISHED?" />
     </LinearLayout>
-
 </ScrollView>

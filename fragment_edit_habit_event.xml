@@ -102,5 +102,4 @@
             android:layout_marginLeft="20dp"
             android:hint="FINISHED?" />
     </LinearLayout>
-
 </ScrollView>
