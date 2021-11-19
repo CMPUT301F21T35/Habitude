@@ -2,7 +2,9 @@ package com.cmput301f21t35.habitude;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -103,5 +105,11 @@ public class SignUpLogInActivity extends AppCompatActivity {
         });
     }
 
+//    private void saveUID() {
+//        SharedPreferences sharedPref = getSharedPreferences("user", Context.MODE_PRIVATE);
+//        FirebaseUser user = mAuth.getCurrentUser();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//    }
 
 }
