@@ -34,7 +34,36 @@ public class SignUpLogInActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
-        signUp();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            Intent intent = new Intent(SignUpLogInActivity.this, MainActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+//            finish();
+//            this.overridePendingTransition(0, 0);
+        }
+        else {
+            signUp();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            Intent intent = new Intent(SignUpLogInActivity.this, MainActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+            this.overridePendingTransition(0, 0);
+        }
+        else {
+            signUp();
+        }
+
     }
 
     private void signUp() {
@@ -54,9 +83,11 @@ public class SignUpLogInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                saveUID();
                                 Intent intent = new Intent(SignUpLogInActivity.this, MainActivity.class);
                                 intent.putExtra("user", user);
                                 startActivity(intent);
+                                this.overridePendingTransition(0, 0);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -88,9 +119,11 @@ public class SignUpLogInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                saveUID();
                                 Intent intent = new Intent(SignUpLogInActivity.this, MainActivity.class);
                                 intent.putExtra("user", user);
                                 startActivity(intent);
+                                this.overridePendingTransition(0, 0);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -105,11 +138,15 @@ public class SignUpLogInActivity extends AppCompatActivity {
         });
     }
 
-//    private void saveUID() {
-//        SharedPreferences sharedPref = getSharedPreferences("user", Context.MODE_PRIVATE);
-//        FirebaseUser user = mAuth.getCurrentUser();
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//    }
+    /**
+     * Add the user's account information when logging in
+     */
+    private void saveUID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        FirebaseUser user = mAuth.getCurrentUser();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("uid", user != null ? user.getUid() : null);
+        editor.apply();
+    }
 
 }
