@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 Intent intent_today_plan = new Intent(this,TodayPlanActivity.class);
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
                 startActivity(intent_today_plan);
+                finish();
                 this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_habits):
@@ -152,16 +152,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 Intent intent_profile = new Intent(this, ProfileActivity.class);
                 intent_profile.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_profile.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
                 startActivity(intent_profile);
+                finish();
                 this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_following):
                 Intent intent_following = new Intent(this, FollowingActivity.class);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
                 startActivity(intent_following);
+                finish();
                 this.overridePendingTransition(0, 0);
                 return true;
         }

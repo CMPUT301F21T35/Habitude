@@ -27,24 +27,24 @@ public class FollowingActivity extends AppCompatActivity implements NavigationBa
                 Intent intent_today_plan = new Intent(this,TodayPlanActivity.class);
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
                 startActivity(intent_today_plan);
+                finish();
                 this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_habits):
                 Intent intent_all_habits = new Intent(this, MainActivity.class);
                 intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
                 startActivity(intent_all_habits);
+                finish();
                 this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_profile):
                 Intent intent_profile = new Intent(this, ProfileActivity.class);
                 intent_profile.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_profile.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
                 startActivity(intent_profile);
+                finish();
                 this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_following):
