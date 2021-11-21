@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="list_item_height">16</dimen>
-    <dimen name="margin_medium">4</dimen>
 </resources>
 <!--Are these valid values?-->

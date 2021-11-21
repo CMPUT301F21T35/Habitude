@@ -10,4 +10,5 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_following">Following</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="element_text">Test</string>
 </resources>

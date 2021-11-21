@@ -26,12 +26,12 @@
             android:text="ADD Habit"
             app:backgroundTint="@android:color/darker_gray" />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/habit_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 

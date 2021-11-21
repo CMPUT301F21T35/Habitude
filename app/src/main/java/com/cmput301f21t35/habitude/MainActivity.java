@@ -1,17 +1,25 @@
 package com.cmput301f21t35.habitude;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +28,7 @@ import android.widget.ListView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
@@ -35,8 +44,10 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
-    ListView habitList;
-    ArrayAdapter<Habit> habitAdapter;
+    //https://developer.android.com/guide/topics/ui/layout/recyclerview
+    RecyclerView habitList;
+    CustomAdapter habitAdapter;
+    RecyclerView.LayoutManager habitLayoutManager;
     ArrayList<Habit> habitDataList;
 
     private FusedLocationProviderClient fusedLocationClient;
@@ -64,9 +75,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         Button addHabit = findViewById(R.id.addHabit);
         habitList = findViewById(R.id.habit_list);
+        habitLayoutManager = new LinearLayoutManager(this); //? right activity
         habitDataList = new ArrayList<>();
-        habitAdapter = new HabitList(this, habitDataList);
+        habitAdapter = new CustomAdapter(habitDataList);
+
+        setRecyclerViewLayoutManager();
         habitList.setAdapter(habitAdapter);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(habitAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(habitList);
 
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -106,26 +124,43 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         });
 
         //We view/edit habits by clicking on them, bundling the index for the next Activity to use.
-        Intent intentEdit = new Intent(this, EditHabitActivity.class);
-        habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //intent.putExtra("habit",habitDataList.get(i));
-                Bundle bundle = new Bundle();
-                bundle.putInt("habit_index", i);
-                intentEdit.putExtras(bundle); //is this redundant?
-                startActivity(intentEdit);
-            }
-        });
+//        Intent intentEdit = new Intent(this, EditHabitActivity.class);
+//        habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                //intent.putExtra("habit",habitDataList.get(i));
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("habit_index", i);
+//                intentEdit.putExtras(bundle); //is this redundant?
+//                startActivity(intentEdit);
+//            }
+//        });
 
         //We use long clicks to delete habits.
-        habitList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                new DeleteHabitFragment(habitDataList.get(i)).show(MainActivity.this.getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
-                return true; //Overrides normal click
-            }
-        });
+//        habitList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                new DeleteHabitFragment(habitDataList.get(i)).show(MainActivity.this.getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
+//                return true; //Overrides normal click
+//            }
+//        });
+    }
+
+    //https://github.com/android/views-widgets-samples/blob/main/RecyclerView/Application/src/main/java/com/example/android/recyclerview/RecyclerViewFragment.java
+    public void setRecyclerViewLayoutManager() {
+        int scrollPosition = 0;
+
+        // If a layout manager has already been set, get current scroll position.
+        if (habitList.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) habitList.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition();
+        }
+
+        habitLayoutManager = new LinearLayoutManager(this); //getActivity()
+        //mCurrentLayoutManagerType = LinearLayoutManager.LINEAR_LAYOUT_MANAGER;
+
+        habitList.setLayoutManager(habitLayoutManager);
+        habitList.scrollToPosition(scrollPosition);
     }
 
     public String getLocation() {
@@ -170,5 +205,38 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 return true;
         }
         return false;
+    }
+
+    public void killIndex(int index) {
+        Habit receivedHabit = habitDataList.get(index);
+        if (receivedHabit != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final CollectionReference collectionReference = db.collection("All Habits");
+
+            collectionReference
+                    .document(receivedHabit.getHabitTitleName())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Data has been removed successfully!");
+                            //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Data could not be removed!" + e.toString());
+                        }
+                    });
+        }
+    }
+
+    public void editHabitFromIndex(int pos) {
+        Intent intentEdit = new Intent(this, EditHabitActivity.class); //Used in CustomAdapter, comment on;
+        Bundle bundle = new Bundle();
+        bundle.putInt("habit_index", pos);
+        intentEdit.putExtras(bundle); //is this redundant?
+        startActivity(intentEdit);
     }
 }

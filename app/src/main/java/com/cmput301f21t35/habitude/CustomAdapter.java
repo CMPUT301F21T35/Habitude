@@ -1,5 +1,7 @@
 package com.cmput301f21t35.habitude;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +10,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 //Based on https://developer.android.com/guide/topics/ui/layout/recyclerview
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private ArrayList<Habit> localDataSet;
 
@@ -27,6 +30,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             // Define click listener for the ViewHolder's View
 
             textView = (TextView) view.findViewById(R.id.textView);
+
+            //https://stackoverflow.com/questions/28296708/get-clicked-item-and-its-position-in-recyclerview#comment121192976_39707729
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+
+                    MainActivity mainActivity = MainActivity.getInstance();
+                    mainActivity.editHabitFromIndex(pos);
+                }
+            });
         }
 
         public TextView getTextView() {
@@ -67,5 +81,30 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return localDataSet.size();
+    }
+
+    //https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf
+
+    @Override
+    public void onItemDismiss(int position) {
+        MainActivity mainActivity = MainActivity.getInstance();
+        mainActivity.killIndex(position);
+        localDataSet.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(localDataSet, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(localDataSet, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
     }
 }
