@@ -30,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         logout = findViewById(R.id.logout_button);
         logout.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
+            deleteUID();
             finish();
         });
     }
