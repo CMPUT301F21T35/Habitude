@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,7 +53,8 @@ public class IndicatorActivity extends AppCompatActivity {
 
         // find the right habit and its events
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
 
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {

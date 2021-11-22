@@ -16,6 +16,8 @@ import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -32,7 +34,8 @@ public class EditHabitActivity extends AppCompatActivity {
     DatePicker habitCalendar;
     Habit changingHabit; //Talk about this
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference collectionReference = db.collection("All Habits");
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
     ToggleButton sunBool, monBool, tueBool, wedBool, thuBool, friBool, satBool;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     final String TAG = "EditHabitActivity";

@@ -18,6 +18,8 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,7 +48,8 @@ public class AddHabitActivity extends AppCompatActivity {
         setContentView(R.layout.acitivity_add_habit);
         //initilize the firestore database used for save datas
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
