@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,7 +52,8 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
 
         // open database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
 
         // loop through database and add all existing events to the eventList to show
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -104,7 +107,8 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
     public void onOkPressed(Event newEvent) {
         // open database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
 
         String eventName = newEvent.getEventName();;
         String eventDate = newEvent.getEventDate();

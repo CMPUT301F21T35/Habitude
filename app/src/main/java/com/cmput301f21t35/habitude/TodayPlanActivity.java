@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,7 +55,8 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
 
         // connect to firebase and search the desired habits inside the firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -119,14 +122,28 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
             case (R.id.action_today):
                 return true;
             case (R.id.action_habits):
-                Intent intent_all_habits = new Intent(this,MainActivity.class);
+                Intent intent_all_habits = new Intent(this, MainActivity.class);
                 intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_all_habits.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_all_habits);
+                finish();
+                this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_profile):
+                Intent intent_profile = new Intent(this, ProfileActivity.class);
+                intent_profile.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_profile.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent_profile);
+                finish();
+                this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_following):
+                Intent intent_following = new Intent(this, FollowingActivity.class);
+                intent_following.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_following.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent_following);
+                finish();
+                this.overridePendingTransition(0, 0);
                 return true;
         }
         return false;
