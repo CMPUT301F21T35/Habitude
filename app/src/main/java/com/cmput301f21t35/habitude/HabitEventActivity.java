@@ -18,8 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -73,8 +71,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     @Override
     public void onOkPressed(Event newEvent) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
+        final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
 
         String eventName = newEvent.getEventName();
         String eventDate = newEvent.getEventDate();
@@ -122,8 +119,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void getData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final DocumentReference documentReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events").document(eventTitle);
+        final DocumentReference documentReference = db.collection("All Habits").document(habitSrc).collection("Events").document(eventTitle);
 
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

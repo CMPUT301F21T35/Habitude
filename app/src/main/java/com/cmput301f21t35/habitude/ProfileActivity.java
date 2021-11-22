@@ -74,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
             case (R.id.action_profile):
                 return true;
             case (R.id.action_following):
-                Intent intent_following = new Intent(this, FollowingActivity.class);
+                Intent intent_following = new Intent(this, FollowingTabActivity.class);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_following);

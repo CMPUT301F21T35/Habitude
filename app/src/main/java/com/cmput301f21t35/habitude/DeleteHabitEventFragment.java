@@ -17,8 +17,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -64,8 +62,7 @@ public class DeleteHabitEventFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface,int i) {
                         if (event != null) {
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
+                            final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
                             collectionReference
                                 .document(event.getEventName())
                                 .delete()

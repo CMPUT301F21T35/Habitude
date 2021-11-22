@@ -14,8 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,8 +53,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
 
         // connect to firebase and search the desired habits inside the firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
+        final CollectionReference collectionReference = db.collection("All Habits");
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -66,6 +63,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                     String habitName = doc.getId();
                     String habitDate = (String) doc.getData().get("Date");
                     String habitReason = (String) doc.getData().get("Habit Reason");
+                    Boolean isPublic = (Boolean) doc.getData().get("Is Public");
                     stringToDate(habitDate); // change the string to a date format
                     Date current_date = Calendar.getInstance().getTime();
 
@@ -74,7 +72,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
                         String weekday_name = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(System.currentTimeMillis());
-                        Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday);
+                        Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday,isPublic);
 
                         if (stringToDate(habitDate).before(current_date)) { // check if the date of habit is before the current date
                             for (int i = 0; i < todayHabit.getPlan().size(); i++) {
@@ -115,7 +113,6 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
         return date;
     }
 
-    // this shows that there are four buttons below the screen, Users can click either one of them to navigate to another activity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -138,7 +135,7 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                 this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_following):
-                Intent intent_following = new Intent(this, FollowingActivity.class);
+                Intent intent_following = new Intent(this, FollowingTabActivity.class);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_following);

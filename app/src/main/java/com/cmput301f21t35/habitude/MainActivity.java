@@ -20,8 +20,6 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -72,8 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         // connect to the firebase and get all the habits from the firebase
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
+        final CollectionReference collectionReference = db.collection("All Habits");
 
         //
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -84,11 +81,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     String habitName = doc.getId();
                     String habitDate = (String) doc.getData().get("Date");
                     String habitReason = (String) doc.getData().get("Habit Reason");
+                    Boolean isPublic = (Boolean) doc.getData().get("Is Public");
                     if (doc.getData().get("Plan") != null) {
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday)); // add all the habits into the habitList
+                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday, isPublic)); // add all the habits into the habitList
                     }
                 }
                 habitAdapter.notifyDataSetChanged();
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_following):
-                Intent intent_following = new Intent(this, FollowingActivity.class);
+                Intent intent_following = new Intent(this, FollowingTabActivity.class);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_following.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_following);

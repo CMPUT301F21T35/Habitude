@@ -10,14 +10,17 @@ public class Habit implements Serializable {
     private String habitReason;
     private String habitStartDate;
     private ArrayList<String> plan;
+    private boolean isPublic = false;
     //updated
 
 
-    public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan) {
+
+    public Habit(String habitTitleName, String habitReason , String habitStartDate, ArrayList<String> plan, Boolean IsPublic) {
         this.habitTitleName = habitTitleName;
         this.habitReason = habitReason;
         this.habitStartDate = habitStartDate;
         this.plan = plan;
+        this.isPublic = isPublic;
     }
 
     public String getHabitTitleName() {
@@ -53,4 +56,12 @@ public class Habit implements Serializable {
     }
 
     public void setPlan(ArrayList<String> plan) { this.plan = plan; }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
 }
