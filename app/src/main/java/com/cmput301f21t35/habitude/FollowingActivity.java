@@ -1,8 +1,11 @@
 package com.cmput301f21t35.habitude;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,14 +13,48 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class FollowingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+
+    private Button followingButton;
+    private Button followersButton;
+    private Button requestsButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
 
+        followingButton = (Button) findViewById(R.id.following_Button);
+        followersButton = (Button) findViewById(R.id.followers_Button);
+        requestsButton = (Button) findViewById(R.id.requests_Button);
+
         NavigationBarView navigationBarView = findViewById(R.id.navigation_following);
         navigationBarView.setOnItemSelectedListener(this);
         navigationBarView.setSelectedItemId(R.id.action_following);
+
+        // create onclick listeners for the buttons to take them to the other activities
+        followingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(this, followingListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        followersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        requestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
     }
 
     @Override
