@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 
 public class SignUpLogInActivity extends AppCompatActivity {
+    EditText name;
     EditText email;
     EditText password;
     Button signUpButton;
@@ -41,6 +43,7 @@ public class SignUpLogInActivity extends AppCompatActivity {
      * Check if user is logged in when creating activity.
      * If user is logged in, redirect to main activity
      * Else show authentication activity
+     *
      * @param savedInstanceState Bundle
      */
     @Override
@@ -55,8 +58,7 @@ public class SignUpLogInActivity extends AppCompatActivity {
             startActivity(intent);
 //            finish();
 //            this.overridePendingTransition(0, 0);
-        }
-        else {
+        } else {
             signUp();
         }
     }
@@ -77,8 +79,7 @@ public class SignUpLogInActivity extends AppCompatActivity {
             intent.putExtra("user", user);
             startActivity(intent);
             this.overridePendingTransition(0, 0);
-        }
-        else {
+        } else {
             signUp();
         }
 
@@ -91,39 +92,52 @@ public class SignUpLogInActivity extends AppCompatActivity {
     private void signUp() {
         setContentView(R.layout.activity_sign_up);
         signUpButton = findViewById(R.id.sign_up_button);
+        name = findViewById(R.id.sign_up_name);
         email = findViewById(R.id.sign_up_email);
         password = findViewById(R.id.sign_up_password);
         switchToLogIn = findViewById(R.id.switch_to_login);
 
         signUpButton.setOnClickListener(view -> {
-            if (email.getText().length() == 0 || password.getText().length() == 0) {
+            if (name.getText().length() == 0 || email.getText().length() == 0 || password.getText().length() == 0) {
                 Toast.makeText(SignUpLogInActivity.this, "One or more fields are empty", Toast.LENGTH_SHORT).show();
             } else {
                 mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                         .addOnCompleteListener(this, task -> {
                             if (task.isSuccessful()) {
+
+                                // Update user profile with display name
+                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(name.getText().toString())
+                                        .build();
+
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                saveUID();
+                                if (user != null) {
+                                    // Update user with display name
+                                    user.updateProfile(profileChangeRequest)
+                                            .addOnCompleteListener(this, voidTask -> {
+                                                saveUID();
 
-                                // Add user information to database
-                                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                final DocumentReference documentReference = db.collection("Users").document(user.getEmail());
-                                HashMap<String, String> userData = new HashMap<>();
-                                userData.put("email", user.getEmail());
-                                userData.put("name", user.getDisplayName());
-                                userData.put("uid", user.getUid());
-                                documentReference
-                                        .set(userData)
-                                        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
-                                        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+                                                // Add user information to database
+                                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                                final DocumentReference documentReference = db.collection("Users").document(user.getEmail());
+                                                HashMap<String, String> userData = new HashMap<>();
+                                                userData.put("email", user.getEmail());
+                                                userData.put("name", user.getDisplayName());
+                                                userData.put("uid", user.getUid());
+                                                documentReference
+                                                        .set(userData)
+                                                        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                                                        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
 
-                                // Go to main activity
-                                Intent intent = new Intent(SignUpLogInActivity.this, MainActivity.class);
-                                intent.putExtra("user", user);
-                                startActivity(intent);
-                                this.overridePendingTransition(0, 0);
+                                                // Go to main activity
+                                                Intent intent = new Intent(SignUpLogInActivity.this, MainActivity.class);
+                                                intent.putExtra("user", user);
+                                                startActivity(intent);
+                                                this.overridePendingTransition(0, 0);
+                                            });
+                                }
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());

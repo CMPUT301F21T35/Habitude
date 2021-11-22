@@ -8,6 +8,13 @@
     android:orientation="vertical"      >
 
     <EditText
+        android:id="@+id/sign_up_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textPersonName" />
+
+    <EditText
         android:id="@+id/sign_up_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
