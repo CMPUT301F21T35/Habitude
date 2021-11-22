@@ -16,10 +16,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class SignUpLogInActivity extends AppCompatActivity {
     EditText email;
@@ -30,6 +37,12 @@ public class SignUpLogInActivity extends AppCompatActivity {
     Button switchToLogIn;
     private FirebaseAuth mAuth;
 
+    /**
+     * Check if user is logged in when creating activity.
+     * If user is logged in, redirect to main activity
+     * Else show authentication activity
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +61,11 @@ public class SignUpLogInActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check if the user is still logged in when returning to authentication activity.
+     * If the user is logged in, redirect to main activity
+     * Else show authentication screen
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -66,6 +84,10 @@ public class SignUpLogInActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Update activity content to sign up view.  Add user to database and log user in on successful sign up
+     */
     private void signUp() {
         setContentView(R.layout.activity_sign_up);
         signUpButton = findViewById(R.id.sign_up_button);
@@ -84,6 +106,20 @@ public class SignUpLogInActivity extends AppCompatActivity {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 saveUID();
+
+                                // Add user information to database
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                final DocumentReference documentReference = db.collection("Users").document(user.getEmail());
+                                HashMap<String, String> userData = new HashMap<>();
+                                userData.put("email", user.getEmail());
+                                userData.put("name", user.getDisplayName());
+                                userData.put("uid", user.getUid());
+                                documentReference
+                                        .set(userData)
+                                        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                                        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+
+                                // Go to main activity
                                 Intent intent = new Intent(SignUpLogInActivity.this, MainActivity.class);
                                 intent.putExtra("user", user);
                                 startActivity(intent);
@@ -97,11 +133,15 @@ public class SignUpLogInActivity extends AppCompatActivity {
             }
         });
 
+        // Switch to log in if button pressed
         switchToLogIn.setOnClickListener(view -> {
             logIn();
         });
     }
 
+    /**
+     * Update activity content to log in view.  Log user in on successful attempt
+     */
     private void logIn() {
         setContentView(R.layout.activity_log_in);
         logInButton = findViewById(R.id.log_in_button);
@@ -133,6 +173,7 @@ public class SignUpLogInActivity extends AppCompatActivity {
             }
         });
 
+        // Switch to sign up if button pressed
         switchToSignUp.setOnClickListener(view -> {
             signUp();
         });
@@ -146,6 +187,8 @@ public class SignUpLogInActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("uid", user != null ? user.getUid() : null);
+        editor.putString("name", user != null ? user.getDisplayName() : null);
+        editor.putString("email", user != null ? user.getEmail() : null);
         editor.apply();
     }
 
