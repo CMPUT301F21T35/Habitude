@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
 
 public class FollowingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -35,7 +38,7 @@ public class FollowingActivity extends AppCompatActivity implements NavigationBa
         followingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(this, followingListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), FollowingListActivity.class);
                 startActivity(intent);
             }
         });

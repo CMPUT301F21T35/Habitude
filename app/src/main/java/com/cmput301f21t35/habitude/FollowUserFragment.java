@@ -34,14 +34,12 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class FollowUserFragment extends DialogFragment {
-    private EditText followIDView;
-    private TextView myIDView;
+    private EditText followEmailView;
     private OnFragmentInteractionListener listener;
-    private String myID;
 
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Request newRequest);
+        void onOkPressed(String toFollow);
     }
 
     @Override
@@ -59,15 +57,7 @@ public class FollowUserFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_follow_user, null);
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        if(extras != null) {
-            // get the name of the habit to use when querying the events
-            myID = extras.getString("MY_ID");
-        }
-
-        followIDView = view.findViewById(R.id.user_id_editText);
-        myIDView = view.findViewById(R.id.my_id_textView);
-
+        followEmailView = view.findViewById(R.id.user_email_editText);
         // set up the fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -77,8 +67,8 @@ public class FollowUserFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String toFollow = followIDView.getText().toString();
-                        listener.onOkPressed(new Request(toFollow, myID));
+                        String toFollow = followEmailView.getText().toString();
+                        listener.onOkPressed(toFollow);
                     }
                 }).create();
     }
