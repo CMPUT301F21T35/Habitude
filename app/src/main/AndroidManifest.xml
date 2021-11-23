@@ -44,6 +44,10 @@
         <activity
             android:name=".FollowingActivity"
             android:exported="true" />
+        <activity android:name=".FollowingListActivity" />
+        <activity android:name=".FollowerActivity" />
+        <activity android:name=".PendingFollowerActivity"/>
+
     </application>
 
 </manifest>
