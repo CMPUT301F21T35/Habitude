@@ -207,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         return false;
     }
 
+    //We're reaching this from onItemDismiss in CustomAdapter, deleting the appropriate habit.
     public void killIndex(int index) {
         Habit receivedHabit = habitDataList.get(index);
         if (receivedHabit != null) {

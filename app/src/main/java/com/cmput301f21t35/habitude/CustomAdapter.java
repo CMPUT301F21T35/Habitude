@@ -85,6 +85,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     //https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf
 
+    //On the swiping of an item, we kill the index with killIndex in MainActivity, and update our View.
     @Override
     public void onItemDismiss(int position) {
         MainActivity mainActivity = MainActivity.getInstance();
@@ -93,6 +94,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         notifyItemRemoved(position);
     }
 
+    //On the dragging of an item, we swap the locations as seen below.
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {

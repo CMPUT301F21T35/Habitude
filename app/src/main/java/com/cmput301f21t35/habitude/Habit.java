@@ -13,7 +13,7 @@ public class Habit implements Serializable {
     private boolean isPublic = false;
     //updated
 
-    public Habit(String habitTitleName, String habitReason, String habitStartDate, ArrayList<String> plan, Boolean IsPublic) {
+    public Habit(String habitTitleName, String habitReason, String habitStartDate, ArrayList<String> plan, Boolean isPublic) {
         this.habitTitleName = habitTitleName;
         this.habitReason = habitReason;
         this.habitStartDate = habitStartDate;
