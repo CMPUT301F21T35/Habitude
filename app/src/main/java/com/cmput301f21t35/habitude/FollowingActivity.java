@@ -1,9 +1,11 @@
 package com.cmput301f21t35.habitude;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -11,7 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+
 public class FollowingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+
     private Button followingButton;
     private Button followersButton;
     private Button requestsButton;
@@ -51,7 +56,6 @@ public class FollowingActivity extends AppCompatActivity implements NavigationBa
             public void onClick(View view) {
                 Intent intent_pending_followers_activity = new Intent(getApplicationContext(), PendingFollowerActivity.class);
                 startActivity(intent_pending_followers_activity);
-
             }
         });
 

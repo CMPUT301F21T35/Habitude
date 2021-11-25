@@ -117,7 +117,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
         Boolean eventFinished = newEvent.getEventFinished();
 
         // ensure inputs are all correct
-        if(eventName.isEmpty()| eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
+        if(eventName.isEmpty() || eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
         } else { // otherwise add to db
 
