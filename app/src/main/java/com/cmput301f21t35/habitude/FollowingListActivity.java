@@ -123,7 +123,7 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
 
     private void Check2(String toFollow, String userEmail) {
         // check if there is already outgoing request
-        
+
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         rootRef.collection("Users").document(userEmail).collection("followingsReq").whereEqualTo("email", toFollow)
                 .limit(1).get()
