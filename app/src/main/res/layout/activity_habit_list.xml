@@ -18,7 +18,8 @@
             android:layout_gravity="bottom|end"
             android:clickable="true"
             android:focusable="true"
-            app:srcCompat="@android:drawable/ic_input_add"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:contentDescription="ADD" />
     </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
