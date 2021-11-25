@@ -13,9 +13,6 @@
             android:name=".FollowingListActivity"
             android:exported="true" />
         <activity
-            android:name=".tempActivity"
-            android:exported="true" />
-        <activity
             android:name=".IndicatorActivity"
             android:exported="false" />
         <activity

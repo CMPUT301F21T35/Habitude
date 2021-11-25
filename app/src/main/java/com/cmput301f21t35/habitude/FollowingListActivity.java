@@ -65,12 +65,14 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
                     String email = (String) doc.getData().get("email");
                     followingList.add(email);
                 }
-                //followingAdapter.notifyDataSetChanged();
+                followingAdapter.notifyDataSetChanged();
             }
         });
 
         followList = findViewById(R.id.following_list);
         followingList = new ArrayList<>();
+
+        followingAdapter = new followingList(this, followingList);
 
         followList.setAdapter(followingAdapter);
 
@@ -189,7 +191,7 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
         final CollectionReference collectionReference1 = db.collection("Users").document(userEmail).collection("followingsReq");
 
         HashMap<String, Object> data1 = new HashMap<String, Object>();
-        data.put("email", toFollow);
+        data1.put("email", toFollow);
 
         // push to db
         collectionReference1.document(toFollow).set(data1)
@@ -205,5 +207,7 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
                         Log.d(TAG, "Data has not been added successfully");
                     }
                 });
+
+        Toast.makeText(FollowingListActivity.this, "Request sent!", Toast.LENGTH_SHORT).show();
     }
 }
