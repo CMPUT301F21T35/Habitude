@@ -48,6 +48,7 @@
         <activity android:name=".FollowerActivity" />
         <activity android:name=".PendingFollowerActivity"/>
 
+
     </application>
 
 </manifest>

@@ -30,22 +30,31 @@ public class PendingFollowerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follower_request);
+
+        pendingFollowList = findViewById(R.id.pending_follower_list);
+        pendingFollowerList = new ArrayList<>();
+        pendingFollowerAdapter = new PendingFollowersArrayAdapter(this,pendingFollowerList);
+        pendingFollowList.setAdapter(pendingFollowerAdapter);
+
         FirebaseFirestore db =  FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("followerReq");
+
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("followersReq");
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 pendingFollowerList.clear();
                 for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                    String email = (String) doc.getData().get("email");
+                    String email = (String) doc.getId();
+//                    (String) doc.getData().get("email");
                     pendingFollowerList.add(email);
                 }
+                pendingFollowerAdapter.notifyDataSetChanged();
             }
         });
 
-        final Button back = findViewById(R.id.back);
+
 
         final Button back_button = findViewById(R.id.back);
         back_button.setOnClickListener(new View.OnClickListener(){
@@ -55,8 +64,9 @@ public class PendingFollowerActivity extends AppCompatActivity {
             }
         });
 
-        pendingFollowList = findViewById(R.id.pending_follower_list);
-        pendingFollowerList = new ArrayList<>();
-        pendingFollowList.setAdapter(pendingFollowerAdapter);
+//        pendingFollowList = findViewById(R.id.pending_follower_list);
+//        pendingFollowerList = new ArrayList<>();
+//        pendingFollowerAdapter = new PendingFollowersArrayAdapter(this,pendingFollowerList);
+//        pendingFollowList.setAdapter(pendingFollowerAdapter);
     }
 }
