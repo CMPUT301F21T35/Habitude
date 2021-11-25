@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -25,10 +26,13 @@ public class FollowingActivity extends AppCompatActivity implements NavigationBa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("People");
 
-        followingButton = (Button) findViewById(R.id.following_Button);
-        followersButton = (Button) findViewById(R.id.followers_Button);
-        requestsButton = (Button) findViewById(R.id.requests_Button);
+        followingButton = findViewById(R.id.following_Button);
+        followersButton = findViewById(R.id.followers_Button);
+        requestsButton = findViewById(R.id.requests_Button);
 
         NavigationBarView navigationBarView = findViewById(R.id.navigation_following);
         navigationBarView.setOnItemSelectedListener(this);
