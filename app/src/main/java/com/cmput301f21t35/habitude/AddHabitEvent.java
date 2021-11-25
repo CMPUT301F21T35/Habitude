@@ -66,7 +66,7 @@ public class AddHabitEvent extends DialogFragment {
                         String name = eventName.getText().toString();
                         String comment = eventComment.getText().toString();
                         String year = Integer.toString(datePicker.getYear());
-                        String month = Integer.toString(datePicker.getMonth());
+                        String month = Integer.toString(datePicker.getMonth()+1);
                         String day = Integer.toString(datePicker.getDayOfMonth());
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();

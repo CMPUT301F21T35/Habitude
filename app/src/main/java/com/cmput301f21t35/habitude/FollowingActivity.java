@@ -46,19 +46,22 @@ public class FollowingActivity extends AppCompatActivity implements NavigationBa
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent_followers_activity = new Intent(getApplicationContext(),FollowerActivity.class);
+                startActivity(intent_followers_activity);
             }
         });
 
         requestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent_pending_followers_activity = new Intent(getApplicationContext(), PendingFollowerActivity.class);
+                startActivity(intent_pending_followers_activity);
             }
         });
 
 
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
