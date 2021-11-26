@@ -3,37 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddHabitEvent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".AddHabitEvent">
 
-    <!-- TODO: Update blank fragment layout -->
     <EditText
         android:id="@+id/edit_event_name_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:ems="10"
-        android:hint="Event Name"
-        android:inputType="textPersonName"/>
+        android:hint="Title"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/edit_event_comment_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:ellipsize="end"
         android:ems="10"
         android:hint="Comment (optional)"
         android:inputType="textPersonName"
-        android:maxLength="20"
-        android:maxLines="1"
-        android:minHeight="48dp" />
+        android:maxLength="20" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:textSize="10sp"
-        android:visibility="visible"
-        android:text="Choose The Time:"/>
+        android:text="Choose The Time:"
+        android:textSize="15sp"
+        android:visibility="visible" />
 
     <TimePicker
         android:id="@+id/edit_event_time"
@@ -46,10 +46,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:textSize="10sp"
-        android:visibility="visible"
-        android:text="Choose The Date:"/>
+        android:text="Choose The Date:"
+        android:textSize="15sp"
+        android:visibility="visible" />
 
     <DatePicker
         android:id="@+id/edit_event_date"
@@ -64,7 +65,7 @@
         android:id="@+id/edit_event_finished"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:hint="FINISHED?" />
 
 </LinearLayout>
