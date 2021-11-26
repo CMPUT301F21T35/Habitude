@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,26 +21,23 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
     TextView name;
-    Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("You");
+
 
         NavigationBarView navigationBarView = findViewById(R.id.navigation_profile);
         navigationBarView.setOnItemSelectedListener(this);
         navigationBarView.setSelectedItemId(R.id.action_profile);
 
         name = findViewById(R.id.profile_name);
-        logout = findViewById(R.id.logout_button);
 
         name.setText(user.getDisplayName());
-        logout.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            deleteUID();
-            finish();
-        });
     }
 
 
@@ -52,11 +51,38 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         editor.apply();
     }
 
+    /**
+     * Shows the overflow menu on the toolbar
+     * @param menu overflow menu
+     * @return boolean
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_profile, menu);
+        return true;
+    }
+
+    /**
+     * When overflow menu options are clicked
+     * @param item menu item
+     * @return boolean
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            FirebaseAuth.getInstance().signOut();
+            deleteUID();
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case (R.id.action_today):
-                Intent intent_today_plan = new Intent(this,TodayPlanActivity.class);
+                Intent intent_today_plan = new Intent(this, TodayPlanActivity.class);
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_today_plan);

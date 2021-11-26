@@ -83,7 +83,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         Boolean eventFinished = newEvent.getEventFinished();
 
         // Make sure all fields are filled
-        if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
+        if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
         } else {
             // Create hashmap with all the attributes of event
@@ -98,18 +98,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             collectionReference.document(eventTitle).delete();
             collectionReference.document(newEvent.getEventName())
                     .set(data)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "Data has been added successfully");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "Data has not been added successfully");
-                        }
-                    });
+                    .addOnSuccessListener(unused -> Log.d(TAG, "Data has been added successfully"))
+                    .addOnFailureListener(e -> Log.d(TAG, "Data has not been added successfully"));
             eventTitle = eventName;
             getData();
         }

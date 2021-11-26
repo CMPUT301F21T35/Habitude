@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
@@ -12,37 +11,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorOnPrimary"
+            android:elevation="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <Button
             android:id="@+id/addHabit"
             android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginTop="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="10dp"
-            android:outlineAmbientShadowColor="@color/white"
-            android:text="ADD Habit"
-            app:backgroundTint="@android:color/darker_gray" />
+            android:text="Add a Habit" />
 
         <TextView
             android:id="@+id/no_habits"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:textAlignment="center"
+            android:layout_marginHorizontal="30dp"
             android:layout_marginTop="100dp"
+            android:textAlignment="center"
             android:textSize="20sp"
-            android:layout_marginHorizontal="30dp"/>
+            android:visibility="gone" />
 
         <ListView
             android:id="@+id/habit_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </ListView>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="56dp"/>
     </LinearLayout>
 
 
@@ -52,6 +56,7 @@
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="start"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/nav_items" />
 
