@@ -114,7 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onMapClick(LatLng point) {
                 //Toast.makeText(getApplicationContext(), point.toString(), Toast.LENGTH_SHORT).show();
-                Log.v("TAGALOG",point.toString());
+                //Log.v("TAGALOG",point.toString());
                 //Bundle point.toString()
                 Intent intent = new Intent();
                 intent.putExtra("keyName", point.toString());

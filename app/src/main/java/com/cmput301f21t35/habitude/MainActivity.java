@@ -41,6 +41,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -239,5 +240,30 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bundle.putInt("habit_index", pos);
         intentEdit.putExtras(bundle); //is this redundant?
         startActivity(intentEdit);
+    }
+
+    public void updateIndices(Habit receivedHabit) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("index", String.valueOf(receivedHabit.getIndex())); //?
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("All Habits");
+
+        collectionReference
+                .document(receivedHabit.getHabitTitleName())
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Data has been removed successfully!");
+                        //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Data could not be removed!" + e.toString());
+                    }
+                });
     }
 }

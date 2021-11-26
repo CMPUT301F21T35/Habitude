@@ -15,6 +15,7 @@ public class Event {
     private String eventComment;
     private String eventDate;
     private String eventTime;
+    private String geolocation;
     // private String image; for image implementation later
 
     Event() {}
@@ -24,6 +25,14 @@ public class Event {
         this.eventComment = eventComment;
         this.eventDate = eventDate;
         this.eventTime = eventTime;
+    }
+
+    Event(String eventName, String eventComment, String eventDate, String eventTime, String geolocation) {
+        this.eventName = eventName;
+        this.eventComment = eventComment;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
+        this.geolocation = geolocation;
     }
 
 // getters and setters

@@ -106,7 +106,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 Collections.swap(localDataSet, i, i - 1);
             }
         }
+        updateIndices(fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         return true;
+    }
+
+    private void updateIndices(int fromPosition, int toPosition) {
+        Habit fromHabit = localDataSet.get(fromPosition);
+        Habit toHabit = localDataSet.get(toPosition);
+
+        fromHabit.setIndex(toPosition);
+        toHabit.setIndex(fromPosition);
+
+        MainActivity mainActivity = MainActivity.getInstance();
+        mainActivity.updateIndices(fromHabit);
+        mainActivity.updateIndices(toHabit);
     }
 }

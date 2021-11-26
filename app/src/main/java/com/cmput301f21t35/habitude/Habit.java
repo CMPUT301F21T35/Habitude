@@ -11,6 +11,7 @@ public class Habit implements Serializable {
     private String habitStartDate;
     private ArrayList<String> plan;
     private boolean isPublic = false;
+    private int index;
     //updated
 
     public Habit(String habitTitleName, String habitReason, String habitStartDate, ArrayList<String> plan, Boolean isPublic) {
@@ -19,6 +20,14 @@ public class Habit implements Serializable {
         this.habitStartDate = habitStartDate;
         this.plan = plan;
         this.isPublic = isPublic;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getHabitTitleName() {

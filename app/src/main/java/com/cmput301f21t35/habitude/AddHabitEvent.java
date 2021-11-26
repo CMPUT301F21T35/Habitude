@@ -85,7 +85,7 @@ public class AddHabitEvent extends DialogFragment {
                         String day = Integer.toString(datePicker.getDayOfMonth());
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime)); //Todo: add in geolocation and stuff. It's been retrieved.
+                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,geolocation)); //Todo: add in geolocation and stuff. It's been retrieved.
                     }
                 }).create();
     }
@@ -93,9 +93,7 @@ public class AddHabitEvent extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         geolocation = data.getStringExtra("keyName");
-        Log.v("Tagalog",geolocation);
-
+        //Log.v("Tagalog",geolocation);
     }
 }
