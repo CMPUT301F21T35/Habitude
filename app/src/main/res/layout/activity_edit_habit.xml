@@ -158,15 +158,6 @@
                 android:layout_marginLeft="40dp"
                 android:text="Indicator" />
 
-            <Button
-                android:id="@+id/show_events_button"
-                android:layout_width="103dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:onClick="eventsButton"
-                android:text="Events" />
-
-
         </LinearLayout>
 
 

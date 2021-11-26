@@ -231,17 +231,6 @@ public class EditHabitActivity extends AppCompatActivity {
         } catch (Exception ignored) {}
     }
 
-    /*
-     * THIS BUTTON IS ONLY TEMPORARY EVENTUALLY EVENTS SHOULD BE CALLED FROM A BUTTON IN THE HABITLIST
-     */
-    public void eventsButton(View view) {
-        Bundle bundle = new Bundle();
-        Intent intent = new Intent(this, EventListActivity.class);
-        // temp solution to get habit name, need less abusable way later
-        intent.putExtra("HABITSRC", habitTitle.getText().toString());
-        startActivity(intent);
-    }
-
     /**
      * Click indicator button, it will show the visual indicator of that habit
      * @param view
