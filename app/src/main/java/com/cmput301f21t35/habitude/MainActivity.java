@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
+        collectionReference.orderBy("Index"); //???
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     public void updateIndices(Habit receivedHabit) {
         HashMap<String, String> data = new HashMap<>();
-        data.put("index", String.valueOf(receivedHabit.getIndex())); //?
+        data.put("Index", String.valueOf(receivedHabit.getIndex())); //?
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("All Habits");
@@ -255,14 +256,14 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Data has been removed successfully!");
+                        Log.d(TAG, "Index has been modified successfully!");
                         //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Data could not be removed!" + e.toString());
+                        Log.d(TAG, "Index could not be modified!" + e.toString());
                     }
                 });
     }

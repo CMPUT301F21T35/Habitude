@@ -92,8 +92,10 @@ public class AddHabitEvent extends DialogFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        geolocation = data.getStringExtra("keyName");
-        //Log.v("Tagalog",geolocation);
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            geolocation = data.getStringExtra("keyName");
+            //Log.v("Tagalog",geolocation);
+        } catch (Exception ignored) {}
     }
 }
