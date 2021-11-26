@@ -14,52 +14,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="Title:" />
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/habit_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
                 android:layout_weight="0.7"
-                android:maxLength="20"/>
+                android:ems="10"
+                android:hint="Title your habit"
+                android:inputType="textCapWords"
+                android:maxLength="20"
+                android:background="@drawable/edit_text_background" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="Description:" />
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/habit_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
                 android:layout_weight="0.7"
-                android:maxLength="30"/>
+                android:ems="10"
+                android:gravity="top|start"
+                android:hint="Describe your habit"
+                android:inputType="textMultiLine"
+                android:maxLength="30"
+                android:maxLines="2"
+                android:minLines="2"
+                android:scrollbars="vertical"
+                android:background="@drawable/edit_text_background" />               />
         </LinearLayout>
 
         <LinearLayout
@@ -74,7 +68,7 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="MON"
-                android:textOn="MON"  />
+                android:textOn="MON" />
 
             <ToggleButton
                 android:id="@+id/tuesday_button"
@@ -83,7 +77,7 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="TUE"
-                android:textOn="TUE"  />
+                android:textOn="TUE" />
 
             <ToggleButton
                 android:id="@+id/wednesday_button"
@@ -92,7 +86,7 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="WED"
-                android:textOn="WED"  />
+                android:textOn="WED" />
 
             <ToggleButton
                 android:id="@+id/thursday_button"
@@ -101,7 +95,7 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="THU"
-                android:textOn="THU"  />
+                android:textOn="THU" />
 
             <ToggleButton
                 android:id="@+id/friday_button"
@@ -110,7 +104,7 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="FRI"
-                android:textOn="FRI"  />
+                android:textOn="FRI" />
 
             <ToggleButton
                 android:id="@+id/saturday_button"
@@ -119,7 +113,7 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="SAT"
-                android:textOn="SAT"  />
+                android:textOn="SAT" />
 
             <ToggleButton
                 android:id="@+id/sunday_button"
@@ -135,8 +129,10 @@
             android:id="@+id/habit_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            />
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,8 +150,8 @@
                 android:id="@+id/show_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="indicatorButton"
                 android:layout_marginLeft="40dp"
+                android:onClick="indicatorButton"
                 android:text="Indicator" />
 
             <Button
