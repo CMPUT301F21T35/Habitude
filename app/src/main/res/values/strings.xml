@@ -9,4 +9,5 @@
     <string name="menu_habits">Habits</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_following">Following</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

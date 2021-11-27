@@ -1,6 +1,5 @@
 package com.cmput301f21t35.habitude;
 
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,6 +12,8 @@ import android.widget.Checkable;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.content.Intent;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,9 @@ public class AddHabitEvent extends DialogFragment {
     private TimePicker timePicker;
     private CheckBox eventFinished;
     private OnFragmentInteractionListener listener;
+    private Button geolocationButton;
+
+    String geolocation = "null"; //We create this here so we don't have to worry about if it gets updated or not.
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Event newEvent); // notify EventListActivity that a new event has been made
@@ -54,6 +58,15 @@ public class AddHabitEvent extends DialogFragment {
         timePicker = view.findViewById(R.id.event_time);
         eventFinished = view.findViewById(R.id.event_finished);
 
+        geolocationButton = view.findViewById(R.id.geolocation_button);
+        geolocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.getInstance(), MapsActivity.class);
+                startActivityForResult(intent,1); //Modernize?
+            }
+        });
+
         // set up the fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -71,8 +84,17 @@ public class AddHabitEvent extends DialogFragment {
                         String eventDate = year + "-" + month + "-" + day;
                         String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
                         Boolean finished = eventFinished.isChecked();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
+                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished,geolocation));
                     }
                 }).create();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            geolocation = data.getStringExtra("keyName");
+            //Log.v("Tagalog",geolocation);
+        } catch (Exception ignored) {}
     }
 }

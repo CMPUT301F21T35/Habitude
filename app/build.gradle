@@ -25,6 +25,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -41,6 +44,8 @@ dependencies {
     implementation "io.grpc:grpc-okhttp:1.41.0"
     implementation 'com.google.firebase:firebase-core:20.0.0'
     implementation 'sun.bob:mcalendarview:1.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
