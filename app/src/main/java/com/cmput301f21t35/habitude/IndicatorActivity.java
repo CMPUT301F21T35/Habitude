@@ -3,8 +3,13 @@ package com.cmput301f21t35.habitude;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -12,8 +17,16 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+
+import sun.bob.mcalendarview.MCalendarView;
+import sun.bob.mcalendarview.vo.DateData;
+import sun.bob.mcalendarview.vo.MarkedDates;
+
 public class IndicatorActivity extends AppCompatActivity {
     String habitSrc = "";
+    Button back;
+    static sun.bob.mcalendarview.MCalendarView mCalendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +40,21 @@ public class IndicatorActivity extends AppCompatActivity {
         }
 
         // use MCalendarView to highlight the date from calendar
-        sun.bob.mcalendarview.MCalendarView mCalendarView = findViewById(R.id.calendar_indicator);
+        mCalendarView = findViewById(R.id.calendar_indicator);
+
+        MarkedDates markedDates = mCalendarView.getMarkedDates();
+        ArrayList markData = markedDates.getAll();
+        for (int k=0; k<markData.size();k++){
+            mCalendarView.unMarkDate((DateData) markData.get(k));
+        }
+
+        back = findViewById(R.id.back_to);
 
 
         // find the right habit and its events
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
 
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -49,6 +71,13 @@ public class IndicatorActivity extends AppCompatActivity {
                         }
                     }
                 }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

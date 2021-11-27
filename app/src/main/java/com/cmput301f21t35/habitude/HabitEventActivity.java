@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -71,7 +73,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     @Override
     public void onOkPressed(Event newEvent) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits").document(habitSrc).collection("Events");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
 
         String eventName = newEvent.getEventName();
         String eventDate = newEvent.getEventDate();
@@ -80,7 +83,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         Boolean eventFinished = newEvent.getEventFinished();
 
         // Make sure all fields are filled
-        if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
+        if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
         } else {
             // Create hashmap with all the attributes of event
@@ -95,18 +98,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             collectionReference.document(eventTitle).delete();
             collectionReference.document(newEvent.getEventName())
                     .set(data)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "Data has been added successfully");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "Data has not been added successfully");
-                        }
-                    });
+                    .addOnSuccessListener(unused -> Log.d(TAG, "Data has been added successfully"))
+                    .addOnFailureListener(e -> Log.d(TAG, "Data has not been added successfully"));
             eventTitle = eventName;
             getData();
         }
@@ -119,7 +112,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void getData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference documentReference = db.collection("All Habits").document(habitSrc).collection("Events").document(eventTitle);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final DocumentReference documentReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events").document(eventTitle);
 
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

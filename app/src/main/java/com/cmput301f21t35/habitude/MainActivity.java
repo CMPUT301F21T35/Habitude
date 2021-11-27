@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
         NavigationBarView navigationBarView = findViewById(R.id.navigation_habits);
         navigationBarView.setOnItemSelectedListener(this);
@@ -70,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         // connect to the firebase and get all the habits from the firebase
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
         //
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -143,12 +149,26 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent_today_plan.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent_today_plan);
+                finish();
+                this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_habits):
                 return true;
             case (R.id.action_profile):
+                Intent intent_profile = new Intent(this, ProfileActivity.class);
+                intent_profile.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_profile.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent_profile);
+                finish();
+                this.overridePendingTransition(0, 0);
                 return true;
             case (R.id.action_following):
+                Intent intent_following = new Intent(this, FollowingActivity.class);
+                intent_following.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent_following.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent_following);
+                finish();
+                this.overridePendingTransition(0, 0);
                 return true;
         }
         return false;

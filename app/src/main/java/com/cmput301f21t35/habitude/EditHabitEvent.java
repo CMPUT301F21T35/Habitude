@@ -88,7 +88,7 @@ public class EditHabitEvent extends DialogFragment {
             e.printStackTrace();
         }
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        datePicker.updateDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+        datePicker.updateDate(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
         timePicker.setHour(time.getHours());
         timePicker.setMinute(time.getMinutes());
         eventFinished.setChecked(event.getEventFinished());
@@ -99,19 +99,16 @@ public class EditHabitEvent extends DialogFragment {
                 .setView(view)
                 .setTitle("Edit Event")
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String name = eventName.getText().toString();
-                        String comment = eventComment.getText().toString();
-                        String year = Integer.toString(datePicker.getYear());
-                        String month = Integer.toString(datePicker.getMonth());
-                        String day = Integer.toString(datePicker.getDayOfMonth());
-                        String eventDate = year + "-" + month + "-" + day;
-                        String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                        Boolean finished = eventFinished.isChecked();
-                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
-                    }
+                .setPositiveButton("OK", (dialogInterface, i) -> {
+                    String name = eventName.getText().toString();
+                    String comment = eventComment.getText().toString();
+                    String year = Integer.toString(datePicker.getYear());
+                    String month = Integer.toString(datePicker.getMonth()+1);
+                    String day = Integer.toString(datePicker.getDayOfMonth());
+                    String eventDate = year + "-" + month + "-" + day;
+                    String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
+                    Boolean finished = eventFinished.isChecked();
+                    listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
                 }).create();
     }
 }

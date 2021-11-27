@@ -35,6 +35,9 @@
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
+            android:name=".FollowingListActivity"
+            android:exported="true" />
+        <activity
             android:name=".IndicatorActivity"
             android:exported="false" />
         <activity
@@ -44,9 +47,6 @@
             android:name=".HabitEventActivity"
             android:exported="true" />
         <activity
-            android:name=".HabitListActivity"
-            android:exported="true" />
-        <activity
             android:name=".EditHabitActivity"
             android:exported="true" />
         <activity
@@ -54,6 +54,12 @@
             android:exported="false" />
         <activity
             android:name=".TodayPlanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SignUpLogInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,8 +68,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ProfileActivity"
             android:exported="true" />
+        <activity
+            android:name=".FollowingActivity"
+            android:exported="true" />
+        <activity android:name=".FollowerActivity" />
+        <activity android:name=".PendingFollowerActivity"/>
+
+
     </application>
 
 </manifest>
