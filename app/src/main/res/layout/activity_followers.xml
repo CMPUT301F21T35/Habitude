@@ -19,6 +19,7 @@
         android:layout_gravity="bottom|end"
         android:clickable="true"
         android:focusable="true"
+        android:text="BACK"
         app:srcCompat="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
