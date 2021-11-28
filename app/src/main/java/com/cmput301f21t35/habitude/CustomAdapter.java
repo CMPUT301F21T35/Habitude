@@ -2,6 +2,7 @@ package com.cmput301f21t35.habitude;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,8 +107,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 Collections.swap(localDataSet, i, i - 1);
             }
         }
-        updateIndices(fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
+        //updateIndices(fromPosition, toPosition);
         return true;
     }
 
@@ -115,8 +116,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         Habit fromHabit = localDataSet.get(fromPosition);
         Habit toHabit = localDataSet.get(toPosition);
 
-        //fromHabit.setIndex(toPosition);
-        //toHabit.setIndex(fromPosition);
+        //Log.v("TAGALOG", String.valueOf(fromHabit.getIndex()));
+        //Log.v("TAGALOG", String.valueOf(toHabit.getIndex()));
+
+        fromHabit.setIndex(toPosition);
+        toHabit.setIndex(fromPosition);
 
         MainActivity mainActivity = MainActivity.getInstance();
         mainActivity.updateIndices(fromHabit);

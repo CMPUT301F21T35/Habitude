@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        //
+        collectionReference.orderBy("Index");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -100,11 +100,19 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     String habitName = doc.getId();
                     String habitDate = (String) doc.getData().get("Date");
                     String habitReason = (String) doc.getData().get("Habit Reason");
+                    Integer habitIndex;
+                    if (doc.getData().get("Index") != null) {
+                        Long indexLong = (Long) doc.getData().get("Index");
+                        habitIndex = Math.toIntExact(indexLong);
+
+                    } else {
+                        habitIndex = -1;
+                    }
                     if (doc.getData().get("Plan") != null) {
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday)); // add all the habits into the habitList
+                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,habitIndex)); // add all the habits into the habitList
                     }
                 }
                 habitAdapter.notifyDataSetChanged();
@@ -218,27 +226,28 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     }
 
     public void updateIndices(Habit receivedHabit) {
-        HashMap<String, String> data = new HashMap<>();
-        //data.put("Index", String.valueOf(receivedHabit.getIndex()));
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("All Habits");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
         collectionReference
                 .document(receivedHabit.getHabitTitleName())
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Index has been modified successfully!");
-                        //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Index could not be modified!" + e.toString());
-                    }
-                });
+                .update("Index",receivedHabit.getIndex());
+//        collectionReference
+//                .document(receivedHabit.getHabitTitleName())
+//                .set(data)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "Index has been modified successfully!");
+//                        //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d(TAG, "Index could not be modified!" + e.toString());
+//                    }
+//                });
     }
 }
