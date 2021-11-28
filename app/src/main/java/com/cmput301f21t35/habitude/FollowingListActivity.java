@@ -6,9 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -66,7 +68,7 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 followingList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots){
-                    String email = (String) doc.getData().get("email");
+                    String email = (String) doc.getId();
                     followingList.add(email);
                 }
                 followingAdapter.notifyDataSetChanged();
@@ -75,10 +77,9 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
 
         followList = findViewById(R.id.following_list);
         followingList = new ArrayList<>();
-
         followingAdapter = new followingList(this, followingList);
-
         followList.setAdapter(followingAdapter);
+
 
         final FloatingActionButton newFollowButton = findViewById(R.id.follow_New_Button);
 
@@ -87,6 +88,16 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
             @Override
             public void onClick(View view) {
                 new FollowUserFragment().show(getSupportFragmentManager(), "FOLLOW NEW USER");
+            }
+        });
+
+        Intent intentViewFHabit = new Intent(this,ViewFollowingHabit.class);
+        followList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                intentViewFHabit.putExtra("UserName",followingList.get(position).toString());
+                startActivity(intentViewFHabit);
             }
         });
     }

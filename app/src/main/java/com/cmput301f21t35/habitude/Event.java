@@ -13,6 +13,7 @@ public class Event {
     private String eventDate;
     private String eventTime;
     private Boolean eventFinished;
+    private String eventGeolocation = "null";
     // private String image; for image implementation later
 
     Event() {}
@@ -23,6 +24,15 @@ public class Event {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.eventFinished = eventFinished;
+    }
+
+    Event(String eventName, String eventComment, String eventDate, String eventTime, Boolean eventFinished, String eventGeolocation) {
+        this.eventName = eventName;
+        this.eventComment = eventComment;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
+        this.eventFinished = eventFinished;
+        this.eventGeolocation = eventGeolocation;
     }
 
 // getters and setters
@@ -65,5 +75,13 @@ public class Event {
 
     public void setEventFinished(Boolean eventFinished) {
         this.eventFinished = eventFinished;
+    }
+
+    public String getEventGeolocation() {
+        return eventGeolocation;
+    }
+
+    public void setEventGeolocation(String eventGeolocation) {
+        this.eventGeolocation = eventGeolocation;
     }
 }
