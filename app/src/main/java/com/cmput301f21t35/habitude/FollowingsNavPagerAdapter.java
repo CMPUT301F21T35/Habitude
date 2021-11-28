@@ -22,9 +22,9 @@ public class FollowingsNavPagerAdapter extends FragmentPagerAdapter {
             case 0: // following tab
                 return FollowingsNavFragment.newInstance("Following", 0);
             case 1: //  followers
-                return FollowingsNavFragment.newInstance("Followers", 1);
+                return FollowerNavFragment.newInstance("Followers", 1);
             case 2: // requests
-                return FollowingsNavFragment.newInstance("Requests", 2);
+                return RequestNavFragment.newInstance("Requests", 2);
             default:
                 return null;
         }
