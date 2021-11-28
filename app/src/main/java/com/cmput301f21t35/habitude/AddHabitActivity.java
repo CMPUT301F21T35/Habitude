@@ -55,6 +55,7 @@ public class AddHabitActivity extends AppCompatActivity {
 
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
+        // initilize the activity element by find id in layout
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
         dateStart = (DatePicker) findViewById(R.id.datePicker);
@@ -100,6 +101,7 @@ public class AddHabitActivity extends AppCompatActivity {
                 data.put("Plan", habitPlan_final);
                 data.put("Is Public", isPublic.isChecked());
 
+                // set the firestore database
                 collectionReference.document(habitTitleName)
                         .set(data)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {

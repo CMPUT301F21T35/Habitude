@@ -11,6 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.navigation.NavigationBarView;
 
+/**
+ * the fourth navigation bar view following , to have three button
+ * ->following to the followingListActivity
+ * ->followers to the followersActivity
+ * ->request to the pendingFollowersActivity
+ */
 public class FollowingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     private Button followingButton;
     private Button followersButton;
