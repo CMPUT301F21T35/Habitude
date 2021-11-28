@@ -194,8 +194,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         Habit receivedHabit = habitDataList.get(index);
         if (receivedHabit != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            final CollectionReference collectionReference = db.collection("All Habits");
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
+//update with proper location
             collectionReference
                     .document(receivedHabit.getHabitTitleName())
                     .delete()
