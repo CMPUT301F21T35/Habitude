@@ -2,6 +2,7 @@ package com.cmput301f21t35.habitude;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -104,6 +106,16 @@ public class FollowingsNavFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 new FollowUserFragment().show(getFragmentManager(), "FOLLOW NEW USER");
+            }
+        });
+
+        Intent intentViewFHabit = new Intent(getActivity(), ViewFollowingHabit.class);
+        followList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                intentViewFHabit.putExtra("UserName",followingList.get(position).toString());
+                startActivity(intentViewFHabit);
             }
         });
 

@@ -72,7 +72,6 @@ public class FollowerNavFragment extends Fragment {
                 followerList.clear();
                 for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
                     String email = (String) doc.getId();
-//                    (String) doc.getData().get("email");
                     followerList.add(email);
                 }
                 followerAdapter.notifyDataSetChanged();
