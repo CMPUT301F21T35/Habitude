@@ -21,6 +21,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * @deprecated functionality has been moved to RequestNavFragment.java
+ */
+
 public class PendingFollowerActivity extends AppCompatActivity {
     ListView pendingFollowList;
     ArrayList<String> pendingFollowerList;

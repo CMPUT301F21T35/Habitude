@@ -41,6 +41,7 @@ import java.util.HashMap;
 /**
  * @author echiu
  * this is the activity that lists the people that the user is currently following and allow the user to follow new people
+ * @deprecated functionality has been moved to FollowingsNavFragment.java
  */
 
 public class FollowingListActivity extends AppCompatActivity implements FollowUserFragment.OnFragmentInteractionListener {

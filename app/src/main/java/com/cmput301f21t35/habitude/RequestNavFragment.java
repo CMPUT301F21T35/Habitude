@@ -23,9 +23,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link FollowerNavFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * @author cyao, echiu
+ * fragement to show the requests that the user has, and allows them to accept/decline
  */
 public class RequestNavFragment extends Fragment {
 

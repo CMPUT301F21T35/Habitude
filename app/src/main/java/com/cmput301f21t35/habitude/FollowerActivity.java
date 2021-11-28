@@ -55,6 +55,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * @deprecated functionality has been moved to FollowerNavFragment.java
+ */
+
 public class FollowerActivity extends AppCompatActivity {
     ListView followList;
     ArrayList<String> followerList;

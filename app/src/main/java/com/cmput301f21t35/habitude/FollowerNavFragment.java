@@ -23,9 +23,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link FollowerNavFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * @author cyao, echiu
+ * fragment that allows users to see the people that are currently following them
  */
 public class FollowerNavFragment extends Fragment {
 

@@ -4,6 +4,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+/**
+ * @author echiu
+ * adapter for the fragments used for the pages
+ */
+
 public class FollowingsNavPagerAdapter extends FragmentPagerAdapter {
     private static int items = 3;
 
