@@ -38,6 +38,11 @@ import org.w3c.dom.Document;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author echiu
+ * this is the activity that lists the people that the user is currently following and allow the user to follow new people
+ */
+
 public class FollowingListActivity extends AppCompatActivity implements FollowUserFragment.OnFragmentInteractionListener {
 
     ListView followList;
@@ -101,6 +106,14 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
         }
     }
 
+    /**
+     * This function checks that the person the user is trying to follow exists in the database
+     * @param toFollow
+     * this is a string of the user to be sent a request
+     * @param userEmail
+     * this is the email of the current user to be used in queries to the databse
+     */
+
     private void Check1(String toFollow, String userEmail) {
         // check that the email exists in the database
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -121,6 +134,13 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
                 });
     };
 
+    /**
+     * This function checks that the user has not already sent a request to this person
+     * @param toFollow
+     * this is a string of the user to be sent a request
+     * @param userEmail
+     * this is the email of the current user to be used in queries to the databse
+     */
     private void Check2(String toFollow, String userEmail) {
         // check if there is already outgoing request
 
@@ -142,6 +162,13 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
                 });
     }
 
+    /**
+     * This function checks that the user is not already following this person
+     * @param toFollow
+     * this is a string of the user to be sent a request
+     * @param userEmail
+     * this is the email of the current user to be used in queries to the databse
+     */
     private void Check3(String toFollow, String userEmail) {
         // check if they are already following
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -162,6 +189,13 @@ public class FollowingListActivity extends AppCompatActivity implements FollowUs
                 });
     }
 
+    /**
+     * If all the tests pass then the person will be sent a request and the database will be updated to reflect that
+     * @param toFollow
+     * this is a string of the user to be sent a request
+     * @param userEmail
+     * this is the email of the current user to be used in queries to the databse
+     */
     private void addRequest(String toFollow, String userEmail) {
         // open database of user to send request to
         FirebaseFirestore db = FirebaseFirestore.getInstance();

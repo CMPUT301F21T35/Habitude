@@ -32,6 +32,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author echiu
+ * this is the activity for the events to be listed out and added
+ */
+
 public class EventListActivity extends AppCompatActivity implements AddHabitEvent.OnFragmentInteractionListener {
 
     ListView eventList;

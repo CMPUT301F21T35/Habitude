@@ -11,16 +11,25 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
+
+/**
+ * @author echiu
+ * this activity is one of the home tabs that will present the user with 3 options
+ */
 
 public class FollowingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     private Button followingButton;
     private Button followersButton;
     private Button requestsButton;
+
+    FragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,28 @@ public class FollowingActivity extends AppCompatActivity implements NavigationBa
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("People");
+
+        // set top sub navigation
+        ViewPager vpPager = (ViewPager) findViewById(R.id.viewPager);
+        adapterViewPager = new FollowingsNavPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
+
+        vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         followingButton = findViewById(R.id.following_Button);
         followersButton = findViewById(R.id.followers_Button);
