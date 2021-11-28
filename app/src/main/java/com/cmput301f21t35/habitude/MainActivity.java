@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -119,9 +121,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
                 // to check if the firebase has no habits
                 if (habitDataList.size() == 0) {
-                    TextView no_habits = findViewById(R.id.no_habits);
-                    no_habits.setVisibility(View.VISIBLE);
-                    no_habits.setText("No habits!  Click the button at the top to add more.");
+                    Toast toast = Toast.makeText(MainActivity.this, "No habits!  Click the button at the top to add more.",Toast.LENGTH_LONG);
+                    toast.show();
+//                    TextView no_habits = findViewById(R.id.no_habits);
+//                    no_habits.setVisibility(View.VISIBLE);
+//                    no_habits.setText("No habits!  Click the button at the top to add more.");
                 }
             }
         });
