@@ -81,6 +81,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         String eventTime = newEvent.getEventTime();
         String eventComment = newEvent.getEventComment();
         Boolean eventFinished = newEvent.getEventFinished();
+        String eventGeolocation = newEvent.getEventGeolocation(); //new
 
         // Make sure all fields are filled
         if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty()) {
@@ -93,6 +94,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             data.put("Time", eventTime);
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
+            data.put("Geolocation",eventGeolocation); //new
 
             // Delete old event and update database with new information
             collectionReference.document(eventTitle).delete();
