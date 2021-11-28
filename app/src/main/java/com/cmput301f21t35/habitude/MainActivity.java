@@ -233,21 +233,5 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         collectionReference
                 .document(receivedHabit.getHabitTitleName())
                 .update("Index",receivedHabit.getIndex());
-//        collectionReference
-//                .document(receivedHabit.getHabitTitleName())
-//                .set(data)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "Index has been modified successfully!");
-//                        //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d(TAG, "Index could not be modified!" + e.toString());
-//                    }
-//                });
     }
 }

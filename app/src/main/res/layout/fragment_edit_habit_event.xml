@@ -27,6 +27,15 @@
         android:maxLines="1"
         android:minHeight="48dp" />
 
+    <Button
+        android:id="@+id/geolocation_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Click To Add Geolocation"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
