@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,7 +34,6 @@ public class EditHabitEvent extends DialogFragment {
     private TimePicker timePicker;
     private CheckBox eventFinished;
     private OnFragmentInteractionListener listener;
-    private String geolocation;
 
     /**
      * Public interface to create edit fragment
@@ -78,16 +76,6 @@ public class EditHabitEvent extends DialogFragment {
         timePicker = view.findViewById(R.id.edit_event_time);
         eventFinished = view.findViewById(R.id.edit_event_finished);
 
-        geolocation = event.getEventGeolocation();
-        View geolocationButton = view.findViewById(R.id.geolocation_button);
-        geolocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.getInstance(), MapsActivity.class);
-                startActivityForResult(intent,1); //Modernize?
-            }
-        });
-
         // Set layout views
         eventName.setText(event.getEventName());
         eventComment.setText(event.getEventComment());
@@ -111,25 +99,19 @@ public class EditHabitEvent extends DialogFragment {
                 .setView(view)
                 .setTitle("Edit Event")
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", (dialogInterface, i) -> {
-                    String name = eventName.getText().toString();
-                    String comment = eventComment.getText().toString();
-                    String year = Integer.toString(datePicker.getYear());
-                    String month = Integer.toString(datePicker.getMonth()+1);
-                    String day = Integer.toString(datePicker.getDayOfMonth());
-                    String eventDate = year + "-" + month + "-" + day;
-                    String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
-                    Boolean finished = eventFinished.isChecked();
-                    listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished,geolocation));
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String name = eventName.getText().toString();
+                        String comment = eventComment.getText().toString();
+                        String year = Integer.toString(datePicker.getYear());
+                        String month = Integer.toString(datePicker.getMonth()+1);
+                        String day = Integer.toString(datePicker.getDayOfMonth());
+                        String eventDate = year + "-" + month + "-" + day;
+                        String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
+                        Boolean finished = eventFinished.isChecked();
+                        listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished));
+                    }
                 }).create();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            super.onActivityResult(requestCode, resultCode, data);
-            geolocation = data.getStringExtra("keyName");
-            //Log.v("Tagalog",geolocation);
-        } catch (Exception ignored) {}
     }
 }

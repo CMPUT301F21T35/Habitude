@@ -25,7 +25,6 @@ import sun.bob.mcalendarview.vo.MarkedDates;
 
 public class IndicatorActivity extends AppCompatActivity {
     String habitSrc = "";
-    String followingUser = "";
     Button back;
     static sun.bob.mcalendarview.MCalendarView mCalendarView;
 
@@ -38,56 +37,42 @@ public class IndicatorActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras(); //Get the habit name
         if(extras != null) { // check whether it is a null object
             habitSrc = extras.getString("HABITSRC"); // get name of the habit
-            followingUser = extras.getString("followingUser");
         }
 
         // use MCalendarView to highlight the date from calendar
         mCalendarView = findViewById(R.id.calendar_indicator);
 
-        //clear all the date once this activity restarts
-        mCalendarView.getMarkedDates().getAll().clear();
+        MarkedDates markedDates = mCalendarView.getMarkedDates();
+        ArrayList markData = markedDates.getAll();
+        for (int k=0; k<markData.size();k++){
+            mCalendarView.unMarkDate((DateData) markData.get(k));
+        }
+
         back = findViewById(R.id.back_to);
+
 
         // find the right habit and its events
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (followingUser != null){
-            final CollectionReference collectionReference = db.collection("Users").document(followingUser).collection("habits").document(habitSrc).collection("Events");
-            collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        String eventName = doc.getId();
-                        String date = (String) doc.getData().get("Date");
-                        String[] dateResult = date.split("-0*"); // collect the year, moth and date from the date string format
-                        Boolean finish = (Boolean) doc.getData().get("Finished");
-                        if (doc.getData().get("Finished") != null) { // to make sure the boolean is not null
-                            if (finish) { // if the event is finished, we will highlight the date on the calendar
-                                mCalendarView.markDate(Integer.parseInt(dateResult[0]), Integer.parseInt(dateResult[1]), Integer.parseInt(dateResult[2]));
-                            }
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
+
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    String eventName = doc.getId();
+                    String date = (String) doc.getData().get("Date");
+                    String[] dateResult = date.split("-0*"); // collect the year, moth and date from the date string format
+                    Boolean finish = (Boolean) doc.getData().get("Finished");
+                    if (doc.getData().get("Finished") != null) { // to make sure the boolean is not null
+                        if (finish) { // if the event is finished, we will highlight the date on the calendar
+                            mCalendarView.markDate(Integer.parseInt(dateResult[0]), Integer.parseInt(dateResult[1]), Integer.parseInt(dateResult[2]));
                         }
                     }
                 }
-            });
-        }else{
-            final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
-            collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        String eventName = doc.getId();
-                        String date = (String) doc.getData().get("Date");
-                        String[] dateResult = date.split("-0*"); // collect the year, moth and date from the date string format
-                        Boolean finish = (Boolean) doc.getData().get("Finished");
-                        if (doc.getData().get("Finished") != null) { // to make sure the boolean is not null
-                            if (finish) { // if the event is finished, we will highlight the date on the calendar
-                                mCalendarView.markDate(Integer.parseInt(dateResult[0]), Integer.parseInt(dateResult[1]), Integer.parseInt(dateResult[2]));
-                            }
-                        }
-                    }
-                }
-            });
-        }
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

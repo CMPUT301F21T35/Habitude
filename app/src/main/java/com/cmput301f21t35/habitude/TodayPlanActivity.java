@@ -3,7 +3,6 @@ package com.cmput301f21t35.habitude;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,9 +43,6 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today_plan);
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Today");
 
         NavigationBarView navigationBarView = findViewById(R.id.navigation_today);
         navigationBarView.setOnItemSelectedListener(this);
@@ -72,13 +68,15 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
                     String habitReason = (String) doc.getData().get("Habit Reason");
                     stringToDate(habitDate); // change the string to a date format
                     Date current_date = Calendar.getInstance().getTime();
+                    Boolean isPublic = (Boolean) doc.getData().get("Is Public");
 
                     if (doc.getData().get("Plan") != null) {
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);// get the plan of the habits
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
+                        int index = 1;
                         String weekday_name = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(System.currentTimeMillis());
-                        Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday);
+                        Habit todayHabit = new Habit(habitName,habitReason,habitDate,habitWeekday,index, isPublic);
 
                         if (stringToDate(habitDate).before(current_date)) { // check if the date of habit is before the current date
                             for (int i = 0; i < todayHabit.getPlan().size(); i++) {

@@ -63,7 +63,9 @@ public class ViewFollowingHabit extends AppCompatActivity {
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        followingHabitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday)); // add all the habits into the habitList
+                        int index = 1;
+                        Boolean isPublic = (Boolean) doc.getData().get("Is Public");
+                        followingHabitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,index,isPublic)); // add all the habits into the habitList
                     }
                 }
                 followingHabitAdapter.notifyDataSetChanged();

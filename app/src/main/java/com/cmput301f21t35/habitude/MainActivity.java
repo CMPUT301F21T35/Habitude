@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,habitIndex)); // add all the habits into the habitList
+                        Boolean isPublic = (Boolean) doc.getData().get("Is Public");
+                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,habitIndex,isPublic)); // add all the habits into the habitList
                     }
                 }
                 habitAdapter.notifyDataSetChanged();

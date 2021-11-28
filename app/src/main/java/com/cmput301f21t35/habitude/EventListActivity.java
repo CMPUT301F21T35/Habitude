@@ -66,8 +66,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
                     String eventTime = (String) doc.getData().get("Time");
                     String eventComment = (String) doc.getData().get("Comment");
                     Boolean eventFinished = (Boolean) doc.getData().get("Finished");
-                    String eventGeolocation = (String) doc.getData().get("Geolocation");
-                    eventDataList.add(new Event(eventName,eventComment,eventDate,eventTime,eventFinished,eventGeolocation));
+                    eventDataList.add(new Event(eventName,eventComment,eventDate,eventTime,eventFinished));
                 }
                 eventArrayAdapter.notifyDataSetChanged();
             }
@@ -116,10 +115,9 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
         String eventTime = newEvent.getEventTime();
         String eventComment = newEvent.getEventComment();
         Boolean eventFinished = newEvent.getEventFinished();
-        String eventGeolocation = newEvent.getEventGeolocation(); //new
 
         // ensure inputs are all correct
-        if(eventName.isEmpty() || eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
+        if(eventName.isEmpty()| eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
         } else { // otherwise add to db
 
@@ -130,7 +128,6 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
             data.put("Time", eventTime);
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
-            data.put("Geolocation",eventGeolocation); //new
 
             // push to db
             collectionReference.document(newEvent.getEventName()).set(data)

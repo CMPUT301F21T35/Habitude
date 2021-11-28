@@ -11,16 +11,12 @@ public class Habit implements Serializable {
     private String habitStartDate;
     private ArrayList<String> plan;
     private int index;
+    private boolean isPublic = false;
     //updated
 
-    public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan) {
-        this.habitTitleName = habitTitleName;
-        this.habitReason = habitReason;
-        this.habitStartDate = habitStartDate;
-        this.plan = plan;
-    }
 
-    public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan, int index) {
+
+    public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan, int index, Boolean isPublic) {
         this.habitTitleName = habitTitleName;
         this.habitReason = habitReason;
         this.habitStartDate = habitStartDate;
@@ -69,4 +65,12 @@ public class Habit implements Serializable {
     public int getIndex() {
         return index;
     }
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
 }
