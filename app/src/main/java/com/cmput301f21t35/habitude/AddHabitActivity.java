@@ -72,6 +72,7 @@ public class AddHabitActivity extends AppCompatActivity {
         createButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //check the input is empty or not 
                 if (habitName.getText().length() == 0 || habitReason.getText().length() == 0  ){
                     Toast.makeText(AddHabitActivity.this, "One or more fields are empty", Toast.LENGTH_SHORT).show();
@@ -110,7 +111,6 @@ public class AddHabitActivity extends AppCompatActivity {
                     finish();
 
                 }
-
             }
         });
     }
