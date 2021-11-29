@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        collectionReference.orderBy("Index");
+//        collectionReference.orderBy("Index");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -102,20 +102,20 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     String habitName = doc.getId();
                     String habitDate = (String) doc.getData().get("Date");
                     String habitReason = (String) doc.getData().get("Habit Reason");
-                    Integer habitIndex;
-                    if (doc.getData().get("Index") != null) {
-                        Long indexLong = (Long) doc.getData().get("Index");
-                        habitIndex = Math.toIntExact(indexLong);
-
-                    } else {
-                        habitIndex = -1;
-                    }
+//                    Integer habitIndex;
+//                    if (doc.getData().get("Index") != null) {
+//                        Long indexLong = (Long) doc.getData().get("Index");
+//                        habitIndex = Math.toIntExact(indexLong);
+//
+//                    } else {
+//                        habitIndex = -1;
+//                    }
                     if (doc.getData().get("Plan") != null) {
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        Boolean isPublic = (Boolean) doc.getData().get("Is Public");
-                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,habitIndex,isPublic)); // add all the habits into the habitList
+                        Boolean isPublic = doc.getData().get("Is Public").equals("true");
+                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,isPublic)); // add all the habits into the habitList
                     }
                 }
                 habitAdapter.notifyDataSetChanged();

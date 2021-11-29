@@ -22,6 +22,15 @@ public class Habit implements Serializable {
         this.habitStartDate = habitStartDate;
         this.plan = plan;
         this.index = index;
+        this.isPublic = isPublic;
+    }
+
+    public Habit(String habitName, String habitReason, String habitDate, ArrayList<String> habitWeekday, Boolean isPublic) {
+        this.habitTitleName = habitName;
+        this.habitReason = habitReason;
+        this.habitStartDate = habitDate;
+        this.plan = habitWeekday;
+        this.isPublic = isPublic;
     }
 
     public String getHabitTitleName() {
