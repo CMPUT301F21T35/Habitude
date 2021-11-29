@@ -48,6 +48,7 @@ public class ManageListTest {
         Activity activity = rule.getActivity();
     }
 
+    //Clicks on the given habit
     public void enterSampleHabit(String habitTitle) {
         RecyclerView habitList = (RecyclerView) solo.getView(R.id.habit_list);
         RecyclerView.Adapter habitDataList = habitList.getAdapter();
@@ -62,20 +63,7 @@ public class ManageListTest {
         }
     }
 
-    public void deleteSampleHabit(String habitTitle) {
-        RecyclerView habitList = (RecyclerView) solo.getView(R.id.habit_list);
-        RecyclerView.Adapter habitDataList = habitList.getAdapter();
-        MainActivity mainActivity = MainActivity.getInstance();
-
-        for (int index = 0; index < habitDataList.getItemCount(); index++) {
-            Habit testingHabit = (Habit) mainActivity.habitDataList.get(index);
-            if (testingHabit.getHabitTitleName().equals(habitTitle)) {
-                solo.clickLongInList(index, 0);
-                break;
-            }
-        }
-    }
-
+    //Checks whether or not a given habit is in the list
     public boolean findSampleHabit(String habitTitle) {
         RecyclerView habitList = (RecyclerView) solo.getView(R.id.habit_list);
         RecyclerView.Adapter habitDataList = habitList.getAdapter();
@@ -90,6 +78,21 @@ public class ManageListTest {
         return false;
     }
 
+    //Checks whether or not a given habit is in the list, and returns it's index
+    public Habit getHabit(String habitTitle) {
+        RecyclerView habitList = (RecyclerView) solo.getView(R.id.habit_list);
+        RecyclerView.Adapter habitDataList = habitList.getAdapter();
+        MainActivity mainActivity = MainActivity.getInstance();
+
+        for (int index = 0; index < mainActivity.habitDataList.size(); index++) {
+            Habit testingHabit = (Habit) mainActivity.habitDataList.get(index);
+            if (testingHabit.getHabitTitleName().equals(habitTitle)) {
+                return testingHabit;
+            }
+        }
+        return null;
+    }
+
     //Swipes right on a given item
     public void swipeRight(String habitTitle) {
         //int[] location = new int[2];
@@ -99,12 +102,28 @@ public class ManageListTest {
         //return location;
     }
 
-    //Gets the location of a given item
-    public void swipeUp(String habitTitle) {
-        //int[] location = new int[2];
-        View row = solo.getText(habitTitle);
-        //row.getLocationInWindow(location);
-        solo.scrollViewToSide(row,Solo.UP,10,10);
+    //Drags one item to another
+    public void dragTo(String fromTitle, String toTitle) {
+        int[] from = new int[2];
+        View row = solo.getText(fromTitle);
+        row.getLocationInWindow(from);
+
+        int[] to = new int[2];
+        View secondary = solo.getText(toTitle);
+        secondary.getLocationInWindow(to);
+
+        solo.clickLongOnScreen(
+                from[0],
+                from[1],
+                5
+        );
+        solo.drag(
+                from[0],
+                from[1],
+                to[0],
+                to[1],
+                40
+        );
         //return location;
     }
 
@@ -164,10 +183,16 @@ public class ManageListTest {
     @Test
     public void reorderTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        emptyList();
+        //emptyList();
+        //solo.waitForDialogToClose(1000);
         filterAddEventTest("zero");
         filterAddEventTest("one");
-        swipeUp("zero");
-        emptyList();
+        assertEquals(0,getHabit("one").getIndex());
+        dragTo("zero","one");
+        solo.clickOnButton(1);
+        //Note that clicking the button will update firebase from the app.
+        //Thus the order will stay iff the order was updated correctly.
+        assertEquals(1,getHabit("one").getIndex());
+        //emptyList();
     }
 }
