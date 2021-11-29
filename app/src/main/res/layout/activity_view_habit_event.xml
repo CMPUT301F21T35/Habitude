@@ -22,6 +22,11 @@
         android:layout_width="wrap_content"
         android:text="" />
     <TextView
+        android:id="@+id/habit_event_geolocation"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="" />
+    <TextView
         android:id="@+id/habit_event_date"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
