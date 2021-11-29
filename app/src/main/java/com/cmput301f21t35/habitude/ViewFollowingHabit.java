@@ -2,6 +2,7 @@ package com.cmput301f21t35.habitude;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +35,8 @@ public class ViewFollowingHabit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_following_habit);
-        TextView username = findViewById(R.id.username);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
         followingHabitList = (ListView) findViewById(R.id.fl_habit);
 
@@ -47,7 +49,7 @@ public class ViewFollowingHabit extends AppCompatActivity {
             followingUser = extras.getString("UserName");
         }
 
-        username.setText(followingUser + "'s Habits");
+        getSupportActionBar().setTitle(followingUser);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users").document(followingUser).collection("habits");
