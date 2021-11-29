@@ -75,7 +75,7 @@ public class ViewFollowingHabit extends AppCompatActivity {
             }
         });
 
-        Intent flIndicator = new Intent(this,IndicatorActivity.class);
+        Intent flIndicator = new Intent(this,ViewHabitActivity.class);
         followingHabitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
