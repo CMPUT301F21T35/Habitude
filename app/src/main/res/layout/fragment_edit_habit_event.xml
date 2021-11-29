@@ -26,6 +26,15 @@
         android:inputType="textPersonName"
         android:maxLength="20" />
 
+    <Button
+        android:id="@+id/geolocation_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Click To Edit Geolocation"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

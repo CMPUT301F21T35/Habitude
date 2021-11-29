@@ -6,10 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
@@ -42,8 +49,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
-    ListView habitList;
-    ArrayAdapter<Habit> habitAdapter;
+    //https://developer.android.com/guide/topics/ui/layout/recyclerview
+    RecyclerView habitList;
+    CustomAdapter habitAdapter;
+    RecyclerView.LayoutManager habitLayoutManager;
     ArrayList<Habit> habitDataList;
 
 
@@ -69,16 +78,29 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         Button addHabit = findViewById(R.id.addHabit);
         habitList = findViewById(R.id.habit_list);
         habitDataList = new ArrayList<>();
-        habitAdapter = new HabitList(this,habitDataList);
+        habitAdapter = new CustomAdapter(habitDataList);
+        habitLayoutManager = new LinearLayoutManager(this); //? right activity
+        setRecyclerViewLayoutManager();
         habitList.setAdapter(habitAdapter);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(habitAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(habitList);
 
         // connect to the firebase and get all the habits from the firebase
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Check if user signed in
+        if (user == null || user.getEmail() == null) {
+            finish();
+            return;
+        }
+
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        //
+        collectionReference.orderBy("Index");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -87,11 +109,19 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     String habitName = doc.getId();
                     String habitDate = (String) doc.getData().get("Date");
                     String habitReason = (String) doc.getData().get("Habit Reason");
+                    Integer habitIndex;
+                    if (doc.getData().get("Index") != null) {
+                        Long indexLong = (Long) doc.getData().get("Index");
+                        habitIndex = Math.toIntExact(indexLong);
+
+                    } else {
+                        habitIndex = -1;
+                    }
                     if (doc.getData().get("Plan") != null) {
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday)); // add all the habits into the habitList
+                        habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,habitIndex)); // add all the habits into the habitList
                     }
                 }
                 habitAdapter.notifyDataSetChanged();
@@ -101,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                     TextView no_habits = findViewById(R.id.no_habits);
                     no_habits.setVisibility(View.VISIBLE);
                     no_habits.setText("No habits!  Click the button at the top to add more.");
+                } else {
+                    TextView no_habits = findViewById(R.id.no_habits);
+                    no_habits.setVisibility(View.GONE);
                 }
             }
         });
@@ -113,29 +146,23 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 startActivity(intent);
             }
         });
+    }
 
+    //https://github.com/android/views-widgets-samples/blob/main/RecyclerView/Application/src/main/java/com/example/android/recyclerview/RecyclerViewFragment.java
+    public void setRecyclerViewLayoutManager() {
+        int scrollPosition = 0;
 
-        //We view/edit habits by clicking on them, bundling the index for the next Activity to use.
-        Intent intentEdit = new Intent(this,EditHabitActivity.class);
-        habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //intent.putExtra("habit",habitDataList.get(i));
-                Bundle bundle = new Bundle();
-                bundle.putInt("habit_index",i);
-                intentEdit.putExtras(bundle); //is this redundant?
-                startActivity(intentEdit);
-            }
-        });
+        // If a layout manager has already been set, get current scroll position.
+        if (habitList.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) habitList.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition();
+        }
 
-        //We use long clicks to delete habits.
-        habitList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                new DeleteHabitFragment(habitDataList.get(i)).show(MainActivity.this.getSupportFragmentManager(), "DELETE_HABIT"); //deleting the first temporarily
-                return true; //Overrides normal click
-            }
-        });
+        habitLayoutManager = new LinearLayoutManager(this); //getActivity()
+        //mCurrentLayoutManagerType = LinearLayoutManager.LINEAR_LAYOUT_MANAGER;
+
+        habitList.setLayoutManager(habitLayoutManager);
+        habitList.scrollToPosition(scrollPosition);
     }
 
     // this shows that there are four buttons below the screen, Users can click either one of them to navigate to another activity
@@ -172,5 +199,51 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 return true;
         }
         return false;
+    }
+
+    public void editHabitFromIndex(int pos) {
+        Intent intentEdit = new Intent(this, EditHabitActivity.class); //Used in CustomAdapter, comment on;
+        Bundle bundle = new Bundle();
+        bundle.putInt("habit_index", pos);
+        intentEdit.putExtras(bundle); //is this redundant?
+        startActivity(intentEdit);
+    }
+
+    //We're reaching this from onItemDismiss in CustomAdapter, deleting the appropriate habit.
+    public void killIndex(int index) {
+        Habit receivedHabit = habitDataList.get(index);
+        if (receivedHabit != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
+
+//update with proper location
+            collectionReference
+                    .document(receivedHabit.getHabitTitleName())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Data has been removed successfully!");
+                            //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Data could not be removed!" + e.toString());
+                        }
+                    });
+        }
+    }
+
+    public void updateIndices(Habit receivedHabit) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
+
+        collectionReference
+                .document(receivedHabit.getHabitTitleName())
+                .update("Index",receivedHabit.getIndex());
     }
 }

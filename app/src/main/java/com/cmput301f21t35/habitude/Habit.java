@@ -10,14 +10,22 @@ public class Habit implements Serializable {
     private String habitReason;
     private String habitStartDate;
     private ArrayList<String> plan;
+    private int index;
     //updated
-
 
     public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan) {
         this.habitTitleName = habitTitleName;
         this.habitReason = habitReason;
         this.habitStartDate = habitStartDate;
         this.plan = plan;
+    }
+
+    public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan, int index) {
+        this.habitTitleName = habitTitleName;
+        this.habitReason = habitReason;
+        this.habitStartDate = habitStartDate;
+        this.plan = plan;
+        this.index = index;
     }
 
     public String getHabitTitleName() {
@@ -53,4 +61,12 @@ public class Habit implements Serializable {
     }
 
     public void setPlan(ArrayList<String> plan) { this.plan = plan; }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 }
