@@ -6,14 +6,18 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,8 +29,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class HabitEventActivity extends AppCompatActivity implements EditHabitEvent.OnFragmentInteractionListener {
@@ -34,12 +40,11 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     String habitSrc;
     String eventTitle;
     String eventComment;
-    Date eventDateStart;
+    LocalDate eventDateStart;
     String eventTime;
     boolean finished;
     // Habit photo
     LocalDate habitDateComplete;
-    Button edit_button;
 
     /**
      * Create the activity
@@ -50,9 +55,9 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit_event);
-
-        edit_button = findViewById(R.id.habit_event_edit_button);
-        edit_button.setText("Edit");
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Event");
 
         Intent intent = getIntent();
         habitSrc = intent.getStringExtra("habit_id");
@@ -105,6 +110,31 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         }
     }
 
+    /**
+     * Shows the overflow menu on the toolbar
+     * @param menu overflow menu
+     * @return boolean
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_event, menu);
+        return true;
+    }
+
+    /**
+     * When overflow menu options are clicked
+     * @param item menu item
+     * @return boolean
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit_event) {
+            Event event_class = new Event(eventTitle, eventComment, event.get("Date").toString(), event.get("Time").toString(), finished);
+            new EditHabitEvent(habitSrc, event_class).show(getSupportFragmentManager(), "EDIT EVENT");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * Get updated values from Firebase and insert into layout view
@@ -118,42 +148,36 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
+                if (document != null && document.exists()) {
 
                     // Get document data
                     event = document.getData();
                     eventTitle = event.get("Event Name").toString();
                     eventComment = event.get("Comment").toString();
-                    try {
-                        eventDateStart = new SimpleDateFormat("yyyy-MM-dd").parse(event.get("Date").toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    DateTimeFormatter getDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    eventDateStart = LocalDate.parse(event.get("Date").toString(), getDateFormat);
                     finished = event.get("Finished").equals(true);
                     eventTime = event.get("Time").toString();
 
                     // Get layout views
                     TextView habit_event_title_view = findViewById(R.id.habit_event_title);
                     TextView habit_event_reason_view = findViewById(R.id.habit_event_reason);
-                    TextView habit_event_date_view = findViewById(R.id.habit_event_date);
-                    TextView habit_event_finished = findViewById(R.id.habit_event_finished);
-                    // TextView habit_event_time = findViewById(R.id.habit_event_time);
+                    ImageView habit_event_finished = findViewById(R.id.habit_event_finished);
+                    ImageView habit_event_not_finished = findViewById(R.id.habit_event_not_finished);
+                    TextView habit_event_date_time = findViewById(R.id.habit_event_date_time);
 
                     // Set values in layout
                     habit_event_title_view.setText(eventTitle);
                     habit_event_reason_view.setText(eventComment);
-                    habit_event_date_view.setText(new SimpleDateFormat("yyyy-MM-dd").format(eventDateStart) + " at " + eventTime);
-                    habit_event_finished.setText(finished ? "Finished" : "Not finished");
+                    DateTimeFormatter printDateFormat = DateTimeFormatter.ofPattern("LLLL dd, yyyy");
+                    habit_event_date_time.setText(printDateFormat.format(eventDateStart) + " at " + eventTime);
+                    if (finished) {
+                        habit_event_finished.setVisibility(View.VISIBLE);
+                    } else {
+                        habit_event_not_finished.setVisibility(View.VISIBLE);
+                    }
                     // habit_event_time.setText(eventTime);
 
-                    // Create edit event fragment when edit button is clicked
-                    edit_button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Event event_class = new Event(eventTitle, eventComment, event.get("Date").toString(), event.get("Time").toString(), finished);
-                            new EditHabitEvent(habitSrc, event_class).show(getSupportFragmentManager(), "EDIT EVENT");
-                        }
-                    });
                 } else {
                     Log.d(TAG, "No such document");
                 }
