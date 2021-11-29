@@ -48,11 +48,14 @@ public class FollowersArrayAdapter extends ArrayAdapter<String> {
         // firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //collectionreference path to current user's followers
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("followers");
         // set the onclick listener when clicking the button remove, to delete it from the database firestore
         Button removeButton = convertView.findViewById(R.id.remove);
         removeButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
+                // define the remove button functionality, when the remove button is clicked,
+                //the followers is gonna remove from the firestore database.
                 collectionReference.document(getItem(position)).delete();
             }
         });
