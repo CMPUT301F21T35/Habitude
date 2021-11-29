@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +24,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
 
         public ViewHolder(View view) {
@@ -42,7 +43,24 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     mainActivity.editHabitFromIndex(pos);
                 }
             });
+
+            Button eventsButton = view.findViewById(R.id.events_button);
+            eventsButton.bringToFront();
+            // set listener to get position for button whenever it is clicked
+            eventsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final int position = getAdapterPosition();
+                    Habit buttonHabit = localDataSet.get(position);
+                    String title = buttonHabit.getHabitTitleName();
+                    Bundle bundle = new Bundle();
+                    Intent intent = new Intent(view.getContext(), EventListActivity.class);
+                    intent.putExtra("HABITSRC", title);
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
+
 
         public TextView getTextView() {
             return textView;
@@ -76,6 +94,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.getTextView().setText(localDataSet.get(position).getHabitTitleName());
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

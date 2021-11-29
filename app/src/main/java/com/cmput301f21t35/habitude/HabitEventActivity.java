@@ -45,6 +45,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     boolean finished;
     // Habit photo
     LocalDate habitDateComplete;
+    Button edit_button;
+    String eventGeolocation;
 
     /**
      * Create the activity
@@ -158,6 +160,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     eventDateStart = LocalDate.parse(event.get("Date").toString(), getDateFormat);
                     finished = event.get("Finished").equals(true);
                     eventTime = event.get("Time").toString();
+                    eventGeolocation = event.get("Geolocation").toString();
 
                     // Get layout views
                     TextView habit_event_title_view = findViewById(R.id.habit_event_title);
@@ -165,6 +168,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     ImageView habit_event_finished = findViewById(R.id.habit_event_finished);
                     ImageView habit_event_not_finished = findViewById(R.id.habit_event_not_finished);
                     TextView habit_event_date_time = findViewById(R.id.habit_event_date_time);
+                    TextView habit_event_geolocation = findViewById(R.id.habit_event_geolocation);
 
                     // Set values in layout
                     habit_event_title_view.setText(eventTitle);
@@ -176,6 +180,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     } else {
                         habit_event_not_finished.setVisibility(View.VISIBLE);
                     }
+                    habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(eventGeolocation).toString());
                     // habit_event_time.setText(eventTime);
 
                 } else {
