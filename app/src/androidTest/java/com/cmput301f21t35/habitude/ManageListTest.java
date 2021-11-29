@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import com.robotium.solo.Solo;
 
@@ -48,21 +49,6 @@ public class ManageListTest {
     @Test
     public void start() throws Exception {
         Activity activity = rule.getActivity();
-    }
-
-    //Clicks on the given habit
-    public void enterSampleHabit(String habitTitle) {
-        RecyclerView habitList = (RecyclerView) solo.getView(R.id.habit_list);
-        RecyclerView.Adapter habitDataList = habitList.getAdapter();
-        MainActivity mainActivity = MainActivity.getInstance();
-
-        for (int index = 0; index < mainActivity.habitDataList.size(); index++) {
-            Habit testingHabit = (Habit) mainActivity.habitDataList.get(index);
-            if (testingHabit.getHabitTitleName().equals(habitTitle)) {
-                solo.clickInList(index, 0);
-                break;
-            }
-        }
     }
 
     //Checks whether or not a given habit is in the list
@@ -182,6 +168,24 @@ public class ManageListTest {
             String nextTitle = mainActivity.habitDataList.get(i).getHabitTitleName();
             swipeRight(nextTitle);
         }
+    }
+
+    @Test
+    public void editHabitTest() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        filterAddEventTest("two");
+        solo.clickOnText("two");
+        for (int i = 0; i < 9; i++) {
+            solo.clickOnButton(i);
+        }
+        solo.clickOnView(solo.getView(R.id.done_button));
+        solo.clickOnText("two");
+        ToggleButton fridayButton = (ToggleButton) solo.getView(R.id.friday_button);
+        assertFalse(fridayButton.isChecked());
+        ToggleButton wednesdayButton = (ToggleButton) solo.getView(R.id.wednesday_button);
+        assertTrue(wednesdayButton.isChecked());
+        solo.clickOnView(solo.getView(R.id.done_button));
+        emptyList();
     }
 
     @Test
