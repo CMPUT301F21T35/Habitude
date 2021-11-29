@@ -1,172 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <CheckBox
-        android:id="@+id/monday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp"
-        android:hint="Monday"
-        app:layout_constraintBottom_toTopOf="@+id/friday"
-        app:layout_constraintEnd_toStartOf="@+id/tuesday"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habitReason"
-        tools:ignore="MissingConstraints" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/tuesday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="12dp"
-        android:hint="Tuesday"
-        app:layout_constraintBaseline_toBaselineOf="@+id/monday"
-        app:layout_constraintEnd_toStartOf="@+id/wednesday"
-        app:layout_constraintStart_toEndOf="@+id/monday"
-        tools:ignore="MissingConstraints" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorOnPrimary"
+            android:elevation="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <CheckBox
-        android:id="@+id/wednesday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:hint="Wednesday"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tuesday"
-        app:layout_constraintEnd_toStartOf="@+id/thursday"
-        app:layout_constraintStart_toEndOf="@+id/tuesday"
-        tools:ignore="MissingConstraints" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/thursday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Thursday"
-        app:layout_constraintBaseline_toBaselineOf="@+id/wednesday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/wednesday"
-        tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="Title:" />
 
-    <CheckBox
-        android:id="@+id/friday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="1dp"
-        android:hint="Friday"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monday"
-        tools:ignore="MissingConstraints" />
+            <EditText
+                android:id="@+id/habitName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:ems="10"
+                android:hint="Title your habit"
+                android:inputType="textPersonName"
+                android:maxLength="20" />
 
-    <CheckBox
-        android:id="@+id/saturday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="1dp"
-        android:hint="Saturday"
-        app:layout_constraintBaseline_toBaselineOf="@+id/friday"
-        app:layout_constraintEnd_toStartOf="@+id/sunday"
-        app:layout_constraintHorizontal_bias="0.655"
-        app:layout_constraintStart_toEndOf="@+id/friday"
-        tools:ignore="MissingConstraints" />
+        </LinearLayout>
 
-    <EditText
-        android:id="@+id/habitName"
-        android:layout_width="331dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Title of the habit:"
-        android:inputType="textPersonName"
-        android:maxLength="20"
-        app:layout_constraintBottom_toTopOf="@+id/habitReason"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/habitReason"
-        android:layout_width="320dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Reason of the habit:"
-        android:inputType="textPersonName"
-        android:maxLength="30"
-        app:layout_constraintBottom_toTopOf="@+id/monday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.019"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habitName"
-        tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="Description:" />
 
-    <CheckBox
-        android:id="@+id/sunday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="173dp"
-        android:hint="Sunday"
-        app:layout_constraintBaseline_toBaselineOf="@+id/saturday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/saturday"
-        tools:ignore="MissingConstraints" />
+            <EditText
+                android:id="@+id/habitReason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:ems="10"
+                android:hint="Describe your habit"
+                android:inputType="textPersonName"
+                android:maxLength="30" />
+        </LinearLayout>
 
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="214dp"
-        android:layout_height="229dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="100dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:hint="Select Start Date"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sunday"
-        app:layout_constraintVertical_bias="0.554" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/monday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="MON"
+                android:textOn="MON"
+                android:textSize="11sp" />
+
+            <ToggleButton
+                android:id="@+id/tuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="TUE"
+                android:textOn="TUE"
+                android:textSize="11sp" />
+
+            <ToggleButton
+                android:id="@+id/wednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="WED"
+                android:textOn="WED"
+                android:textSize="11sp" />
+
+            <ToggleButton
+                android:id="@+id/thursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="THU"
+                android:textOn="THU"
+                android:textSize="11sp" />
+
+            <ToggleButton
+                android:id="@+id/friday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="FRI"
+                android:textOn="FRI"
+                android:textSize="11sp" />
+
+            <ToggleButton
+                android:id="@+id/saturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="SAT"
+                android:textOn="SAT"
+                android:textSize="11sp" />
+
+            <ToggleButton
+                android:id="@+id/sunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="SUN"
+                android:textOn="SUN"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:text="Start date:"
+                android:textSize="15sp" />
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:hint="Select Start Date" />
+
+
+        </LinearLayout>
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/isPublic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:textColor="#666"
+            android:text="Make this habit public to my followers   " />
+
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:text="CREATE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints" />
+        android:layout_gravity="end|bottom"
+        android:layout_margin="20dp"
+        android:text="CREATE" />
 
-    <Switch
-        android:id="@+id/isPublic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Public"
-        app:layout_constraintBottom_toTopOf="@+id/habitName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
