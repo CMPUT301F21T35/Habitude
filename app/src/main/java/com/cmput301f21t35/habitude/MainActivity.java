@@ -118,9 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         //get publicity whatever the storage method
                         Boolean isPublic;
                         try {
-                            isPublic = doc.getData().get("Is Public").equals("true");
-                        } catch (Exception ignored) {
                             isPublic = (Boolean) doc.getData().get("Is Public");
+                        } catch (Exception ignored) {
+                            isPublic = doc.getData().get("Is Public").equals("true");
                         }
                         habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,habitIndex,isPublic)); // add all the habits into the habitList
                     }

@@ -104,7 +104,8 @@ public class EditHabitActivity extends AppCompatActivity {
 
     public void doneButton(View view) {
         //We set up a HashMap to push to firebase.
-        HashMap<String, String> data = new HashMap<>();
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("Index",changingHabit.getIndex());
         manageReason(data);
         manageDate(data);
         managePlan(data);
@@ -125,7 +126,7 @@ public class EditHabitActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    private void managePublicity(HashMap<String, String> data) {
+    private void managePublicity(HashMap<String, Object> data) {
         //We get the reason string from the Habit class and put it as the "default" date to push.
         data.put("Is Public",changingHabit.getHabitReason());
 
@@ -133,11 +134,11 @@ public class EditHabitActivity extends AppCompatActivity {
         //I don't know if this can actually go wrong? If it can't, we don't need the first line or the try/catch.
         try {
             changingHabit.setPublic(habitIsPublic.isChecked());
-            data.put("Is Public", String.valueOf(habitIsPublic.isChecked()));
+            data.put("Is Public", habitIsPublic.isChecked());
         } catch (Exception ignored) {}
     }
 
-    private void renameAndPushData(HashMap<String, String> data, String oldTitle, String newTitle) {
+    private void renameAndPushData(HashMap<String, Object> data, String oldTitle, String newTitle) {
         //Much like pushData, but we delete the old file and create the new file.
         try {
             changingHabit.setHabitTitleName(habitTitle.getText().toString());
@@ -178,7 +179,7 @@ public class EditHabitActivity extends AppCompatActivity {
         } catch (Exception ignored) {}
     }
 
-    private void managePlan(HashMap<String, String> data) {
+    private void managePlan(HashMap<String, Object> data) {
         //We get the reason string from the Habit class and put it as the "default" date to push.
         ArrayList<String> plan_data = changingHabit.getPlan();
         data.put("Plan", String.valueOf(plan_data));
@@ -201,7 +202,7 @@ public class EditHabitActivity extends AppCompatActivity {
         }
     };
 
-    private void manageReason(HashMap<String, String> data){
+    private void manageReason(HashMap<String, Object> data){
         //We get the reason string from the Habit class and put it as the "default" date to push.
         data.put("Habit Reason",changingHabit.getHabitReason());
 
@@ -213,7 +214,7 @@ public class EditHabitActivity extends AppCompatActivity {
         } catch (Exception ignored) {}
     }
 
-    private void manageDate(HashMap<String, String> data){
+    private void manageDate(HashMap<String, Object> data){
         //We get the date from the Habit class and put it as the "default" date to push.
         data.put("Date",changingHabit.getHabitStartDate());
 
@@ -227,7 +228,7 @@ public class EditHabitActivity extends AppCompatActivity {
         } catch (Exception ignored) {}
     }
 
-    private void pushData(HashMap<String, String> data) {
+    private void pushData(HashMap<String, Object> data) {
         //If we haven't changed the title, we can just push the data directly.
         try {
             collectionReference

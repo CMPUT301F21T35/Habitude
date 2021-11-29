@@ -100,6 +100,7 @@ public class AddHabitActivity extends AppCompatActivity {
                 data.put("Date", habitStartDate);
                 data.put("Plan", habitPlan_final);
                 data.put("Is Public", isPublic.isChecked());
+                data.put("Index",-1);
 
                 // set the firestore database
                 collectionReference.document(habitTitleName)
