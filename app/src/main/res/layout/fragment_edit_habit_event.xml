@@ -7,108 +7,129 @@
     tools:context=".AddHabitEvent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
         android:ems="10"
         android:hint="Event Name"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/edit_event_comment_editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:ellipsize="end"
-        android:ems="10"
-        android:hint="Comment (optional)"
         android:inputType="textPersonName"
-        android:maxLength="20"
-        android:maxLines="1"
-        android:minHeight="48dp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="13dp"
-        android:visibility="visible"
-        android:text="Upload a photograph (optional)"/>
+        <EditText
+            android:id="@+id/edit_event_name_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:ems="10"
+            android:hint="Event Name"
+            android:inputType="textPersonName"/>
 
-    <ImageView
-        android:id="@+id/edit_photograph"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_width="130dp"
-        android:layout_height="130dp"/>
+        <EditText
+            android:id="@+id/edit_event_comment_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Comment (optional)"
+            android:inputType="textPersonName"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/loadPhotoButton"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
-        android:onClick="Load"
-        android:text="Load new photo to upload" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="Upload a photograph (optional)"
+            android:textSize="13dp"
+            android:visibility="visible" />
 
-    <Button
-        android:id="@+id/takePhotoButton"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:onClick="Load"
-        android:text="take new photo to upload" />
-        
-    <Button
-        android:id="@+id/geolocation_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:paddingVertical="10dp"
-        android:text="Add Location"
-        android:textSize="15sp"
-        android:visibility="visible" />
+        <ImageView
+            android:id="@+id/edit_photograph"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:text="Choose The Time:"
-        android:textSize="15sp"
-        android:visibility="visible" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
 
-    <TimePicker
-        android:id="@+id/edit_event_time"
-        android:layout_width="match_parent"
-        android:layout_height="167dp"
-        android:layout_marginHorizontal="20dp"
-        android:scaleX="0.8"
-        android:scaleY="0.8"
-        android:timePickerMode="spinner" />
+            <Button
+                android:id="@+id/loadPhotoButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="15sp"
+                android:onClick="Load"
+                android:layout_marginEnd="5dp"
+                android:text="Upload&#10;Photo" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:text="Choose The Date:"
-        android:textSize="15sp"
-        android:visibility="visible" />
+            <Button
+                android:id="@+id/takePhotoButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="15sp"
+                android:onClick="Load"
+                android:layout_marginStart="5dp"
+                android:text="Take&#10;Photo" />
 
-    <DatePicker
-        android:id="@+id/edit_event_date"
-        android:layout_width="match_parent"
-        android:layout_height="179dp"
-        android:layout_marginHorizontal="20dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:scaleX="0.8"
-        android:scaleY="0.8" />
+        </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/edit_event_finished"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:hint="FINISHED?" />
+        <Button
+            android:id="@+id/geolocation_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:text="Add Location"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="Choose The Time:"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <TimePicker
+            android:id="@+id/edit_event_time"
+            android:layout_width="match_parent"
+            android:layout_height="167dp"
+            android:layout_marginHorizontal="20dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:timePickerMode="spinner" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="Choose The Date:"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <DatePicker
+            android:id="@+id/edit_event_date"
+            android:layout_width="match_parent"
+            android:layout_height="179dp"
+            android:layout_marginHorizontal="20dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:scaleX="0.8"
+            android:scaleY="0.8" />
+
+        <CheckBox
+            android:id="@+id/edit_event_finished"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:hint="FINISHED?" />
 
     </LinearLayout>
 </ScrollView>
