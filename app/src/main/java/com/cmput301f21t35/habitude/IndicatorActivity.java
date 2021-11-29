@@ -42,7 +42,7 @@ public class IndicatorActivity extends AppCompatActivity {
         // find the right habit and its events
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (followingUser != null){
+        if (followingUser != null){ // see the following users' indicator
             final CollectionReference collectionReference = db.collection("Users").document(followingUser).collection("habits").document(habitSrc).collection("Events");
             collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
@@ -61,6 +61,7 @@ public class IndicatorActivity extends AppCompatActivity {
                 }
             });
         }else{
+            // show the current user's indicator
             final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits").document(habitSrc).collection("Events");
             collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
