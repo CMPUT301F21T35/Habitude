@@ -108,22 +108,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             }
         }
         notifyItemMoved(fromPosition, toPosition);
-        //updateIndices(fromPosition, toPosition);
         return true;
-    }
-
-    private void updateIndices(int fromPosition, int toPosition) {
-        Habit fromHabit = localDataSet.get(fromPosition);
-        Habit toHabit = localDataSet.get(toPosition);
-
-        //Log.v("TAGALOG", String.valueOf(fromHabit.getIndex()));
-        //Log.v("TAGALOG", String.valueOf(toHabit.getIndex()));
-
-        fromHabit.setIndex(toPosition);
-        toHabit.setIndex(fromPosition);
-
-        MainActivity mainActivity = MainActivity.getInstance();
-        mainActivity.updateIndices(fromHabit);
-        mainActivity.updateIndices(toHabit);
     }
 }

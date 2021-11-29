@@ -32,6 +32,16 @@
             android:layout_marginRight="10dp"
             android:text="Add a Habit" />
 
+        <Button
+            android:id="@+id/saveLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
+            android:onClick="updateIndices"
+            android:text="Save habit order" />
+
         <TextView
             android:id="@+id/no_habits"
             android:layout_width="match_parent"

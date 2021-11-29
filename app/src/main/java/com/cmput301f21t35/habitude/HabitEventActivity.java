@@ -95,7 +95,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             data.put("Time", eventTime);
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
-            data.put("Geolocation",eventGeolocation); //new
+            data.put("Geolocation",eventGeolocation);
 
 
             // Delete old event and update database with new information

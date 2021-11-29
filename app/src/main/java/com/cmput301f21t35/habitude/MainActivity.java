@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        collectionReference.orderBy("Index");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -218,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Data has been removed successfully!");
-                            //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -230,13 +228,18 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
     }
 
-    public void updateIndices(Habit receivedHabit) {
+    //This is used to update the indices in firebase.
+    public void updateIndices(View view) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        collectionReference
-                .document(receivedHabit.getHabitTitleName())
-                .update("Index",receivedHabit.getIndex());
+        for (int ind = 0; ind < habitDataList.size(); ind++) {
+            Habit receivedHabit = habitDataList.get(ind);
+            receivedHabit.setIndex(ind);
+            collectionReference
+                    .document(receivedHabit.getHabitTitleName())
+                    .update("Index", ind);
+        }
     }
 }
