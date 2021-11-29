@@ -178,8 +178,10 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     DateTimeFormatter printDateFormat = DateTimeFormatter.ofPattern("LLLL dd, yyyy");
                     habit_event_date_time.setText(printDateFormat.format(eventDateStart) + " at " + eventTime);
                     if (finished) {
+                        habit_event_not_finished.setVisibility(View.GONE);
                         habit_event_finished.setVisibility(View.VISIBLE);
                     } else {
+                        habit_event_finished.setVisibility(View.GONE);
                         habit_event_not_finished.setVisibility(View.VISIBLE);
                     }
                     try {
