@@ -19,21 +19,28 @@ public class ViewFollowingHabitList extends ArrayAdapter<Habit> {
     private ArrayList<Habit> habits;
     private Context context;
 
-    public ViewFollowingHabitList(Context context, ArrayList<Habit> habits){
-        super(context,0,habits);
+    /**
+     * Set adapter from habit list
+     *
+     * @param context context
+     * @param habits  habitList
+     */
+    public ViewFollowingHabitList(Context context, ArrayList<Habit> habits) {
+        super(context, 0, habits);
         this.habits = habits;
         this.context = context;
     }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
-        if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.view_following_habit_content, parent,false);
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.view_following_habit_content, parent, false);
         }
         Habit habit = habits.get(position);
         TextView habitName = view.findViewById(R.id.habit_text);
-        if (habit != null){
+        if (habit != null) {
             habitName.setText(habit.getHabitTitleName());
         }
         return view;
