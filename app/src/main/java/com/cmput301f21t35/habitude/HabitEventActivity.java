@@ -81,9 +81,11 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         String eventTime = newEvent.getEventTime();
         String eventComment = newEvent.getEventComment();
         Boolean eventFinished = newEvent.getEventFinished();
+        String eventGeolocation = newEvent.getEventGeolocation(); //new
+
 
         // Make sure all fields are filled
-        if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
+        if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
         } else {
             // Create hashmap with all the attributes of event
@@ -93,23 +95,15 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             data.put("Time", eventTime);
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
+            data.put("Geolocation",eventGeolocation); //new
+
 
             // Delete old event and update database with new information
             collectionReference.document(eventTitle).delete();
             collectionReference.document(newEvent.getEventName())
                     .set(data)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "Data has been added successfully");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "Data has not been added successfully");
-                        }
-                    });
+                    .addOnSuccessListener(unused -> Log.d(TAG, "Data has been added successfully"))
+                    .addOnFailureListener(e -> Log.d(TAG, "Data has not been added successfully"));
             eventTitle = eventName;
             getData();
         }

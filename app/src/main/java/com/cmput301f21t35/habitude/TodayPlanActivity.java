@@ -3,6 +3,7 @@ package com.cmput301f21t35.habitude;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,6 +44,9 @@ public class TodayPlanActivity extends AppCompatActivity implements NavigationBa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today_plan);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Today");
 
         NavigationBarView navigationBarView = findViewById(R.id.navigation_today);
         navigationBarView.setOnItemSelectedListener(this);

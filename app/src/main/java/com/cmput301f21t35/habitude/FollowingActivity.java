@@ -1,35 +1,37 @@
 package com.cmput301f21t35.habitude;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationBarView;
 
-/**
- * the fourth navigation bar view following , to have three button
- * ->following to the followingListActivity
- * ->followers to the followersActivity
- * ->request to the pendingFollowersActivity
- */
+import java.util.ArrayList;
+
 public class FollowingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+
     private Button followingButton;
     private Button followersButton;
     private Button requestsButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("People");
 
-        followingButton = (Button) findViewById(R.id.following_Button);
-        followersButton = (Button) findViewById(R.id.followers_Button);
-        requestsButton = (Button) findViewById(R.id.requests_Button);
+        followingButton = findViewById(R.id.following_Button);
+        followersButton = findViewById(R.id.followers_Button);
+        requestsButton = findViewById(R.id.requests_Button);
 
         NavigationBarView navigationBarView = findViewById(R.id.navigation_following);
         navigationBarView.setOnItemSelectedListener(this);
