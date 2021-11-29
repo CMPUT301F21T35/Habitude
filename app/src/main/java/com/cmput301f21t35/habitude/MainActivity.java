@@ -34,6 +34,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -93,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        Query testQuery = collectionReference.orderBy("Index");
+        testQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 habitDataList.clear();
