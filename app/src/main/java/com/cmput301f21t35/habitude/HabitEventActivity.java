@@ -19,12 +19,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.type.LatLng;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -171,7 +173,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     ImageView habit_event_not_finished = findViewById(R.id.habit_event_not_finished);
                     TextView habit_event_date_time = findViewById(R.id.habit_event_date_time);
                     TextView habit_event_geolocation = findViewById(R.id.habit_event_geolocation);
-                    TextView habit_event_photo = findViewById(R.id.habit_event_Photo);
+                    ImageView event_Image = findViewById(R.id.event_ImageView);
+                    ImageView map_image = findViewById(R.id.map_Image);
                     // Set values in layout
                     habit_event_title_view.setText(eventTitle);
                     habit_event_reason_view.setText(eventComment);
@@ -185,8 +188,20 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                         habit_event_not_finished.setVisibility(View.VISIBLE);
                     }
                     try {
+                        // set location imageview
                         habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(eventGeolocation).toString());
-                        habit_event_photo.setText(new StringBuilder().append("Photo: ").append(eventPhoto).toString());
+                        /*
+                        if(!eventGeolocation.equals("null")) {
+                            LatLng latLng = new LatLng();
+                        }
+                        
+                         */
+                        // set image in imageview
+                        if(!eventPhoto.equals("null")) {
+                            Glide.with(getApplicationContext())
+                                    .load(eventPhoto)
+                                    .into(event_Image);
+                        }
                     }catch (Exception e) {
                         e.printStackTrace();
                     }

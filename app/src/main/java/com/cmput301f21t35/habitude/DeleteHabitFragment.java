@@ -31,6 +31,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * @deprecated we now have slide to delete functionality in CustomAdapter
+ */
+
 public class DeleteHabitFragment extends DialogFragment {
     private Habit receivedHabit;
 
