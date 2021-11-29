@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class EditHabitActivity extends AppCompatActivity {
     final String TAG = "EditHabitActivity";
     ArrayList<ToggleButton> weekArray = new ArrayList<ToggleButton>();
     ArrayList<String> weekdays = new ArrayList<String>();
-    Switch habitIsPublic;
+    SwitchCompat habitIsPublic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
