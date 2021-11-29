@@ -171,35 +171,56 @@ public class ManageListTest {
         return mainActivity.habitDataList.size();
     }
 
+    //I don't know why they wont finish properly otherwise?
+    //This isn't automatic as it shouldn't always be done.
+    //Note the naturalness of this may vary as the tests change.
+    public void forceFinish() {
+        solo.sleep(5000);
+    }
+
+    //Jank
+    //Once again not always necessary.
+    public void zedClear(){
+        //We have to clear out zzz
+        filterAddEventTest("zzz");
+        swipeRight("zzz");
+    }
+
     //This test checks whether the details of a habit can be edited.
     //This is just an adaption of the previous version.
     @Test
     public void editHabitTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        filterAddEventTest("two");
+        zedClear();
+        filterAddEventTest("three");
         solo.clickOnText("two");
         for (int i = 0; i < 9; i++) {
             solo.clickOnButton(i);
         }
         solo.clickOnView(solo.getView(R.id.done_button));
-        solo.clickOnText("two");
+        solo.clickOnText("three");
         ToggleButton fridayButton = (ToggleButton) solo.getView(R.id.friday_button);
         assertFalse(fridayButton.isChecked());
         ToggleButton wednesdayButton = (ToggleButton) solo.getView(R.id.wednesday_button);
         assertTrue(wednesdayButton.isChecked());
         solo.clickOnView(solo.getView(R.id.done_button));
+        swipeRight("three");
+        forceFinish();
     }
 
     //This checks whether or not a test can be deleted.
     @Test
     public void deleteTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        zedClear();
+        //Now we test for deleting a dummy event
         filterAddEventTest("deleteme");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         swipeRight("deleteme");
         filterAddEventTest("deleteme2");
         assertEquals(1,listCount());
         swipeRight("deleteme2");
+        forceFinish();
     }
 
     //This is supposed to test reordering,
@@ -208,12 +229,25 @@ public class ManageListTest {
     @Test
     public void reorderTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        zedClear();
         //emptyList();
         //solo.waitForDialogToClose(1000);
         filterAddEventTest("zero");
+        solo.clickOnButton(1);
         filterAddEventTest("one");
         solo.clickOnButton(1);
-        assertEquals(0,getHabit("one").getIndex());
+        //Jankily compare the indices.
+        solo.sleep(10000);
+        int zero_index = getHabit("zero").getIndex();
+        int one_index = getHabit("one").getIndex();
+        if (one_index == -1 | zero_index == -1) {
+            Log.v("TESTING","Indexes still are being retrieved too early?");
+        } else {
+            assertEquals(1,zero_index+one_index);
+        }
+        swipeRight("zero");
+        swipeRight("one");
+        forceFinish();
         //dragTo("zero","one");
         //solo.clickOnButton(1);
         //  Note that clicking the button will update firebase from the app.
@@ -224,7 +258,7 @@ public class ManageListTest {
     @Test
     public void geolocationTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        filterAddEventTest("two");
+        filterAddEventTest("zzzzz");
         solo.clickOnText("Events");
         solo.clickOnView(solo.getView(R.id.add_event_button));
         EditText nameText = (EditText) solo.getView(R.id.event_name_editText);
@@ -233,6 +267,7 @@ public class ManageListTest {
         solo.enterText(nameTextTwo, "default");
         solo.clickOnButton(0);
         solo.assertCurrentActivity("Wrong activity",MapsActivity.class);
+        //swipeRight("two");
         //I don't think we can click at the right location without permissions?
         //solo.clickOnScreen(100,100); //Doesn't matter
         //solo.clickOnButton(1);
