@@ -11,11 +11,9 @@ public class Habit implements Serializable {
     private String habitStartDate;
     private ArrayList<String> plan;
     private int index;
+    // added is public boolean as required
     private boolean isPublic = false;
-    //updated
-
-
-
+    
     public Habit(String habitTitleName,String habitReason ,String habitStartDate, ArrayList<String> plan, int index, Boolean isPublic) {
         this.habitTitleName = habitTitleName;
         this.habitReason = habitReason;
