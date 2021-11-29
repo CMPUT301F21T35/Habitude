@@ -1,9 +1,12 @@
 package com.cmput301f21t35.habitude;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -13,14 +16,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
     TextView name;
+    TextView num_followers;
+    TextView num_following;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +47,42 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         NavigationBarView navigationBarView = findViewById(R.id.navigation_profile);
         navigationBarView.setOnItemSelectedListener(this);
         navigationBarView.setSelectedItemId(R.id.action_profile);
+        
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         name = findViewById(R.id.profile_name);
+        num_followers = findViewById(R.id.profile_num_followers);
+        num_following = findViewById(R.id.profile_num_following);
 
         name.setText(user.getDisplayName());
+
+        CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("followers");
+        collectionReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                int count = 0;
+                for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    count++;
+                }
+                num_followers.setText(String.valueOf(count));
+            } else{
+                Log.d(TAG, "error getting documents:", task.getException());
+            }
+        });
+
+        collectionReference = db.collection("Users").document(user.getEmail()).collection("followings");
+        collectionReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                int count = 0;
+                for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    count++;
+                }
+                num_following.setText(String.valueOf(count));
+            } else{
+                Log.d(TAG, "error getting documents:", task.getException());
+            }
+        });
+
+
     }
 
 
