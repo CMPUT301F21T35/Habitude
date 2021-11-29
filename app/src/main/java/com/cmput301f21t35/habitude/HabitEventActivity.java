@@ -11,13 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -28,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +40,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     // Habit photo
     LocalDate habitDateComplete;
     Button edit_button;
+    String eventGeolocation;
 
     /**
      * Create the activity
@@ -53,7 +50,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_habit_event_activity);
+        setContentView(R.layout.activity_view_habit_event);
 
         edit_button = findViewById(R.id.habit_event_edit_button);
         edit_button.setText("Edit");
@@ -135,12 +132,14 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     }
                     finished = event.get("Finished").equals(true);
                     eventTime = event.get("Time").toString();
+                    eventGeolocation = event.get("Geolocation").toString();
 
                     // Get layout views
                     TextView habit_event_title_view = findViewById(R.id.habit_event_title);
                     TextView habit_event_reason_view = findViewById(R.id.habit_event_reason);
                     TextView habit_event_date_view = findViewById(R.id.habit_event_date);
                     TextView habit_event_finished = findViewById(R.id.habit_event_finished);
+                    TextView habit_event_geolocation = findViewById(R.id.habit_event_geolocation);
                     // TextView habit_event_time = findViewById(R.id.habit_event_time);
 
                     // Set values in layout
@@ -148,6 +147,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     habit_event_reason_view.setText(eventComment);
                     habit_event_date_view.setText(new SimpleDateFormat("yyyy-MM-dd").format(eventDateStart) + " at " + eventTime);
                     habit_event_finished.setText(finished ? "Finished" : "Not finished");
+                    habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(eventGeolocation).toString());
                     // habit_event_time.setText(eventTime);
 
                     // Create edit event fragment when edit button is clicked
