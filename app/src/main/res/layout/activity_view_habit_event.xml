@@ -56,11 +56,17 @@
             android:layout_width="wrap_content"
             android:text="" />
 
-        <TextView
-            android:id="@+id/habit_event_Photo"
+        <ImageView
+        android:id="@+id/map_Image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+
+        <ImageView
+            android:id="@+id/event_ImageView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="" />
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:id="@+id/habit_event_title"
