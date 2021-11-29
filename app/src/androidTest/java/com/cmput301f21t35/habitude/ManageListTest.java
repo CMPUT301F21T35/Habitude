@@ -258,7 +258,7 @@ public class ManageListTest {
     @Test
     public void geolocationTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        filterAddEventTest("zzzzz");
+        filterAddEventTest("zzz");
         solo.clickOnText("Events");
         solo.clickOnView(solo.getView(R.id.add_event_button));
         EditText nameText = (EditText) solo.getView(R.id.event_name_editText);
