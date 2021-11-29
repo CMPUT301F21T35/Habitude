@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".AddHabitEvent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <EditText
-        android:id="@+id/edit_event_name_editText"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -29,6 +28,36 @@
         android:maxLines="1"
         android:minHeight="48dp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="13dp"
+        android:visibility="visible"
+        android:text="Upload a photograph (optional)"/>
+
+    <ImageView
+        android:id="@+id/edit_photograph"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"/>
+
+    <Button
+        android:id="@+id/loadPhotoButton"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:onClick="Load"
+        android:text="Load new photo to upload" />
+
+    <Button
+        android:id="@+id/takePhotoButton"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:onClick="Load"
+        android:text="take new photo to upload" />
+        
     <Button
         android:id="@+id/geolocation_button"
         android:layout_width="match_parent"
@@ -81,4 +110,5 @@
         android:layout_marginHorizontal="20dp"
         android:hint="FINISHED?" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
