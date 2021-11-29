@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
@@ -8,7 +8,26 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:textSize="24dp"
-        android:text="@string/element_text"/>
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp"
+        android:textColor="#333"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/events_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:onClick="eventsButton"
+        android:layout_weight="1"
+        android:text="Events" />
+
+</RelativeLayout>

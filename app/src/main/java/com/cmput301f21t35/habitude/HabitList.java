@@ -38,6 +38,7 @@ public class HabitList extends ArrayAdapter<Habit> {
         Habit habit = habits.get(position);
         TextView habitName = view.findViewById(R.id.habit_text);
         Button eventsButton = view.findViewById(R.id.events_button);
+        eventsButton.bringToFront();
         // set listener to get position for button whenever it is clicked
         eventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +47,6 @@ public class HabitList extends ArrayAdapter<Habit> {
                 String title = buttonHabit.getHabitTitleName();
                 Bundle bundle = new Bundle();
                 Intent intent = new Intent(context, EventListActivity.class);
-                // temp solution to get habit name, need less abusable way later
                 intent.putExtra("HABITSRC", title);
                 context.startActivity(intent);
             }
