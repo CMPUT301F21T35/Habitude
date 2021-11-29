@@ -46,7 +46,7 @@ public class ViewFollowingHabit extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null){
-            followingUser = extras.getString("UserName");
+            followingUser = extras.getString("UserName"); //get the following user collection
         }
 
         getSupportActionBar().setTitle(followingUser);
@@ -68,7 +68,9 @@ public class ViewFollowingHabit extends AppCompatActivity {
                         Collections.addAll(habitWeekday, WeekPlan);
                         int index = 1;
                         Boolean isPublic = (Boolean) doc.getData().get("Is Public");
-                        followingHabitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,index,isPublic)); // add all the habits into the habitList
+                        if (isPublic){ // we only can view the public habits from the following users
+                            followingHabitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,index,isPublic)); // add all the habits into the habitList
+                        }
                     }
                 }
                 followingHabitAdapter.notifyDataSetChanged();
