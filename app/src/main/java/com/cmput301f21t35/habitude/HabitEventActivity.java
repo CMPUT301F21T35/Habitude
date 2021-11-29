@@ -179,7 +179,6 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     TextView habit_event_date_time = findViewById(R.id.habit_event_date_time);
                     TextView habit_event_geolocation = findViewById(R.id.habit_event_geolocation);
                     ImageView event_Image = findViewById(R.id.event_ImageView);
-                    ImageView map_image = findViewById(R.id.map_Image);
                     // Set values in layout
                     habit_event_title_view.setText(eventTitle);
                     habit_event_reason_view.setText(eventComment);
@@ -214,7 +213,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
 
                             String address = addressList.get(0).getAddressLine(0);
 
-                            habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(address));
+                            habit_event_geolocation.setText(address);
 
                         }
                         // set image in imageview
