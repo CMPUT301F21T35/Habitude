@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -42,6 +44,9 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -168,10 +173,13 @@ public class EditHabitEvent extends DialogFragment {
         timePicker.setMinute(time.getMinutes());
         eventFinished.setChecked(event.getEventFinished());
         photoString = event.getEventPhoto();
-        try{
-            imageView.setImageBitmap(getBitmapFromUri(Uri.parse(photoString)));
-        }catch (Exception e) {
-            // Log the exception
+        try {
+            URL photoUrl = new URL(photoString);
+            Bitmap bmp = BitmapFactory.decodeStream(photoUrl.openConnection().getInputStream());
+            imageView.setImageBitmap(bmp);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -224,14 +232,14 @@ public class EditHabitEvent extends DialogFragment {
         startActivityForResult(intent, TAKE_IMAGE_REQUEST);
         //startActivityForResult(Intent.createChooser(intent, "Take Image from here..."), TAKE_IMAGE_REQUEST);
     }
-
+    /*
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor = getActivity().getApplicationContext().getContentResolver().openFileDescriptor(uri, "r");
         FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
         parcelFileDescriptor.close();
         return image;
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -264,14 +272,24 @@ public class EditHabitEvent extends DialogFragment {
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (task.isSuccessful()) {
-                        //here the upload of the image finish
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
                     // Continue the task to get a download url
                     return ref.getDownloadUrl();
                 }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        photoString = downloadUri.toString();
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
+                }
             });
-            photoString = urlTask.toString();
         }
         else if (requestCode == TAKE_IMAGE_REQUEST && resultCode == RESULT_OK){
             try {
@@ -286,13 +304,24 @@ public class EditHabitEvent extends DialogFragment {
                 Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (task.isSuccessful()) {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
                         }
                         // Continue with the task to get the download URL
                         return ref.getDownloadUrl();
                     }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            photoString = downloadUri.toString();
+                        } else {
+                            // Handle failures
+                            // ...
+                        }
+                    }
                 });
-                photoString = urlTask.toString();
             }catch (Exception e) {
                 // Log the exception
                 e.printStackTrace();

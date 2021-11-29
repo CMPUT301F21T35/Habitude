@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -215,14 +216,24 @@ public class AddHabitEvent extends DialogFragment {
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (task.isSuccessful()) {
-                        //here the upload of the image finish
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
                     // Continue the task to get a download url
                     return ref.getDownloadUrl();
                 }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        photoString = downloadUri.toString();
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
+                }
             });
-            photoString = urlTask.toString();
         }
         else if (requestCode == TAKE_IMAGE_REQUEST && resultCode == RESULT_OK){
             try {
@@ -237,14 +248,24 @@ public class AddHabitEvent extends DialogFragment {
                 Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (task.isSuccessful()) {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
                         }
                         // Continue with the task to get the download URL
                         return ref.getDownloadUrl();
                     }
-                });
-                photoString = urlTask.toString();
-            }catch (Exception e) {
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            photoString = downloadUri.toString();
+                        } else {
+                            // Handle failures
+                            // ...
+                        }
+                    }
+            });}catch (Exception e) {
                 // Log the exception
                 e.printStackTrace();
             }
