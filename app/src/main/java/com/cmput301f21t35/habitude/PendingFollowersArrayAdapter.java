@@ -73,9 +73,10 @@ public class PendingFollowersArrayAdapter extends ArrayAdapter<String> {
 
             }
         });
-
         Map<String,Object> x = new HashMap<>();
-        x.put("email", 111);
+        x.put("email", getItem(position));
+        Map<String,Object> y = new HashMap<>();
+        y.put("email", user.getEmail());
         Button acceptButton = convertView.findViewById(R.id.accept);
         acceptButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
@@ -83,14 +84,14 @@ public class PendingFollowersArrayAdapter extends ArrayAdapter<String> {
                 collectionReference.document(getItem(position)).delete();
 //                collectionReference1.document().set(getItem(position));
                 collectionReference1.document(getItem(position)).set(x);
-                collectionReference2.document(getItem(position)).set(x);
+                collectionReference2.document(getItem(position)).set(y);
 //                collectionReference2.add(user.getEmail());
             }
         });
 
 
+   
         return convertView;
-//
     }
 
 }
