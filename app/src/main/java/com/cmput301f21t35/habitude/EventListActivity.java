@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,6 +49,9 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Events");
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
@@ -72,7 +76,8 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
                     String eventComment = (String) doc.getData().get("Comment");
                     Boolean eventFinished = (Boolean) doc.getData().get("Finished");
                     String eventGeolocation = (String) doc.getData().get("Geolocation");
-                    eventDataList.add(new Event(eventName,eventComment,eventDate,eventTime,eventFinished,eventGeolocation));
+                    String eventPhoto = (String) doc.getData().get("Photo");
+                    eventDataList.add(new Event(eventName,eventComment,eventDate,eventTime,eventFinished,eventGeolocation, eventPhoto));
                 }
                 eventArrayAdapter.notifyDataSetChanged();
             }
@@ -122,7 +127,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
         String eventComment = newEvent.getEventComment();
         Boolean eventFinished = newEvent.getEventFinished();
         String eventGeolocation = newEvent.getEventGeolocation(); //new
-
+        String eventPhoto = newEvent.getEventPhoto();
 
         // ensure inputs are all correct
         if(eventName.isEmpty() || eventDate.isEmpty() || eventTime.isEmpty()) {
@@ -137,7 +142,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
             data.put("Geolocation",eventGeolocation); //new
-
+            data.put("Photo", eventPhoto);
 
             // push to db
             collectionReference.document(newEvent.getEventName()).set(data)

@@ -16,10 +16,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
             android:clickable="true"
+            android:contentDescription="Add a habit"
             android:focusable="true"
-            app:srcCompat="@android:drawable/ic_input_add"
-            android:contentDescription="ADD" />
+            app:srcCompat="@android:drawable/ic_input_add" />
     </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

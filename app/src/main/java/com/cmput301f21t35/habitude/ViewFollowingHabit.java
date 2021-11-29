@@ -2,6 +2,7 @@ package com.cmput301f21t35.habitude;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,20 +35,21 @@ public class ViewFollowingHabit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_following_habit);
-        TextView username = findViewById(R.id.username);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
         followingHabitList = (ListView) findViewById(R.id.fl_habit);
 
         followingHabitDataList = new ArrayList<>();
-        followingHabitAdapter = new HabitList(this,followingHabitDataList);
+        followingHabitAdapter = new ViewFollowingHabitList(this,followingHabitDataList);
         followingHabitList.setAdapter(followingHabitAdapter);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null){
-            followingUser = extras.getString("UserName");
+            followingUser = extras.getString("UserName"); //get the following user collection
         }
 
-        username.setText(followingUser + "'s Habits");
+        getSupportActionBar().setTitle(followingUser);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users").document(followingUser).collection("habits");
@@ -66,13 +68,16 @@ public class ViewFollowingHabit extends AppCompatActivity {
                         Collections.addAll(habitWeekday, WeekPlan);
                         int index = 1;
                         Boolean isPublic = (Boolean) doc.getData().get("Is Public");
-                        followingHabitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,index,isPublic)); // add all the habits into the habitList
+                        if (isPublic){ // we only can view the public habits from the following users
+                            followingHabitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,index,isPublic)); // add all the habits into the habitList
+                        }
                     }
                 }
                 followingHabitAdapter.notifyDataSetChanged();
             }
         });
 
+        // use intent to start indicator activity and view the indicators of following users
         Intent flIndicator = new Intent(this,IndicatorActivity.class);
         followingHabitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

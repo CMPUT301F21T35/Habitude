@@ -31,14 +31,14 @@ public class AddHabitActivityTest {
     }
     @Test
     public void checkCreate(){
-        solo.assertCurrentActivity("Wrond Activity", AddHabitActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", AddHabitActivity.class);
 
 
         solo.enterText((EditText)solo.getView(R.id.habitName),"Flying");
         solo.enterText((EditText)solo.getView(R.id.habitReason), "keep healthy");
 
-        solo.clickOnCheckBox(0);
-        solo.clickOnCheckBox(1);
+        solo.clickOnToggleButton("MON");
+        solo.clickOnToggleButton("TUES");
 
         solo.setDatePicker(0,1999,8,8);
 

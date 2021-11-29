@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -26,49 +27,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.viewpager.widget.PagerTabStrip
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/pager_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp" />
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
 
         </androidx.viewpager.widget.ViewPager>
 
-        <Button
-            android:id="@+id/following_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="28dp"
-            android:text="Following"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/followers_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="44dp"
-            android:text="Followers"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/following_Button" />
-
-        <Button
-            android:id="@+id/requests_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="36dp"
-            android:text="Requests"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/followers_Button" />
     </LinearLayout>
 
 

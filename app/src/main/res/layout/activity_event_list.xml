@@ -6,31 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".EventListActivity">
 
-    <ListView
-        android:id="@+id/events_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorOnPrimary"
+            android:elevation="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <ListView
+            android:id="@+id/events_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_event_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
         android:clickable="true"
+        android:contentDescription="Add event"
         android:focusable="true"
-        app:srcCompat="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        ></com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-    </FrameLayout>
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

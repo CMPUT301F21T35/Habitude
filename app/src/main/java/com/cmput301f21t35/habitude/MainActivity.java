@@ -208,16 +208,17 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
         return false;
     }
-    
+
+    //Gets the habit to edit from the CustomAdapter, and reroutes it.
     public void editHabitFromIndex(int pos) {
-        Intent intentEdit = new Intent(this, EditHabitActivity.class); //Used in CustomAdapter, comment on;
+        Intent intentEdit = new Intent(this, EditHabitActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("habit_index", pos);
         intentEdit.putExtras(bundle); //is this redundant?
         startActivity(intentEdit);
     }
 
-    //We're reaching this from onItemDismiss in CustomAdapter, deleting the appropriate habit.
+    //We're reaching this from onItemDismiss in CustomAdapter, deleting the appropriate habit from firebase.
     public void killIndex(int index) {
         Habit receivedHabit = habitDataList.get(index);
         if (receivedHabit != null) {
@@ -242,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         }
                     });
         }
+        habitAdapter.notifyDataSetChanged();
     }
 
     //This is used to update the indices in firebase.
