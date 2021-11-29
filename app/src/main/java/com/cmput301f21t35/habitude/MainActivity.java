@@ -208,9 +208,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
         return false;
     }
-    
+
+    //Gets the habit to edit from the CustomAdapter, and reroutes it.
     public void editHabitFromIndex(int pos) {
-        Intent intentEdit = new Intent(this, EditHabitActivity.class); //Used in CustomAdapter, comment on;
+        Intent intentEdit = new Intent(this, EditHabitActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("habit_index", pos);
         intentEdit.putExtras(bundle); //is this redundant?
