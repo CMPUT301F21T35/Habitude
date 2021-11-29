@@ -21,7 +21,6 @@ import sun.bob.mcalendarview.vo.MarkedDates;
 public class IndicatorActivity extends AppCompatActivity {
     String habitSrc = "";
     String followingUser = "";
-    Button back;
     static sun.bob.mcalendarview.MCalendarView mCalendarView;
 
     @Override
@@ -39,9 +38,6 @@ public class IndicatorActivity extends AppCompatActivity {
 
         //clear all the date once this activity restarts
         mCalendarView.getMarkedDates().getAll().clear();
-
-        back = findViewById(R.id.back_to);
-
 
         // find the right habit and its events
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -82,13 +78,5 @@ public class IndicatorActivity extends AppCompatActivity {
                     }
                 }
             });
-
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 }}
