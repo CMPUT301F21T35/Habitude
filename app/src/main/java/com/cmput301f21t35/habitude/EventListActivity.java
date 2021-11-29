@@ -32,6 +32,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author echiu
+ * this is the activity for the events to be listed out and added
+ */
+
 public class EventListActivity extends AppCompatActivity implements AddHabitEvent.OnFragmentInteractionListener {
 
     ListView eventList;
@@ -120,7 +125,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
 
 
         // ensure inputs are all correct
-        if(eventName.isEmpty() || eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
+        if(eventName.isEmpty() || eventDate.isEmpty() || eventTime.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
         } else { // otherwise add to db
 

@@ -12,6 +12,11 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * @author echiu
+ * this is the array adapter to use for the users that are being followed
+ */
+
 public class followingList extends ArrayAdapter<String> {
     private ArrayList<String> following;
     private Context context;

@@ -25,7 +25,6 @@ import java.util.Collections;
 
 public class ViewFollowingHabit extends AppCompatActivity {
 
-    private Button backButton;
     private ListView followingHabitList;
     private ArrayAdapter<Habit> followingHabitAdapter;
     private ArrayList<Habit> followingHabitDataList;
@@ -35,8 +34,8 @@ public class ViewFollowingHabit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_following_habit);
+        TextView username = findViewById(R.id.username);
 
-        backButton = findViewById(R.id.fl_back);
         followingHabitList = (ListView) findViewById(R.id.fl_habit);
 
         followingHabitDataList = new ArrayList<>();
@@ -47,6 +46,8 @@ public class ViewFollowingHabit extends AppCompatActivity {
         if (extras != null){
             followingUser = extras.getString("UserName");
         }
+
+        username.setText(followingUser + "'s Habits");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users").document(followingUser).collection("habits");
@@ -80,15 +81,6 @@ public class ViewFollowingHabit extends AppCompatActivity {
                 flIndicator.putExtra("HABITSRC",followingHabitDataList.get(position).getHabitTitleName());
                 flIndicator.putExtra("followingUser",followingUser);
                 startActivity(flIndicator);
-            }
-        });
-
-
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }

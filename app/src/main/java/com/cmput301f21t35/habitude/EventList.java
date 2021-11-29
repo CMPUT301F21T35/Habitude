@@ -18,6 +18,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+/**
+ * @author echiu
+ * This is the array adapter for the evnents so that they can be listed out
+ */
+
 public class EventList extends ArrayAdapter<Event> {
     private ArrayList<Event> events;
     private Context context;

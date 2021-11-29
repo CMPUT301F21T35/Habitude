@@ -1,12 +1,16 @@
 package com.cmput301f21t35.habitude;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +37,21 @@ public class HabitList extends ArrayAdapter<Habit> {
         }
         Habit habit = habits.get(position);
         TextView habitName = view.findViewById(R.id.habit_text);
+        Button eventsButton = view.findViewById(R.id.events_button);
+        // set listener to get position for button whenever it is clicked
+        eventsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Habit buttonHabit = habits.get(position);
+                String title = buttonHabit.getHabitTitleName();
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(context, EventListActivity.class);
+                // temp solution to get habit name, need less abusable way later
+                intent.putExtra("HABITSRC", title);
+                context.startActivity(intent);
+            }
+        });
+
         if (habit != null){
             habitName.setText(habit.getHabitTitleName());
         }

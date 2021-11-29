@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Public/Private"
+                android:text="Public"
                 app:layout_constraintBottom_toTopOf="@+id/habitName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -177,15 +177,6 @@
                 android:onClick="indicatorButton"
                 android:layout_marginLeft="40dp"
                 android:text="Indicator" />
-
-            <Button
-                android:id="@+id/show_events_button"
-                android:layout_width="103dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:onClick="eventsButton"
-                android:text="Events" />
-
 
         </LinearLayout>
 

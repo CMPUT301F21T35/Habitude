@@ -56,7 +56,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * followerAcitivty class is define a actiiity when the user clikck the followers
+ * @deprecated functionality has been moved to FollowerNavFragment.java
+ *
+ * followerAcitivty class is define a activity when the user click the followers
  * button in the bottom tab following, read the information from the firestore database
  * and show as a listView
  */

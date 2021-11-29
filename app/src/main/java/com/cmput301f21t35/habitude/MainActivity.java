@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
         return false;
     }
-
+    
     public void editHabitFromIndex(int pos) {
         Intent intentEdit = new Intent(this, EditHabitActivity.class); //Used in CustomAdapter, comment on;
         Bundle bundle = new Bundle();

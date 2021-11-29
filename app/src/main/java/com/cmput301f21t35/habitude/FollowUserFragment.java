@@ -33,6 +33,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * @author echiu
+ * this fragment is used to ask the user for an email of a new user to follow
+ */
+
 public class FollowUserFragment extends DialogFragment {
     private EditText followEmailView;
     private OnFragmentInteractionListener listener;

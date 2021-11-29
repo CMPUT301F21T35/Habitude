@@ -3,10 +3,9 @@ package com.cmput301f21t35.habitude;
 import java.sql.Time;
 import java.util.Date;
 
-/*
-Class for the habit event
-
-TODO: implement image and geolocation functionality
+/**
+ * @author echiu
+ * Class for the habit event
  */
 public class Event {
     private String eventName;

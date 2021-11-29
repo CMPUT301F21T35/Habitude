@@ -1,15 +1,16 @@
 package com.cmput301f21t35.habitude;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,22 +23,47 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * @deprecated functionality has been moved to RequestNavFragment.java
+ * @author cyao, echiu
+ * fragement to show the requests that the user has, and allows them to accept/decline
  */
+public class RequestNavFragment extends Fragment {
 
-public class PendingFollowerActivity extends AppCompatActivity {
+    private String pageTitle;
+    private int pageNum;
     ListView pendingFollowList;
     ArrayList<String> pendingFollowerList;
     ArrayAdapter<String> pendingFollowerAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_follower_request);
+    public RequestNavFragment() {
+        // Required empty public constructor
+    }
 
-        pendingFollowList = findViewById(R.id.pending_follower_list);
+    public static RequestNavFragment newInstance(String pageTitle, int pageNum) {
+        RequestNavFragment fragment = new RequestNavFragment();
+        Bundle args = new Bundle();
+        args.putString("somePageTitle", pageTitle);
+        args.putInt("somePageNum", pageNum);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            pageTitle = getArguments().getString("somePageTitle");
+            pageNum = getArguments().getInt("somePageNum");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_request_nav, container, false);
+
+        pendingFollowList = view.findViewById(R.id.pending_follower_list);
         pendingFollowerList = new ArrayList<>();
-        pendingFollowerAdapter = new PendingFollowersArrayAdapter(this,pendingFollowerList);
+        pendingFollowerAdapter = new PendingFollowersArrayAdapter(getActivity(),pendingFollowerList);
         pendingFollowList.setAdapter(pendingFollowerAdapter);
 
         FirebaseFirestore db =  FirebaseFirestore.getInstance();
@@ -58,19 +84,6 @@ public class PendingFollowerActivity extends AppCompatActivity {
             }
         });
 
-
-
-        final Button back_button = findViewById(R.id.back);
-        back_button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                finish();
-            }
-        });
-
-//        pendingFollowList = findViewById(R.id.pending_follower_list);
-//        pendingFollowerList = new ArrayList<>();
-//        pendingFollowerAdapter = new PendingFollowersArrayAdapter(this,pendingFollowerList);
-//        pendingFollowList.setAdapter(pendingFollowerAdapter);
+        return view;
     }
 }

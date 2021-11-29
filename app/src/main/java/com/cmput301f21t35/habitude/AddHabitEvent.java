@@ -24,6 +24,11 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * @author echiu
+ * this is a fragment that is used to ask users for the inputs to make a new habit event
+ */
+
 public class AddHabitEvent extends DialogFragment {
     private EditText eventName;
     private EditText eventComment;
