@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         startActivity(intentEdit);
     }
 
-    //We're reaching this from onItemDismiss in CustomAdapter, deleting the appropriate habit.
+    //We're reaching this from onItemDismiss in CustomAdapter, deleting the appropriate habit from firebase.
     public void killIndex(int index) {
         Habit receivedHabit = habitDataList.get(index);
         if (receivedHabit != null) {
@@ -243,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         }
                     });
         }
+        habitAdapter.notifyDataSetChanged();
     }
 
     //This is used to update the indices in firebase.

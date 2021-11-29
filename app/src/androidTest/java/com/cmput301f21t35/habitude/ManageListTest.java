@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 
 import com.robotium.solo.Solo;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -84,10 +85,17 @@ public class ManageListTest {
 
     //Swipes right on a given item
     public void swipeRight(String habitTitle) {
-        //int[] location = new int[2];
-        View row = solo.getText(habitTitle);
-        //row.getLocationInWindow(location);
-        solo.scrollViewToSide(row,Solo.LEFT,10,10);
+            int[] location = new int[2];
+            View row = solo.getText(habitTitle);
+            row.getLocationInWindow(location);
+            solo.drag(
+                    (float) location[0],
+                    (float) location[0] + 200,
+                    (float) location[1],
+                    (float) location[1],
+                    10
+            );
+        //solo.scrollViewToSide(row,Solo.LEFT,10,10);
         //return location;
     }
 
@@ -159,18 +167,12 @@ public class ManageListTest {
         RecyclerView habitList = (RecyclerView) solo.getView(R.id.habit_list);
         RecyclerView.Adapter habitDataList = habitList.getAdapter();
         MainActivity mainActivity = MainActivity.getInstance();
-        return habitDataList.getItemCount();
+        //return mainActivity.habitAdapter.getItemCount();
+        return mainActivity.habitDataList.size();
     }
 
-    //Empties out the list.
-    public void emptyList() {
-        MainActivity mainActivity = MainActivity.getInstance();
-        for (int i = 0; i < listCount(); i++) {
-            String nextTitle = mainActivity.habitDataList.get(i).getHabitTitleName();
-            swipeRight(nextTitle);
-        }
-    }
-
+    //This test checks whether the details of a habit can be edited.
+    //This is just an adaption of the previous version.
     @Test
     public void editHabitTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -186,19 +188,18 @@ public class ManageListTest {
         ToggleButton wednesdayButton = (ToggleButton) solo.getView(R.id.wednesday_button);
         assertTrue(wednesdayButton.isChecked());
         solo.clickOnView(solo.getView(R.id.done_button));
-        emptyList();
     }
 
+    //This checks whether or not a test can be deleted.
     @Test
     public void deleteTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        emptyList();
-        //assertEquals(0,listCount());
-        filterAddEventTest("zero");
+        filterAddEventTest("deleteme");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        swipeRight("zero");
-        //assertEquals(0,listCount());
-        //Everything's working, I'm not sure why the asserts are failing.
+        swipeRight("deleteme");
+        filterAddEventTest("deleteme2");
+        assertEquals(1,listCount());
+        swipeRight("deleteme2");
     }
 
     //This is supposed to test reordering,
@@ -218,7 +219,6 @@ public class ManageListTest {
         //  Note that clicking the button will update firebase from the app.
         //  Thus the order will stay iff the order was updated correctly.
         //assertEquals(1,getHabit("one").getIndex());
-        emptyList();
     }
 
     @Test
