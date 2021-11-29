@@ -41,7 +41,7 @@ public class ViewFollowingHabit extends AppCompatActivity {
         followingHabitList = (ListView) findViewById(R.id.fl_habit);
 
         followingHabitDataList = new ArrayList<>();
-        followingHabitAdapter = new HabitList(this,followingHabitDataList);
+        followingHabitAdapter = new ViewFollowingHabitList(this,followingHabitDataList);
         followingHabitList.setAdapter(followingHabitAdapter);
 
         Bundle extras = getIntent().getExtras();
