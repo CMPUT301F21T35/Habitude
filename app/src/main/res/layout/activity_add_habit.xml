@@ -20,54 +20,34 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <LinearLayout
+
+        <EditText
+            android:id="@+id/habitName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_background"
+            android:ems="10"
+            android:hint="Title"
+            android:inputType="textCapWords"
+            android:maxLength="20" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="Title:" />
 
-            <EditText
-                android:id="@+id/habitName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:ems="10"
-                android:hint="Title your habit"
-                android:inputType="textPersonName"
-                android:maxLength="20" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/habitReason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="Description:" />
-
-            <EditText
-                android:id="@+id/habitReason"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:ems="10"
-                android:hint="Describe your habit"
-                android:inputType="textPersonName"
-                android:maxLength="30" />
-        </LinearLayout>
+            android:background="@drawable/edit_text_background"
+            android:ems="10"
+            android:gravity="top|start"
+            android:hint="Why do you want to form this habit?"
+            android:inputType="textMultiLine"
+            android:maxLength="30"
+            android:maxLines="2"
+            android:minLines="2"
+            android:scrollbars="vertical" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -177,8 +157,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#666"
-            android:text="Make this habit public to my followers   " />
+            android:text="Make this habit public to my followers   "
+            android:textColor="#666" />
 
 
     </LinearLayout>

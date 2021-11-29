@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,73 +9,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorOnPrimary"
+            android:elevation="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <EditText
+            android:id="@+id/habit_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_background"
+            android:ems="10"
+            android:inputType="textCapWords"
+            android:maxLength="20"
+            android:text="Title" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/isPublic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Public" />
-        </LinearLayout>
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/habit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="Title:" />
-
-            <EditText
-                android:id="@+id/habit_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
-                android:layout_weight="0.7"
-                android:maxLength="20"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="Description:" />
-
-            <EditText
-                android:id="@+id/habit_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
-                android:layout_weight="0.7"
-                android:maxLength="30"/>
-        </LinearLayout>
+            android:background="@drawable/edit_text_background"
+            android:ems="10"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:maxLength="30"
+            android:maxLines="2"
+            android:minLines="2"
+            android:scrollbars="vertical"
+            android:text="Description" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +59,8 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="MON"
-                android:textOn="MON"  />
+                android:textOn="MON"
+                android:textSize="11sp" />
 
             <ToggleButton
                 android:id="@+id/tuesday_button"
@@ -98,7 +69,8 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="TUE"
-                android:textOn="TUE"  />
+                android:textOn="TUE"
+                android:textSize="11sp" />
 
             <ToggleButton
                 android:id="@+id/wednesday_button"
@@ -107,7 +79,8 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="WED"
-                android:textOn="WED"  />
+                android:textOn="WED"
+                android:textSize="11sp" />
 
             <ToggleButton
                 android:id="@+id/thursday_button"
@@ -116,7 +89,8 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="THU"
-                android:textOn="THU"  />
+                android:textOn="THU"
+                android:textSize="11sp" />
 
             <ToggleButton
                 android:id="@+id/friday_button"
@@ -125,7 +99,8 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="FRI"
-                android:textOn="FRI"  />
+                android:textOn="FRI"
+                android:textSize="11sp" />
 
             <ToggleButton
                 android:id="@+id/saturday_button"
@@ -134,7 +109,8 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="SAT"
-                android:textOn="SAT"  />
+                android:textOn="SAT"
+                android:textSize="11sp" />
 
             <ToggleButton
                 android:id="@+id/sunday_button"
@@ -143,7 +119,8 @@
                 android:layout_weight="1"
                 android:text="ToggleButton"
                 android:textOff="SUN"
-                android:textOn="SUN" />
+                android:textOn="SUN"
+                android:textSize="11sp" />
         </LinearLayout>
 
         <DatePicker
@@ -151,31 +128,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            />
+            android:layout_marginVertical="-30dp"
+            android:scaleX=".8"
+            android:scaleY=".8" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/done_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:onClick="doneButton"
-                android:text="done" />
-
-            <Button
-                android:id="@+id/show_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="indicatorButton"
-                android:layout_marginLeft="40dp"
-                android:text="Indicator" />
-
-        </LinearLayout>
-
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/isPublic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:text="Make this habit public to my followers   "
+            android:textColor="#666" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="end|bottom"
+        android:onClick="doneButton"
+        android:text="Done" />
+
+</FrameLayout>
