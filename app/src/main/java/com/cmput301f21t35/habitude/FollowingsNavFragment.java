@@ -114,7 +114,7 @@ public class FollowingsNavFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                intentViewFHabit.putExtra("UserName",followingList.get(position).toString());
+                intentViewFHabit.putExtra("UserName", followingList.get(position));
                 startActivity(intentViewFHabit);
             }
         });

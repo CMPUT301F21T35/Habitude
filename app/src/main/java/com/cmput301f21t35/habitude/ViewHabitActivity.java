@@ -1,23 +1,35 @@
 package com.cmput301f21t35.habitude;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
+
+import java.util.Map;
 
 public class ViewHabitActivity extends AppCompatActivity {
 
@@ -30,6 +42,10 @@ public class ViewHabitActivity extends AppCompatActivity {
     TextView habitProgress;
     sun.bob.mcalendarview.MCalendarView mCalendarView;
 
+    /**
+     * Create the view habit activity
+     * @param savedInstanceState bundle
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +57,13 @@ public class ViewHabitActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         habitIndex = extras.getInt("habit_index");
         followingUser = extras.getString("followingUser");
-        MainActivity mainActivity = MainActivity.getInstance();
-        habit = mainActivity.habitDataList.get(habitIndex);
 
         title = findViewById(R.id.view_habit_title);
         description = findViewById(R.id.view_habit_description);
         habitProgress = findViewById(R.id.habit_progress);
+
+        MainActivity mainActivity = MainActivity.getInstance();
+        habit = mainActivity.habitDataList.get(habitIndex);
 
         title.setText(habit.getHabitTitleName());
         description.setText(habit.getHabitReason());
@@ -64,6 +81,25 @@ public class ViewHabitActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (followingUser != null) {
+
+            habitSrc = extras.getString("HABITSRC");
+
+            final DocumentReference documentReference = db.collection("Users").document(followingUser).collection("habits").document(habitSrc);
+            documentReference.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Map habit = document.getData();
+                        title.setText(document.getId());
+                        description.setText(habit.get("Habit Reason").toString());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            });
+
             final CollectionReference collectionReference = db.collection("Users").document(followingUser).collection("habits").document(habitSrc).collection("Events");
             collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
