@@ -16,7 +16,9 @@ public class HabitTest extends TestCase{
         ArrayList<String> plan = new ArrayList<>() ;
         plan.add("Monday");
         plan.add("Tuesday");
-        Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, plan);
+        Boolean isPublic = true;
+        int index = 1;
+        Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, plan, index, isPublic);
         assertTrue("Habit name is not equal", habitTitleName.equals(habit.getHabitTitleName()));
         assertTrue("Habit Reason is not equal", habitReason.equals(habit.getHabitReason()));
         assertTrue("Habit Start Date is not equal", habitStartDate.equals(habit.getHabitStartDate()));
@@ -35,8 +37,10 @@ public class HabitTest extends TestCase{
         ArrayList<String> plan1 = new ArrayList<>() ;
         plan.add("Saturday");
         plan.add("Sunday");
+        Boolean isPublic = true;
+        int index = 1;
 
-        Habit habit = new Habit(habitTitleName,habitReason,habitStartDate,plan);
+        Habit habit = new Habit(habitTitleName,habitReason,habitStartDate,plan,index, isPublic);
 
         habit.setHabitTitleName("Flying");
         habit.setHabitReason("thinner");

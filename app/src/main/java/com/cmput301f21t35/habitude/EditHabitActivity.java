@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,6 +42,7 @@ public class EditHabitActivity extends AppCompatActivity {
     final String TAG = "EditHabitActivity";
     ArrayList<ToggleButton> weekArray = new ArrayList<ToggleButton>();
     ArrayList<String> weekdays = new ArrayList<String>();
+    Switch habitIsPublic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class EditHabitActivity extends AppCompatActivity {
         habitTitle = findViewById(R.id.habit_title);
         habitDescription = findViewById(R.id.habit_description);
         habitCalendar = findViewById(R.id.habit_calendar);
+        habitIsPublic = findViewById(R.id.isPublic);
 
         //Set an array for the days of the week
         sunBool = findViewById(R.id.sunday_button);
@@ -78,6 +81,7 @@ public class EditHabitActivity extends AppCompatActivity {
         //The title and description we can set directly.
         habitTitle.setText(changingHabit.getHabitTitleName());
         habitDescription.setText(changingHabit.getHabitReason());
+        habitIsPublic.setChecked(changingHabit.isPublic());
 
         //We initialize the date using a Calendar object.
         try {
@@ -104,6 +108,7 @@ public class EditHabitActivity extends AppCompatActivity {
         manageReason(data);
         manageDate(data);
         managePlan(data);
+        managePublicity(data);
 
         //Check if the title has changed, so we know how to change the firebase.
         String oldTitle = changingHabit.getHabitTitleName();
@@ -118,6 +123,18 @@ public class EditHabitActivity extends AppCompatActivity {
         }
 
         onBackPressed();
+    }
+
+    private void managePublicity(HashMap<String, String> data) {
+        //We get the reason string from the Habit class and put it as the "default" date to push.
+        data.put("Is Public",changingHabit.getHabitReason());
+
+        //We then read in the reason string from the appropriate EditText to possibly update the value.
+        //I don't know if this can actually go wrong? If it can't, we don't need the first line or the try/catch.
+        try {
+            changingHabit.setPublic(habitIsPublic.isChecked());
+            data.put("Is Public", String.valueOf(habitIsPublic.isChecked()));
+        } catch (Exception ignored) {}
     }
 
     private void renameAndPushData(HashMap<String, String> data, String oldTitle, String newTitle) {

@@ -123,6 +123,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
         Boolean eventFinished = newEvent.getEventFinished();
         String eventGeolocation = newEvent.getEventGeolocation(); //new
 
+
         // ensure inputs are all correct
         if(eventName.isEmpty() || eventDate.isEmpty() || eventTime.isEmpty() || eventComment.isEmpty()) {
             Toast.makeText(this, "Some fields are blank!", Toast.LENGTH_SHORT).show();
@@ -136,6 +137,7 @@ public class EventListActivity extends AppCompatActivity implements AddHabitEven
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
             data.put("Geolocation",eventGeolocation); //new
+
 
             // push to db
             collectionReference.document(newEvent.getEventName()).set(data)

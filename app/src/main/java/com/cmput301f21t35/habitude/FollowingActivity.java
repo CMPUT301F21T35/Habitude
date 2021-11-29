@@ -110,6 +110,7 @@ public class FollowingActivity extends AppCompatActivity implements NavigationBa
             public void onClick(View view) {
                 Intent intent_pending_followers_activity = new Intent(getApplicationContext(), PendingFollowerActivity.class);
                 startActivity(intent_pending_followers_activity);
+
             }
         });
          */

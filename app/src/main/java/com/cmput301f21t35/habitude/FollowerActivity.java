@@ -57,9 +57,15 @@ import java.util.ArrayList;
 
 /**
  * @deprecated functionality has been moved to FollowerNavFragment.java
+ *
+ * followerAcitivty class is define a activity when the user click the followers
+ * button in the bottom tab following, read the information from the firestore database
+ * and show as a listView
  */
-
 public class FollowerActivity extends AppCompatActivity {
+    //list view -> used to show the list of the followers in the activity
+    //arrayList -> used to store the information in the firestore with the followers
+    //arrayadapter-> define in the class followersArrayAdapter, to define the userid and two buttons
     ListView followList;
     ArrayList<String> followerList;
     ArrayAdapter<String> followerAdapter;
@@ -69,11 +75,13 @@ public class FollowerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
 
+        //initilize the element in the activity find by id
         followList = findViewById(R.id.follower_list);
         followerList = new ArrayList<>();
         followerAdapter = new FollowersArrayAdapter(this,followerList);
         followList.setAdapter(followerAdapter);
 
+        //firestore
         FirebaseFirestore db =  FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -84,16 +92,18 @@ public class FollowerActivity extends AppCompatActivity {
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 followerList.clear();
                 for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                    //get all the email id, and store them into the followerlist.
                     String email = (String) doc.getId();
 //                    (String) doc.getData().get("email");
                     followerList.add(email);
                 }
+                //notify the change
                 followerAdapter.notifyDataSetChanged();
             }
         });
 
 
-
+        //back button
         final Button back_button = findViewById(R.id.back);
         back_button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -102,9 +112,5 @@ public class FollowerActivity extends AppCompatActivity {
             }
         });
 
-//        pendingFollowList = findViewById(R.id.pending_follower_list);
-//        pendingFollowerList = new ArrayList<>();
-//        pendingFollowerAdapter = new PendingFollowersArrayAdapter(this,pendingFollowerList);
-//        pendingFollowList.setAdapter(pendingFollowerAdapter);
     }
 }

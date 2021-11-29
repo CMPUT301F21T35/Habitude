@@ -1,13 +1,10 @@
 package com.cmput301f21t35.habitude;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -16,9 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
-
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.vo.DateData;
 import sun.bob.mcalendarview.vo.MarkedDates;
@@ -33,8 +28,6 @@ public class IndicatorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indicator);
-
-
         Bundle extras = getIntent().getExtras(); //Get the habit name
         if(extras != null) { // check whether it is a null object
             habitSrc = extras.getString("HABITSRC"); // get name of the habit
@@ -46,7 +39,9 @@ public class IndicatorActivity extends AppCompatActivity {
 
         //clear all the date once this activity restarts
         mCalendarView.getMarkedDates().getAll().clear();
+
         back = findViewById(R.id.back_to);
+
 
         // find the right habit and its events
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -87,7 +82,7 @@ public class IndicatorActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,4 +91,4 @@ public class IndicatorActivity extends AppCompatActivity {
             }
         });
     }
-}
+}}

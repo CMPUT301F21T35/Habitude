@@ -18,6 +18,26 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp">
 
+            <Switch
+                android:id="@+id/isPublic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Public/Private"
+                app:layout_constraintBottom_toTopOf="@+id/habitName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"

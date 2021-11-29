@@ -37,6 +37,7 @@ public class EditHabitEvent extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private String geolocation;
 
+
     /**
      * Public interface to create edit fragment
      * @param habitSrc habit name
@@ -123,7 +124,6 @@ public class EditHabitEvent extends DialogFragment {
                     listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished,geolocation));
                 }).create();
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
