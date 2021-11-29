@@ -92,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Check if user signed in
+        if (user == null || user.getEmail() == null) {
+            finish();
+            return;
+        }
+
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
         Query testQuery = collectionReference.orderBy("Index");
@@ -129,11 +136,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
                 // to check if the firebase has no habits
                 if (habitDataList.size() == 0) {
-                    Toast toast = Toast.makeText(MainActivity.this, "No habits!  Click the button at the top to add more.",Toast.LENGTH_LONG);
-                    toast.show();
-//                    TextView no_habits = findViewById(R.id.no_habits);
-//                    no_habits.setVisibility(View.VISIBLE);
-//                    no_habits.setText("No habits!  Click the button at the top to add more.");
+                    TextView no_habits = findViewById(R.id.no_habits);
+                    no_habits.setVisibility(View.VISIBLE);
+                    no_habits.setText("No habits!  Click the button at the top to add more.");
+                } else {
+                    TextView no_habits = findViewById(R.id.no_habits);
+                    no_habits.setVisibility(View.GONE);
                 }
             }
         });
