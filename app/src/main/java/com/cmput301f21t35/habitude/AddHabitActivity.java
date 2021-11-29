@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -71,38 +72,45 @@ public class AddHabitActivity extends AppCompatActivity {
         createButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String habitTitleName = habitName.getText().toString();
-                final String Reason = habitReason.getText().toString();
-                final String day = Integer.toString(dateStart.getDayOfMonth());
-                final String month = Integer.toString(dateStart.getMonth());
-                final String year = Integer.toString(dateStart.getYear());
-                final String habitStartDate = (year + "-" + month + "-" + day);
-                setHabitPlan();
-                final String habitPlan_toString = String.valueOf(habitPlan);
-                final String habitPlan_final = habitPlan_toString.substring(1, habitPlan_toString.length() - 1).replace(" ", "");
-                // save data into a hashmap
-                HashMap<String, Object> data = new HashMap<>();
-                data.put("Habit Reason", Reason);
-                data.put("Date", habitStartDate);
-                data.put("Plan", habitPlan_final);
-                data.put("Is Public", isPublic.isChecked());
-                data.put("Index",-1);
-                // set the firestore database
-                collectionReference.document(habitTitleName)
-                        .set(data)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d(TAG, "Data has been added successfully");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "Data has not been added successfully");
-                            }
-                        });
-                finish();
+                //check the input is empty or not 
+                if (habitName.getText().length() == 0 || habitReason.getText().length() == 0  ){
+                    Toast.makeText(AddHabitActivity.this, "One or more fields are empty", Toast.LENGTH_SHORT).show();
+                }else{
+                    final String habitTitleName = habitName.getText().toString();
+                    final String Reason = habitReason.getText().toString();
+                    final String day = Integer.toString(dateStart.getDayOfMonth());
+                    final String month = Integer.toString(dateStart.getMonth());
+                    final String year = Integer.toString(dateStart.getYear());
+                    final String habitStartDate = (year + "-" + month + "-" + day);
+                    setHabitPlan();
+                    final String habitPlan_toString = String.valueOf(habitPlan);
+                    final String habitPlan_final = habitPlan_toString.substring(1, habitPlan_toString.length() - 1).replace(" ", "");
+                    // save data into a hashmap
+                    HashMap<String, Object> data = new HashMap<>();
+                    data.put("Habit Reason", Reason);
+                    data.put("Date", habitStartDate);
+                    data.put("Plan", habitPlan_final);
+                    data.put("Is Public", isPublic.isChecked());
+                    data.put("Index",-1);
+                    // set the firestore database
+                    collectionReference.document(habitTitleName)
+                            .set(data)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d(TAG, "Data has been added successfully");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "Data has not been added successfully");
+                                }
+                            });
+                    finish();
+
+                }
+
             }
         });
     }
