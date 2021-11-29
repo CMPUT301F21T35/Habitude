@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -218,5 +219,22 @@ public class ManageListTest {
         //  Thus the order will stay iff the order was updated correctly.
         //assertEquals(1,getHabit("one").getIndex());
         emptyList();
+    }
+
+    @Test
+    public void geolocationTest() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        filterAddEventTest("two");
+        solo.clickOnText("Events");
+        solo.clickOnView(solo.getView(R.id.add_event_button));
+        EditText nameText = (EditText) solo.getView(R.id.event_name_editText);
+        solo.enterText(nameText, "default");
+        EditText nameTextTwo = (EditText) solo.getView(R.id.event_comment_editText);
+        solo.enterText(nameTextTwo, "default");
+        solo.clickOnButton(0);
+        solo.assertCurrentActivity("Wrong activity",MapsActivity.class);
+        //I don't think we can click at the right location without permissions?
+        //solo.clickOnScreen(100,100); //Doesn't matter
+        //solo.clickOnButton(1);
     }
 }
