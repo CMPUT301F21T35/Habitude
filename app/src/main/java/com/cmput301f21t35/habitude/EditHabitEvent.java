@@ -173,6 +173,7 @@ public class EditHabitEvent extends DialogFragment {
         timePicker.setMinute(time.getMinutes());
         eventFinished.setChecked(event.getEventFinished());
         photoString = event.getEventPhoto();
+        /*
         try {
             URL photoUrl = new URL(photoString);
             Bitmap bmp = BitmapFactory.decodeStream(photoUrl.openConnection().getInputStream());
@@ -181,8 +182,7 @@ public class EditHabitEvent extends DialogFragment {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
+        }*/
         // Create the edit fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -232,18 +232,10 @@ public class EditHabitEvent extends DialogFragment {
         startActivityForResult(intent, TAKE_IMAGE_REQUEST);
         //startActivityForResult(Intent.createChooser(intent, "Take Image from here..."), TAKE_IMAGE_REQUEST);
     }
-    /*
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = getActivity().getApplicationContext().getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && requestCode == RESULT_OK) {
+        if (requestCode == 1) {
             try {
                 super.onActivityResult(requestCode, resultCode, data);
                 geolocation = data.getStringExtra("keyName");

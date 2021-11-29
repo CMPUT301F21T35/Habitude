@@ -187,7 +187,7 @@ public class AddHabitEvent extends DialogFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && requestCode == RESULT_OK) {
+        if (requestCode == 1) {
             try {
                 super.onActivityResult(requestCode, resultCode, data);
                 geolocation = data.getStringExtra("keyName");
