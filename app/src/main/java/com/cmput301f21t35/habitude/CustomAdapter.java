@@ -40,7 +40,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     int pos = getAdapterPosition();
 
                     MainActivity mainActivity = MainActivity.getInstance();
-                    mainActivity.editHabitFromIndex(pos);
+//                    mainActivity.editHabitFromIndex(pos);
+                    mainActivity.viewHabitFromIndex(pos);
                 }
             });
 
