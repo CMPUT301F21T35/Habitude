@@ -3,6 +3,8 @@ package com.cmput301f21t35.habitude;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -34,6 +38,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -189,13 +194,29 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     }
                     try {
                         // set location imageview
-                        habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(eventGeolocation).toString());
-                        /*
                         if(!eventGeolocation.equals("null")) {
-                            LatLng latLng = new LatLng();
+                            eventGeolocation = eventGeolocation.replace("lat/lng: (",  "");
+                            eventGeolocation = eventGeolocation.replace(")", "");
+                            String[] latlong = eventGeolocation.split(",");
+                            double latitude = Double.parseDouble(latlong[0]);
+                            double longitude = Double.parseDouble(latlong[1]);
+                            /*
+                            LatLng latLng = new LatLng(latitude, longitude);
+                            GoogleMap mMap;
+                            mMap.addMarker(new MarkerOptions().position(latLng));
+                            */
+
+                            Geocoder geocoder;
+                            geocoder = new Geocoder(this, Locale.getDefault());
+                            List<Address> addressList;
+
+                            addressList = geocoder.getFromLocation(latitude, longitude, 1);
+
+                            String address = addressList.get(0).getAddressLine(0);
+
+                            habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(address));
+
                         }
-                        
-                         */
                         // set image in imageview
                         if(!eventPhoto.equals("null")) {
                             Glide.with(getApplicationContext())
