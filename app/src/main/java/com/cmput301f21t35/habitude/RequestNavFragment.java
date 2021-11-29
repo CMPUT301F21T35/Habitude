@@ -60,26 +60,31 @@ public class RequestNavFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_request_nav, container, false);
-
+        //inilize the element
         pendingFollowList = view.findViewById(R.id.pending_follower_list);
         pendingFollowerList = new ArrayList<>();
+        //creat a new arrayadapter by the class named PendingFOllowersArrayAdapter.
         pendingFollowerAdapter = new PendingFollowersArrayAdapter(getActivity(),pendingFollowerList);
         pendingFollowList.setAdapter(pendingFollowerAdapter);
 
+        //firestore
         FirebaseFirestore db =  FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+        //collectionreference path to the current user's followersReq collection
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("followersReq");
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                //make sure the pendingfollowerlist is empty
                 pendingFollowerList.clear();
                 for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                    // go through the firestore database, and get every element's userid as string email
+                    // store them into the pendingfollowerList
                     String email = (String) doc.getId();
-//                    (String) doc.getData().get("email");
                     pendingFollowerList.add(email);
                 }
+                //notify the change
                 pendingFollowerAdapter.notifyDataSetChanged();
             }
         });
