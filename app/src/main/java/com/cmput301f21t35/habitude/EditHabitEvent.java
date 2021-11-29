@@ -96,7 +96,7 @@ public class EditHabitEvent extends DialogFragment {
         Date time = new Date();
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(event.getEventDate());
-            time = new SimpleDateFormat("hh : mm").parse(event.getEventTime());
+            time = new SimpleDateFormat("hh:mm").parse(event.getEventTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
