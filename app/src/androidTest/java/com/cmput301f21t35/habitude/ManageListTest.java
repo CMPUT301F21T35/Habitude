@@ -193,7 +193,7 @@ public class ManageListTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         zedClear();
         filterAddEventTest("three");
-        solo.clickOnText("two");
+        solo.clickOnText("three");
         for (int i = 0; i < 9; i++) {
             solo.clickOnButton(i);
         }
