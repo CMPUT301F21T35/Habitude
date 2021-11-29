@@ -34,6 +34,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -93,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        collectionReference.orderBy("Index");
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        Query testQuery = collectionReference.orderBy("Index");
+        testQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 habitDataList.clear();
@@ -114,7 +115,13 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         String[] WeekPlan = doc.getData().get("Plan").toString().split(",", 0);
                         ArrayList<String> habitWeekday = new ArrayList<>();
                         Collections.addAll(habitWeekday, WeekPlan);
-                        Boolean isPublic = doc.getData().get("Is Public").equals("true");
+                        //get publicity whatever the storage method
+                        Boolean isPublic;
+                        try {
+                            isPublic = doc.getData().get("Is Public").equals("true");
+                        } catch (Exception ignored) {
+                            isPublic = (Boolean) doc.getData().get("Is Public");
+                        }
                         habitDataList.add(new Habit(habitName,habitReason,habitDate,habitWeekday,habitIndex,isPublic)); // add all the habits into the habitList
                     }
                 }
@@ -218,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Data has been removed successfully!");
-                            //clearHabitEvents(receivedHabit.getHabitTitleName()); //Finish later
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -230,13 +236,18 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
     }
 
-    public void updateIndices(Habit receivedHabit) {
+    //This is used to update the indices in firebase.
+    public void updateIndices(View view) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
 
-        collectionReference
-                .document(receivedHabit.getHabitTitleName())
-                .update("Index",receivedHabit.getIndex());
+        for (int ind = 0; ind < habitDataList.size(); ind++) {
+            Habit receivedHabit = habitDataList.get(ind);
+            receivedHabit.setIndex(ind);
+            collectionReference
+                    .document(receivedHabit.getHabitTitleName())
+                    .update("Index", ind);
+        }
     }
 }
