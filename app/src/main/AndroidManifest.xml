@@ -51,6 +51,9 @@
             android:name=".EditHabitActivity"
             android:exported="true" />
         <activity
+            android:name=".ViewHabitActivity"
+            android:exported="true" />
+        <activity
             android:name=".AddHabitActivity"
             android:exported="false" />
         <activity
