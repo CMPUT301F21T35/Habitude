@@ -23,6 +23,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * this class used to defin a pendingfollowersarrayAdapter to used
+ * in the followers activity, so is has the functionality with the userid
+ * and accept button and deny button.
+ */
 public class PendingFollowersArrayAdapter extends ArrayAdapter<String> {
     private Context context;
     private ArrayList<String> pendingFollowersList;
@@ -35,57 +40,56 @@ public class PendingFollowersArrayAdapter extends ArrayAdapter<String> {
 
     @NonNull
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
+        //get the view content in the layout to create the adapter
         if (convertView ==null){
             convertView = LayoutInflater.from(context).inflate(R.layout.pending_followers_list_view_content,parent,false);
         }
-//        FirebaseFirestore db =  FirebaseFirestore.getInstance();
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-//        pendingFollowerID = pendingFollowersList.get(position);
+        // get the id
         String request = pendingFollowersList.get(position);
         TextView pendingFollowerId = convertView.findViewById(R.id.pendingFollowerId);
         if (request != null){
+            //set the id
             pendingFollowerId.setText(request);
 
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final DocumentReference documentReference = db.collection("Users").document(user.getEmail());
+        //collectionreference path to the current user's followersReq collection
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("followersReq");
+        //collectionreference path to the current user's followers collection
         final CollectionReference collectionReference1 = db.collection("Users").document(user.getEmail()).collection("followers");
-//        final CollectionReference collectionReference2 = db.collection("Users").document(user.getEmail()).collection("followerings");
 
         Button declineButton = convertView.findViewById(R.id.decline);
         declineButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
-//                pendingFollowersList.remove(position);
-//                String field = "followersReq";
-//                PendingFollowersArrayAdapter.super.notifyDataSetChanged();
-//                final CollectionReference collectionReference2 = db.collection("Users").document(getItem(position)).collection("followings");
-
-                //documentReference.collection("followersReq").getId().delete();
+                //defind the decline button functionality, when the decline button is
+                //clicked, delete the followersRequest for the current user in the firestore.
                 collectionReference.document(getItem(position)).delete();
-//                collectionReference1.document().set(getItem(position));
-//                collectionReference1.add(getItem(position));
-//                collectionReference2.add(user.getEmail());
-
-//                        update(field, FieldValue.arrayRemove(position));
-
             }
         });
+        // build two different hash map with different field contained.
+        // hashmap x contains the people who is sending the request email as the field email.
         Map<String,Object> x = new HashMap<>();
         x.put("email", getItem(position));
+        // hashmap y contains the current users email as the field.
         Map<String,Object> y = new HashMap<>();
         y.put("email", user.getEmail());
+
         Button acceptButton = convertView.findViewById(R.id.accept);
         acceptButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
+                // define the accept functionality, when the accept button is clicked
+                // first step is delete the followersRequest because it is already decided.
+                // second step is storing the people's email who is send the request into the current
+                // user's followers collection in the firestore.
+                // third step is storing the current user's email into the people who is send the request's
+                //followings collection in the firestore.
+
+                // the collectionreference path to the followings collections belongs to the people who is sending the request.
                 final CollectionReference collectionReference2 = db.collection("Users").document(getItem(position)).collection("followings");
                 collectionReference.document(getItem(position)).delete();
-//                collectionReference1.document().set(getItem(position));
                 collectionReference1.document(getItem(position)).set(x);
                 collectionReference2.document(getItem(position)).set(y);
-//                collectionReference2.add(user.getEmail());
             }
         });
 
