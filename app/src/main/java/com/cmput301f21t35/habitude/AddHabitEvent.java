@@ -84,9 +84,19 @@ public class AddHabitEvent extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = eventName.getText().toString();
                         String comment = eventComment.getText().toString();
+                        String month;
+                        if (datePicker.getMonth() < 10) {
+                            month = "0" + (datePicker.getMonth() + 1);
+                        } else {
+                            month = Integer.toString(datePicker.getMonth()+1);
+                        }
+                        String day;
+                        if (datePicker.getDayOfMonth() < 10) {
+                            day = "0" + datePicker.getDayOfMonth();
+                        } else {
+                            day = Integer.toString(datePicker.getDayOfMonth());
+                        }
                         String year = Integer.toString(datePicker.getYear());
-                        String month = Integer.toString(datePicker.getMonth()+1);
-                        String day = Integer.toString(datePicker.getDayOfMonth());
                         String eventDate = year + "-" + month + "-" + day;
                         String min;
                         if (timePicker.getMinute() < 10) {
