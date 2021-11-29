@@ -44,7 +44,6 @@ public class AddHabitActivity extends AppCompatActivity {
     ArrayList<String> habitPlan = new ArrayList<>();
     private Switch isPublic;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +51,8 @@ public class AddHabitActivity extends AppCompatActivity {
         //initilize the firestore database used for save datas
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+        // collectionrefernce path to the current user's habits
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
-
         // initilize the activity element by find id in layout
         habitName = (EditText) findViewById(R.id.habitName);
         habitReason = (EditText) findViewById(R.id.habitReason);
@@ -67,33 +65,21 @@ public class AddHabitActivity extends AppCompatActivity {
         saturday = (CheckBox) findViewById(R.id.saturday);
         sunday = (CheckBox) findViewById(R.id.sunday);
         isPublic = (Switch) findViewById(R.id.isPublic);
-
-//        CalendarView visual_ind = (CalendarView) findViewById(visual_calendar); // highlight the date on the calendar
-
         Button createButton = (Button) findViewById(R.id.createButton);
-
         Intent intent = new Intent(this, MainActivity.class);
         //set on click event for the CREATE button
         createButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final String habitTitleName = habitName.getText().toString();
                 final String Reason = habitReason.getText().toString();
                 final String day = Integer.toString(dateStart.getDayOfMonth());
                 final String month = Integer.toString(dateStart.getMonth());
                 final String year = Integer.toString(dateStart.getYear());
                 final String habitStartDate = (year + "-" + month + "-" + day);
-
-//                if (isPublic.isChecked()){
-//                    final boolean isPublicc = true;
-//                }else{
-//                    final boolean isPublicc = false;
-//                }
                 setHabitPlan();
                 final String habitPlan_toString = String.valueOf(habitPlan);
                 final String habitPlan_final = habitPlan_toString.substring(1, habitPlan_toString.length() - 1).replace(" ", "");
-
                 // save data into a hashmap
                 HashMap<String, Object> data = new HashMap<>();
                 data.put("Habit Reason", Reason);
@@ -101,7 +87,6 @@ public class AddHabitActivity extends AppCompatActivity {
                 data.put("Plan", habitPlan_final);
                 data.put("Is Public", isPublic.isChecked());
                 data.put("Index",-1);
-
                 // set the firestore database
                 collectionReference.document(habitTitleName)
                         .set(data)
@@ -120,8 +105,6 @@ public class AddHabitActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
     /**
      * add the plan date into the habitplan if the checkbox is checked
