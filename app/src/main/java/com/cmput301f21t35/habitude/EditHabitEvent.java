@@ -119,7 +119,13 @@ public class EditHabitEvent extends DialogFragment {
                     String month = Integer.toString(datePicker.getMonth()+1);
                     String day = Integer.toString(datePicker.getDayOfMonth());
                     String eventDate = year + "-" + month + "-" + day;
-                    String eventTime = timePicker.getHour() + " " + ":" + " " + timePicker.getMinute();
+                    String min;
+                    if (timePicker.getMinute() < 10) {
+                        min = "0" + timePicker.getMinute();
+                    } else {
+                        min = String.valueOf(timePicker.getMinute());
+                    }
+                    String eventTime = timePicker.getHour() + ":" + min;
                     Boolean finished = eventFinished.isChecked();
                     listener.onOkPressed(new Event(name, comment,eventDate,eventTime,finished,geolocation));
                 }).create();
