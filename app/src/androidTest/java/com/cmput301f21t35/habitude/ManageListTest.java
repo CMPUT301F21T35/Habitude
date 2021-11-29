@@ -104,7 +104,7 @@ public class ManageListTest {
         //int[] location = new int[2];
         View row = solo.getText(habitTitle);
         //row.getLocationInWindow(location);
-        solo.scrollViewToSide(row,Solo.UP);
+        solo.scrollViewToSide(row,Solo.UP,10,10);
         //return location;
     }
 
@@ -132,11 +132,22 @@ public class ManageListTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
+    //Gets the count of items in the list.
+    //Note that this code is going to be very inefficient.
     public int listCount() {
         RecyclerView habitList = (RecyclerView) solo.getView(R.id.habit_list);
         RecyclerView.Adapter habitDataList = habitList.getAdapter();
         MainActivity mainActivity = MainActivity.getInstance();
         return habitDataList.getItemCount();
+    }
+
+    //Empties out the list.
+    public void emptyList() {
+        MainActivity mainActivity = MainActivity.getInstance();
+        for (int i = 0; i < listCount(); i++) {
+            String nextTitle = mainActivity.habitDataList.get(i).getHabitTitleName();
+            swipeRight(nextTitle);
+        }
     }
 
     @Test
@@ -153,8 +164,10 @@ public class ManageListTest {
     @Test
     public void reorderTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        emptyList();
         filterAddEventTest("zero");
         filterAddEventTest("one");
         swipeUp("zero");
+        emptyList();
     }
 }

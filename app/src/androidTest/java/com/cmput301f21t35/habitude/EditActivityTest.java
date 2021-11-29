@@ -1,3 +1,5 @@
+//NOTE: THIS TEST IS FROM AN OLD VERSION AND IS NOW DEPRECATED
+
 package com.cmput301f21t35.habitude;
 
 import android.app.Activity;
