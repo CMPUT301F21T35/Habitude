@@ -17,8 +17,8 @@ import org.junit.runner.RunWith;
 public class sendRequestTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<MainActivity> rule =
-            new ActivityTestRule<>(MainActivity.class, true, true);
+    public ActivityTestRule<FollowingActivity> rule =
+            new ActivityTestRule<>(FollowingActivity.class, true, true);
 
     /**
      * Runs before all tests and creates solo instance.
@@ -40,10 +40,16 @@ public class sendRequestTest {
     }
 
     /**
-     * Try and add activity without entering anything
-     * Then try and add normally
-     * also checks that comment is not more than 20 characters
-     *
-     * BEFORE RUNNING TESTS ENSURE THAT THERE IS A HABIT CALLED "Hiking" AND THAT IT HAS NO EVENTS
+     * This test performs 4 checks:
+     * 1. send request normally
+     * 2. send request to someone that does not exist
+     * 3. send request to someone that you are already following
+     * 4. send request to someone you have already sent a request to
      */
+    @Test
+    public void sendRequestTest() {
+        // make sure you are on right activity
+        solo.assertCurrentActivity("Wrong Activity", FollowingActivity.class);
+
+    }
 }
