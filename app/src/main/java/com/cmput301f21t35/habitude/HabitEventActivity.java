@@ -46,7 +46,8 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
     // Habit photo
     LocalDate habitDateComplete;
     Button edit_button;
-    String eventGeolocation;
+    String eventGeolocation = "null";
+    String eventPhoto;
 
     /**
      * Create the activity
@@ -85,7 +86,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
         String eventComment = newEvent.getEventComment();
         Boolean eventFinished = newEvent.getEventFinished();
         String eventGeolocation = newEvent.getEventGeolocation(); //new
-
+        String eventPhoto = newEvent.getEventPhoto();
 
         // Make sure all fields are filled
         if (eventName.isEmpty() | eventDate.isEmpty() || eventTime.isEmpty()) {
@@ -99,7 +100,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
             data.put("Comment", eventComment);
             data.put("Finished", eventFinished);
             data.put("Geolocation",eventGeolocation);
-
+            data.put("Photo", eventPhoto);
 
             // Delete old event and update database with new information
             collectionReference.document(eventTitle).delete();
@@ -161,6 +162,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     finished = event.get("Finished").equals(true);
                     eventTime = event.get("Time").toString();
                     eventGeolocation = event.get("Geolocation").toString();
+                    eventPhoto = event.get("Photo").toString();
 
                     // Get layout views
                     TextView habit_event_title_view = findViewById(R.id.habit_event_title);
@@ -169,7 +171,7 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     ImageView habit_event_not_finished = findViewById(R.id.habit_event_not_finished);
                     TextView habit_event_date_time = findViewById(R.id.habit_event_date_time);
                     TextView habit_event_geolocation = findViewById(R.id.habit_event_geolocation);
-
+                    TextView habit_event_photo = findViewById(R.id.habit_event_Photo);
                     // Set values in layout
                     habit_event_title_view.setText(eventTitle);
                     habit_event_reason_view.setText(eventComment);
@@ -180,7 +182,13 @@ public class HabitEventActivity extends AppCompatActivity implements EditHabitEv
                     } else {
                         habit_event_not_finished.setVisibility(View.VISIBLE);
                     }
-                    habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(eventGeolocation).toString());
+                    try {
+                        habit_event_geolocation.setText(new StringBuilder().append("Location: ").append(eventGeolocation).toString());
+                        habit_event_photo.setText(new StringBuilder().append("Photo: ").append(eventPhoto).toString());
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     // habit_event_time.setText(eventTime);
 
                 } else {
