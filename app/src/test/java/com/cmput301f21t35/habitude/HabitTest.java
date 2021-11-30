@@ -45,7 +45,9 @@ public class HabitTest extends TestCase{
         habit.setHabitTitleName("Flying");
         habit.setHabitReason("thinner");
         habit.setHabitStartDate("2000-01-01");
+        habit.setPublic(true);
         habit.setPlan(plan1);
+        assertTrue("set habit isPublic unsuccesfully", habit.isPublic());
         assertTrue("Set habit titlename unsuccesfully", habitTitleName1.equals(habit.getHabitTitleName()));
         assertTrue("Set habitReason unsuccefully", habitReason1.equals(habit.getHabitReason()));
         assertTrue("Set Start date unsuccessfully", habitStartDate1.equals(habit.getHabitStartDate()));
