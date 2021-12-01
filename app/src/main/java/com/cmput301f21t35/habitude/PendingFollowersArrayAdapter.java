@@ -89,7 +89,7 @@ public class PendingFollowersArrayAdapter extends ArrayAdapter<String> {
                 final CollectionReference collectionReference2 = db.collection("Users").document(getItem(position)).collection("followings");
                 collectionReference.document(getItem(position)).delete();
                 collectionReference1.document(getItem(position)).set(x);
-                collectionReference2.document(getItem(position)).set(y);
+                collectionReference2.document(user.getEmail()).set(y);
             }
         });
 
