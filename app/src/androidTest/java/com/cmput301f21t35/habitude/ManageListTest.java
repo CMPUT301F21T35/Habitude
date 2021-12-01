@@ -154,8 +154,6 @@ public class ManageListTest {
         solo.enterText(nameText, habitTitle);
         EditText reasonText = (EditText) solo.getView(R.id.habitReason);
         solo.enterText(reasonText, "A sample reason");
-        solo.clickOnCheckBox(0);
-        solo.clickOnCheckBox(4);
         solo.setDatePicker(0,1999,8,8);
         solo.clickOnView(solo.getView(R.id.createButton));
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -190,15 +188,20 @@ public class ManageListTest {
     //This is just an adaption of the previous version.
     @Test
     public void editHabitTest() {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        zedClear();
+        //solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        //zedClear();
         filterAddEventTest("three");
         solo.clickOnText("three");
+        solo.sendKey(Solo.MENU);
+        solo.clickInList(0);
+        solo.clickOnText("Edit");
+
         for (int i = 0; i < 9; i++) {
             solo.clickOnButton(i);
         }
         solo.clickOnView(solo.getView(R.id.done_button));
         solo.clickOnText("three");
+        solo.clickOnView(solo.getView(R.id.my_toolbar));
         ToggleButton fridayButton = (ToggleButton) solo.getView(R.id.friday_button);
         assertFalse(fridayButton.isChecked());
         ToggleButton wednesdayButton = (ToggleButton) solo.getView(R.id.wednesday_button);
@@ -213,12 +216,13 @@ public class ManageListTest {
     public void deleteTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         zedClear();
+        int count = listCount();
         //Now we test for deleting a dummy event
         filterAddEventTest("deleteme");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         swipeRight("deleteme");
         filterAddEventTest("deleteme2");
-        assertEquals(1,listCount());
+        assertEquals(1,listCount()-count);
         swipeRight("deleteme2");
         forceFinish();
     }
@@ -265,7 +269,7 @@ public class ManageListTest {
         solo.enterText(nameText, "default");
         EditText nameTextTwo = (EditText) solo.getView(R.id.event_comment_editText);
         solo.enterText(nameTextTwo, "default");
-        solo.clickOnButton(0);
+        solo.clickOnButton("Add Location");
         solo.assertCurrentActivity("Wrong activity",MapsActivity.class);
         //swipeRight("two");
         //I don't think we can click at the right location without permissions?
