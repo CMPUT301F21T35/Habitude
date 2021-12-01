@@ -25,6 +25,9 @@ import org.junit.runner.RunWith;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+
+import java.util.ArrayList;
 
 @RunWith(AndroidJUnit4.class)
 public class ManageListTest {
@@ -230,9 +233,21 @@ public class ManageListTest {
         //Now we test for deleting a dummy event
         filterAddEventTest("deleteme");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        //get the habit
+        MainActivity mainActivity = MainActivity.getInstance();
+        ArrayList<Habit> mainDataList = mainActivity.habitDataList;
+        Habit deleteme = null;
+        for (int i=0; i<mainDataList.size(); i++) {
+            Habit testHabit = mainDataList.get(i);
+            if (testHabit.getHabitTitleName().equals("deleteme")) {
+                deleteme = testHabit;
+            }
+        }
+        //delete and check for
         swipeRight("deleteme");
         filterAddEventTest("deleteme2");
-        assertEquals(1,listCount()-count);
+        assertNotEquals(null,deleteme);
+        assertFalse(mainActivity.habitDataList.contains(deleteme)); //Not how it works
         swipeRight("deleteme2");
         forceFinish();
     }
