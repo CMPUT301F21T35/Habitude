@@ -157,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     }
 
     //https://github.com/android/views-widgets-samples/blob/main/RecyclerView/Application/src/main/java/com/example/android/recyclerview/RecyclerViewFragment.java
+    //Author: Jeremy Walker, Date: 30 July 2019
+    //This code makes sure we are in a linear view and not a grid.
     public void setRecyclerViewLayoutManager() {
         int scrollPosition = 0;
 
@@ -234,8 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
-
-//update with proper location
+            //We delete the habit from firebase.
             collectionReference
                     .document(receivedHabit.getHabitTitleName())
                     .delete()
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         habitAdapter.notifyDataSetChanged();
     }
 
-    //This is used to update the indices in firebase.
+    //This is used to update the indices in firebase, when prompted by the corresponding button in the main activity.
     public void updateIndices(View view) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

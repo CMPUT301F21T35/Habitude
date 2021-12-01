@@ -35,7 +35,7 @@ public class EditHabitActivity extends AppCompatActivity {
     EditText habitTitle;
     EditText habitDescription;
     DatePicker habitCalendar;
-    Habit changingHabit; //Talk about this
+    Habit changingHabit;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("habits");
@@ -92,6 +92,7 @@ public class EditHabitActivity extends AppCompatActivity {
         try {
             Date dateLiteral = formatter.parse(changingHabit.getHabitStartDate());
             //https://www.baeldung.com/java-year-month-day
+            //Author: baeldung, Date: 4 January 2020
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dateLiteral);
             habitCalendar.updateDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE));

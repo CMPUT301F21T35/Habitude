@@ -52,14 +52,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        //Put this all in a function or as much as you can.
         //https://stackoverflow.com/questions/21403496/how-to-get-current-location-in-google-map-android
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        //ActivityCompat.requestPermissions();
-
+        //Author: Shailendra Madda, Date: 28 January 2014
         //https://www.tutorialspoint.com/how-to-request-location-permission-at-run-time-in-android
+        //Author: Azhar, Date: 7 August 2019
+
+        mMap = googleMap;
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // We request permissions here, when the map is first used.
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -72,7 +73,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-        // Is this at the right time?
+        // If we have the relevant permissions, we get the user's location and start the map there.
+        // Otherwise, we start it in Sydney, Australia, as that was the sample location given and I didn't see a reason to change it.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions

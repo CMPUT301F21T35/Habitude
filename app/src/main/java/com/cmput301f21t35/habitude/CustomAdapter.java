@@ -34,6 +34,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             textView = (TextView) view.findViewById(R.id.textView);
 
             //https://stackoverflow.com/questions/28296708/get-clicked-item-and-its-position-in-recyclerview#comment121192976_39707729
+            //Author: Gilberto Ibarra, Date: 29 July 2015
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -105,6 +106,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     //https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf
+    //Author: Paul Burke, Date: 23 June 2015
 
     //On the swiping of an item, we kill the index with killIndex in MainActivity, and update our View.
     @Override

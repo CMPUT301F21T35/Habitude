@@ -1,4 +1,5 @@
 //https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf
+//Author: Paul Burke, Date: 23 June 2015
 
 package com.cmput301f21t35.habitude;
 
