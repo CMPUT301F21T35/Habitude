@@ -188,25 +188,35 @@ public class ManageListTest {
     //This is just an adaption of the previous version.
     @Test
     public void editHabitTest() {
-        //solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        //zedClear();
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        zedClear();
         filterAddEventTest("three");
         solo.clickOnText("three");
+        //Enter the "edit habit" area
         solo.sendKey(Solo.MENU);
-        solo.clickInList(0);
+        solo.clickInList(0,1);
+        solo.clickInList(1,1);
         solo.clickOnText("Edit");
-
-        for (int i = 0; i < 9; i++) {
-            solo.clickOnButton(i);
-        }
-        solo.clickOnView(solo.getView(R.id.done_button));
-        solo.clickOnText("three");
-        solo.clickOnView(solo.getView(R.id.my_toolbar));
+        //Change Wednesday and Friday
         ToggleButton fridayButton = (ToggleButton) solo.getView(R.id.friday_button);
-        assertFalse(fridayButton.isChecked());
+        boolean fridayChecked = fridayButton.isChecked();
         ToggleButton wednesdayButton = (ToggleButton) solo.getView(R.id.wednesday_button);
-        assertTrue(wednesdayButton.isChecked());
+        boolean wednesdayChecked = wednesdayButton.isChecked();
+        solo.clickOnText("WED");
+        solo.clickOnText("FRI");
         solo.clickOnView(solo.getView(R.id.done_button));
+        //And reenter
+        //???
+        solo.waitForDialogToClose(1000);
+        solo.sendKey(Solo.MENU); //We need to do this again.
+        solo.clickInList(0,1);
+        solo.clickInList(1,1);
+        solo.clickOnText("Edit");
+        //Now check again
+        assertFalse(fridayChecked == fridayButton.isChecked());
+        assertFalse(wednesdayChecked == wednesdayButton.isChecked());
+        solo.clickOnView(solo.getView(R.id.done_button));
+        solo.goBack();
         swipeRight("three");
         forceFinish();
     }
@@ -229,7 +239,7 @@ public class ManageListTest {
 
     //This is supposed to test reordering,
     //but you need to longpress-drag, which
-    //doesn't appear to be possible?
+    //doesn't appear to be possible to automate?
     @Test
     public void reorderTest() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -241,7 +251,6 @@ public class ManageListTest {
         filterAddEventTest("one");
         solo.clickOnButton(1);
         //Jankily compare the indices.
-        solo.sleep(10000);
         int zero_index = getHabit("zero").getIndex();
         int one_index = getHabit("one").getIndex();
         if (one_index == -1 | zero_index == -1) {
