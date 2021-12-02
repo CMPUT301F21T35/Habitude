@@ -57,6 +57,10 @@ public class FollowersArrayAdapter extends ArrayAdapter<String> {
                 // define the remove button functionality, when the remove button is clicked,
                 //the followers is gonna remove from the firestore database.
                 collectionReference.document(getItem(position)).delete();
+                final CollectionReference collectionReference1 = db.collection("Users").document(getItem(position)).collection("followings");
+                final CollectionReference collectionReference2 = db.collection("Users").document(getItem(position)).collection("followingsReq");
+                collectionReference2.document(user.getEmail()).delete();
+                collectionReference1.document(user.getEmail()).delete();
             }
         });
         return convertView;
