@@ -58,13 +58,14 @@ public class PendingFollowersArrayAdapter extends ArrayAdapter<String> {
         final CollectionReference collectionReference = db.collection("Users").document(user.getEmail()).collection("followersReq");
         //collectionreference path to the current user's followers collection
         final CollectionReference collectionReference1 = db.collection("Users").document(user.getEmail()).collection("followers");
-
+        final CollectionReference collectionReference3 = db.collection("Users").document(getItem(position)).collection("followingsReq");
         Button declineButton = convertView.findViewById(R.id.decline);
         declineButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 //defind the decline button functionality, when the decline button is
                 //clicked, delete the followersRequest for the current user in the firestore.
                 collectionReference.document(getItem(position)).delete();
+                collectionReference3.document(user.getEmail()).delete();
             }
         });
         // build two different hash map with different field contained.
